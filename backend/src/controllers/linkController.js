@@ -19,8 +19,8 @@ export const createLink = async (req, res) => {
     const userId = req.user.userId;
     const { resumeId, versionId, slug, label } = req.body;
 
-    if (!resumeId || !versionId || !slug) {
-      return res.status(400).json({ message: "resumeId, versionId, and slug are required" });
+    if (!resumeId || !slug) {
+      return res.status(400).json({ message: "resumeId and slug are required" });
     }
 
     // validate slug format strictly (alphanumeric and dashes only)

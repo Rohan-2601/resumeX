@@ -1,8 +1,9 @@
 import express from "express";
-import { accessResumeViaLink } from "../controllers/publicController.js";
+import { accessResumeViaLink, accessDefaultResume } from "../controllers/publicController.js";
 
 const router = express.Router();
 
+router.get("/:username", accessDefaultResume);
 router.get("/:username/:slug", accessResumeViaLink);
 
 export default router;

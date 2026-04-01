@@ -85,20 +85,22 @@ export default function UploadResume() {
   if (!user) return null;
 
   return (
-    <div style={{ marginTop: "2rem", padding: "1rem", border: "1px solid #ccc" }}>
-      <h2>Upload Resume</h2>
+    <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <h2 style={{ fontSize: "1.1rem", margin: 0 }}>Upload PDF Document</h2>
 
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={handleFileChange}
-      />
+      <div style={{ display: "flex", gap: "1rem", alignItems: "center", border: "1px dashed var(--border)", padding: "1rem", borderRadius: "8px", backgroundColor: "var(--bg-surface-hover)" }}>
+        <input
+          type="file"
+          accept="application/pdf"
+          onChange={handleFileChange}
+          style={{ flex: 1 }}
+        />
+        <button onClick={handleUpload} disabled={uploading} className="btn btn-primary" style={{ padding: "0.5rem 1.5rem" }}>
+          {uploading ? "Uploading..." : "Upload Resume"}
+        </button>
+      </div>
 
-      <button onClick={handleUpload} disabled={uploading}>
-        {uploading ? "Uploading..." : "Upload Resume"}
-      </button>
-
-      <p>{message}</p>
+      {message && <p style={{ margin: 0, fontSize: "0.9rem", color: message.includes("✅") ? "var(--success-text)" : "var(--danger-text)" }}>{message}</p>}
     </div>
   );
 }

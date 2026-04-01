@@ -75,7 +75,7 @@ export default function ResumeHistory() {
   if (!user) return null;
 
   return (
-    <div style={{ marginTop: "2rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+    <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem", overflow: "hidden" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2 style={{ marginTop: 0 }}>Version History</h2>
         <button onClick={fetchVersions} disabled={loading} style={{ padding: "0.5rem" }}>

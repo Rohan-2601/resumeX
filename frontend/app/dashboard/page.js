@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import CreateLink from "../components/CreateLink";
+import { ActivityIcon, EyeIcon } from "../components/icons/Icons";
 
 // Simple time ago formatter
 function timeAgo(dateString) {
@@ -21,18 +21,14 @@ function timeAgo(dateString) {
   return `${diffInDays} days ago`;
 }
 
-export default function Dashboard() {
-  const { user, loading: authLoading } = useAuth();
+export default function DashboardOverview() {
+  const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!user) {
-      setLoading(false);
-      return;
-    }
+    if (!user) return;
 
     const fetchAnalytics = async () => {
       try {
@@ -53,22 +49,29 @@ export default function Dashboard() {
     };
 
     fetchAnalytics();
-  }, [user, authLoading]);
+  }, [user]);
 
-  // Handle Auth State
-  if (authLoading) return <div style={{ padding: "2rem" }}>Checking authentication...</div>;
-  if (!user) return <div style={{ padding: "2rem", color: "red" }}>Please login to view dashboard.</div>;
-
-  // Handle Loading & Error States
-  if (loading) return <div style={{ padding: "2rem" }}>Loading analytics...</div>;
-  if (error) return <div style={{ padding: "2rem", color: "red" }}>{error}</div>;
+  if (loading) return (
+    <div className="flex items-center justify-center h-full">
+      <div style={{ width: 24, height: 24, borderRadius: "50%", border: "3px solid var(--border)", borderTopColor: "var(--primary)", animation: "spin 1s linear infinite" }} />
+    </div>
+  );
+  
+  if (error) return <div className="card text-danger">{error}</div>;
 
   // Handle Empty State
   if (!data || data.totalViews === 0) {
     return (
-      <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-        <h1>Analytics Dashboard</h1>
-        <p>No views yet! Share your resume link to get started.</p>
+      <div className="flex justify-center mt-6">
+        <div className="card w-full" style={{ textAlign: "center", padding: "4rem 2rem", background: "white" }}>
+          <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--primary-light)", color: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
+            <ActivityIcon />
+          </div>
+          <h2 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>No activity yet!</h2>
+          <p style={{ color: "var(--text-muted)", marginBottom: "2rem", maxWidth: 400, margin: "0 auto 2rem" }}>
+            Your analytics dashboard will light up once you upload a resume and share your first Smart Link.
+          </p>
+        </div>
       </div>
     );
   }
@@ -79,90 +82,93 @@ export default function Dashboard() {
     return found ? found.count : 0;
   };
 
-  const cardStyle = {
-    border: "1px solid #e2e8f0",
-    borderRadius: "8px",
-    padding: "1.5rem",
-    minWidth: "150px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#f8fafc",
-    boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
-  };
-
-  const labelStyle = { fontSize: "0.9rem", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.5rem" };
-  const valueStyle = { fontSize: "2rem", fontWeight: "bold", color: "#0f172a", margin: 0 };
-
   return (
-    <main style={{ padding: "2rem", fontFamily: "sans-serif", maxWidth: "900px", margin: "0 auto" }}>
-      <h1 style={{ color: "#1e293b", marginBottom: "2rem" }}>Resume Analytics Dashboard</h1>
-
-      {/* Stats Section */}
-      <section style={{ marginBottom: "3rem" }}>
-        <h2 style={{ fontSize: "1.2rem", color: "#334155", marginBottom: "1rem" }}>Traffic Overview</h2>
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          
-          <div style={cardStyle}>
-            <span style={labelStyle}>Total Views</span>
-            <span style={valueStyle}>{data.totalViews}</span>
-          </div>
-
-          <div style={cardStyle}>
-            <span style={labelStyle}>LinkedIn</span>
-            <span style={valueStyle}>{getSourceCount("LinkedIn")}</span>
-          </div>
-
-          <div style={cardStyle}>
-            <span style={labelStyle}>GitHub</span>
-            <span style={valueStyle}>{getSourceCount("GitHub")}</span>
-          </div>
-
-          <div style={cardStyle}>
-            <span style={labelStyle}>Direct</span>
-            <span style={valueStyle}>{getSourceCount("Direct")}</span>
-          </div>
-
+    <div>
+      <div className="mb-6 flex justify-between items-center">
+        <div>
+          <h1 style={{ fontSize: "2rem", letterSpacing: "-0.02em", marginBottom: "0.25rem" }}>Overview</h1>
+          <p style={{ color: "var(--text-muted)" }}>Welcome back, {user.name.split(" ")[0]}. Here's what's happening today.</p>
         </div>
-      </section>
+      </div>
 
-      <section style={{ marginBottom: "3rem" }}>
-        <CreateLink />
-      </section>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="card" style={{ padding: "1.25rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", color: "var(--text-muted)" }}>
+            <span style={{ fontSize: "0.875rem", fontWeight: 600 }}>Total Views</span>
+            <EyeIcon />
+          </div>
+          <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-main)", lineHeight: 1 }}>{data.totalViews}</div>
+          <div style={{ fontSize: "0.75rem", color: "var(--success-text)", marginTop: "0.5rem", display: "flex", gap: "0.25rem", alignItems: "center" }}>
+             Lifetime impressions
+          </div>
+        </div>
+
+        <div className="card" style={{ padding: "1.25rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", color: "var(--text-muted)" }}>
+            <span style={{ fontSize: "0.875rem", fontWeight: 600 }}>LinkedIn</span>
+          </div>
+          <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-main)", lineHeight: 1 }}>{getSourceCount("LinkedIn")}</div>
+        </div>
+
+        <div className="card" style={{ padding: "1.25rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", color: "var(--text-muted)" }}>
+            <span style={{ fontSize: "0.875rem", fontWeight: 600 }}>GitHub</span>
+          </div>
+          <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-main)", lineHeight: 1 }}>{getSourceCount("GitHub")}</div>
+        </div>
+
+        <div className="card" style={{ padding: "1.25rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", color: "var(--text-muted)" }}>
+            <span style={{ fontSize: "0.875rem", fontWeight: 600 }}>Direct URL</span>
+          </div>
+          <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "var(--text-main)", lineHeight: 1 }}>{getSourceCount("Direct")}</div>
+        </div>
+      </div>
 
       {/* Recent Activity Section */}
-      <section>
-        <h2 style={{ fontSize: "1.2rem", color: "#334155", marginBottom: "1rem" }}>Recent Activity</h2>
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)", background: "white" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 600 }}>Recent Activity Tracker</h2>
+        </div>
         
         {data.recentViews && data.recentViews.length > 0 ? (
-          <ul style={{ listStyle: "none", padding: 0, border: "1px solid #e2e8f0", borderRadius: "8px", overflow: "hidden" }}>
-            {data.recentViews.map((view, idx) => (
-              <li 
-                key={view._id || idx} 
-                style={{ 
-                  padding: "1rem 1.5rem", 
-                  backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8fafc",
-                  borderBottom: idx !== data.recentViews.length - 1 ? "1px solid #e2e8f0" : "none",
-                  display: "flex",
-                  alignItems: "center"
-                }}
-              >
-                <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#3b82f6", marginRight: "1rem" }}></div>
-                <span style={{ color: "#334155", fontWeight: 500 }}>
-                  Viewed from {view.source}
-                </span>
-                <span style={{ color: "#94a3b8", marginLeft: "auto", fontSize: "0.9rem" }}>
-                  {timeAgo(view.createdAt)}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className="table-container" style={{ border: "none", borderRadius: 0 }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Event Details</th>
+                  <th>Source Map</th>
+                  <th>Target Link</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.recentViews.map((view, idx) => (
+                  <tr key={view._id || idx}>
+                    <td style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--primary)" }} />
+                      <span style={{ fontWeight: 500, color: "var(--text-main)" }}>Resume Viewed</span>
+                    </td>
+                    <td>
+                      <span className="badge badge-neutral bg-surface-hover" style={{ color: "var(--text-main)", border: "1px solid var(--border)" }}>{view.source}</span>
+                    </td>
+                    <td>
+                      <span style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.85rem" }}>/{user.username}/{view.slug === "default" ? "" : view.slug}</span>
+                    </td>
+                    <td style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                      {timeAgo(view.createdAt)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
-          <p style={{ color: "#64748b" }}>No recent activity to show.</p>
+          <div className="p-6 text-center" style={{ color: "var(--text-muted)" }}>No recent activity to show.</div>
         )}
-      </section>
+      </div>
 
-    </main>
+    </div>
   );
 }

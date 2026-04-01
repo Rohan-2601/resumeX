@@ -14,8 +14,7 @@ const linkSchema = new mongoose.Schema(
     },
     versionId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "ResumeVersion",
-      required: true
+      ref: "ResumeVersion"
     },
     slug: {
       type: String,

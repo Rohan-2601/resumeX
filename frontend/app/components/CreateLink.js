@@ -86,7 +86,7 @@ export default function CreateLink() {
   if (!user || !resumeId) return null;
 
   return (
-    <div style={{ marginTop: "2rem", padding: "1.5rem", border: "1px solid #e2e8f0", borderRadius: "8px", backgroundColor: "#fff" }}>
+    <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       <h2 style={{ marginTop: 0, color: "#1e293b", fontSize: "1.2rem" }}>Smart Resume Links</h2>
       <p style={{ color: "#64748b", fontSize: "0.9rem", marginBottom: "1.5rem" }}>Create custom, trackable URLs for specific resume versions.</p>
       
@@ -98,11 +98,11 @@ export default function CreateLink() {
             value={selectedVersion} 
             onChange={(e) => setSelectedVersion(e.target.value)}
             style={{ width: "100%", padding: "0.5rem", borderRadius: "4px", border: "1px solid #cbd5e1" }}
-            required
           >
+            <option value="">Always point to Latest Auto-Version</option>
             {versions.map(v => (
               <option key={v._id} value={v._id}>
-                Version {v.versionNumber} (Uploaded: {new Date(v.createdAt).toLocaleDateString()})
+                Fixed on Version {v.versionNumber} (Uploaded: {new Date(v.createdAt).toLocaleDateString()})
               </option>
             ))}
           </select>
@@ -140,7 +140,7 @@ export default function CreateLink() {
 
         <button 
           type="submit" 
-          disabled={loading || !slug || !selectedVersion}
+          disabled={loading || !slug}
           style={{ padding: "0.75rem", backgroundColor: "#2563eb", color: "white", border: "none", borderRadius: "4px", fontWeight: "bold", cursor: loading ? "not-allowed" : "pointer" }}
         >
           {loading ? "Creating..." : "Generate Shareable Link"}

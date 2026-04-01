@@ -1,10 +1,9 @@
-
-
+import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 
 export const metadata = {
-  title: "resumeX",
-  description: "Resume management app",
+  title: "resumeX | Smart Resume Management",
+  description: "Version control and analytics for your resumes",
 };
 
 export default function RootLayout({ children }) {
