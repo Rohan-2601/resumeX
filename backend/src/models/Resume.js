@@ -7,13 +7,13 @@ const resumeSchema = new mongoose.Schema(
       ref: "User",
       required: true
     },
-    fileUrl: {
+    title: {
       type: String,
-      required: true
+      default: "My Resume"
     },
-    isActive: {
-      type: Boolean,
-      default: true
+    currentVersionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ResumeVersion"
     }
   },
   { timestamps: true }

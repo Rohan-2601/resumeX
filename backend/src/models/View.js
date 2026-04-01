@@ -7,14 +7,21 @@ const viewSchema = new mongoose.Schema(
       ref: "Resume",
       required: true
     },
+    versionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ResumeVersion"
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true
     },
+    slug: {
+      type: String
+    },
     source: {
       type: String,
-      default: "direct"
+      default: "Direct"
     },
     ip: String,
     userAgent: String
