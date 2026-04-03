@@ -9,17 +9,28 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 pt-8">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
         {/* Logo */}
-        <span className="text-lg font-bold text-white drop-shadow-lg">ResumeX</span>
+        <span className="text-lg font-bold text-white drop-shadow-lg">
+          ResumeX
+        </span>
 
         {/* Navigation Links */}
         <div className="flex items-center gap-8">
-          <a href="#home" className="text-sm font-medium text-white/90 transition-colors hover:text-white">
+          <a
+            href="#home"
+            className="text-sm font-medium text-white/90 transition-colors hover:text-white"
+          >
             Home
           </a>
-          <a href="#features" className="text-sm font-medium text-white/90 transition-colors hover:text-white">
+          <a
+            href="#features"
+            className="text-sm font-medium text-white/90 transition-colors hover:text-white"
+          >
             Features
           </a>
-          <a href="#cta" className="text-sm font-medium text-white/90 transition-colors hover:text-white">
+          <a
+            href="#cta"
+            className="text-sm font-medium text-white/90 transition-colors hover:text-white"
+          >
             CTA
           </a>
         </div>
@@ -27,7 +38,10 @@ export default function Navbar() {
         {/* Auth Button */}
         {user ? (
           <div className="flex items-center gap-4">
-            <a href="/dashboard" className="text-sm font-medium text-white/90 transition-colors hover:text-white">
+            <a
+              href="/dashboard"
+              className="text-sm font-medium text-white/90 transition-colors hover:text-white"
+            >
               Dashboard
             </a>
             <button
@@ -49,4 +63,3 @@ export default function Navbar() {
     </nav>
   );
 }
-

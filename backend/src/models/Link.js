@@ -5,26 +5,22 @@ const linkSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
     resumeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Resume",
-      required: true
-    },
-    versionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ResumeVersion"
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     label: {
-      type: String
-    }
+      type: String,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Ensure slug is unique per user

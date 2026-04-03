@@ -3,94 +3,148 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
-import { HomeIcon, FileTextIcon, LinkIcon, LogOutIcon } from "../components/icons/Icons";
+import {
+  ActivityIcon,
+  FileTextIcon,
+  LogOutIcon,
+} from "../components/icons/Icons";
+import { Playfair_Display, Sora } from "next/font/google";
+
+const displayFont = Playfair_Display({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["500", "600"],
+});
+
+const sansFont = Sora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export default function DashboardLayout({ children }) {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname();
 
-  if (loading) return (
-    <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ fontSize: "1.2rem", color: "var(--text-muted)", display: "flex", gap: "1rem", alignItems: "center" }}>
-        <div style={{ width: 24, height: 24, borderRadius: "50%", border: "3px solid var(--primary-light)", borderTopColor: "var(--primary)", animation: "spin 1s linear infinite" }} />
-        Loading your workspace...
+  if (loading)
+    return (
+      <div
+        className={`${sansFont.className} flex h-screen items-center justify-center bg-[#e9e1d0] text-[#1f1b16]`}
+      >
+        <div className="flex items-center gap-4 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-6 py-4 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
+          Loading your workspace...
+        </div>
       </div>
-      <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
-    </div>
-  );
+    );
 
   if (!user) {
     // We could auto-redirect, or show standard unauthorized
     return (
-      <div style={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "var(--bg-app)" }}>
-        <div className="card" style={{ maxWidth: 400, textAlign: "center" }}>
-          <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem", color: "var(--danger-text)" }}>Access Denied</h2>
-          <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>You are not logged in. Please return to the home page to authenticate via GitHub.</p>
-          <Link href="/" className="btn btn-primary">Go to Home</Link>
+      <div
+        className={`${sansFont.className} flex h-screen items-center justify-center bg-[#e9e1d0] px-4 text-[#1f1b16]`}
+      >
+        <div className="max-w-md rounded-[2rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.92)_100%)] p-8 text-center shadow-[0_20px_70px_-44px_rgba(0,0,0,0.55)]">
+          <h2 className="mb-3 text-2xl font-semibold tracking-tight text-[#211911]">
+            Access Denied
+          </h2>
+          <p className="mb-6 text-sm leading-7 text-[#5f5144]">
+            You are not logged in. Please return to the home page to
+            authenticate via GitHub.
+          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center rounded-full bg-[#241c16] px-5 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
+          >
+            Go to Home
+          </Link>
         </div>
       </div>
     );
   }
 
   const navItems = [
-    { label: "Overview", href: "/dashboard", icon: <HomeIcon /> },
     { label: "Resumes", href: "/dashboard/resumes", icon: <FileTextIcon /> },
-    { label: "Smart Links", href: "/dashboard/links", icon: <LinkIcon /> },
+    {
+      label: "Analytics",
+      href: "/dashboard/analytics",
+      icon: <ActivityIcon />,
+    },
   ];
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "var(--bg-app)" }}>
-      {/* Sidebar */}
-      <aside style={{ width: "280px", borderRight: "1px solid var(--border)", backgroundColor: "white", padding: "1.5rem 1rem", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh" }}>
-        <Link href="/dashboard" style={{ textDecoration: "none", marginBottom: "2.5rem", display: "flex", alignItems: "center", gap: "0.75rem", padding: "0 0.5rem" }}>
-          <div style={{ width: 36, height: 36, borderRadius: "10px", background: "linear-gradient(135deg, var(--primary), #818cf8)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", fontWeight: "bold", boxShadow: "0 4px 6px -1px rgba(79, 70, 229, 0.4)" }}>X</div>
-          <span style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--text-main)", letterSpacing: "-0.02em" }}>resume<span style={{color: "var(--primary)"}}>X</span></span>
+    <div
+      className={`${sansFont.className} flex min-h-screen bg-[#e9e1d0] text-[#1f1b16]`}
+    >
+      <aside className="sticky top-0 flex h-screen w-[300px] flex-col border-r border-black/10 bg-[linear-gradient(180deg,rgba(249,244,235,0.95)_0%,rgba(240,231,215,0.88)_100%)] px-5 py-6 shadow-[0_0_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur-sm">
+        <Link
+          href="/dashboard"
+          className="mb-8 flex items-center gap-3 rounded-2xl px-1 py-2 no-underline"
+        >
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#241c16] text-sm font-bold text-[#f6ebd7] shadow-[0_14px_30px_-18px_rgba(0,0,0,0.9)]">
+            X
+          </div>
+          <span className="text-2xl font-semibold tracking-tight text-[#211911]">
+            resume
+            <span className={`${displayFont.className} italic text-[#8a6340]`}>
+              X
+            </span>
+          </span>
         </Link>
 
-        {/* Navigation */}
-        <nav style={{ flex: 1, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-          <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--text-light)", textTransform: "uppercase", letterSpacing: "0.05em", padding: "0 0.5rem", marginBottom: "0.5rem" }}>Dashboard</div>
-          {navItems.map(item => {
+        <nav className="flex flex-1 flex-col gap-2">
+          <div className="px-2 text-xs font-semibold uppercase tracking-[0.35em] text-[#7b5a3d]">
+            Dashboard
+          </div>
+          {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
-              <Link key={item.href} href={item.href} style={{
-                display: "flex", alignItems: "center", gap: "0.875rem", padding: "0.75rem 1rem",
-                borderRadius: "var(--radius-md)", textDecoration: "none",
-                backgroundColor: isActive ? "var(--primary-light)" : "transparent",
-                color: isActive ? "var(--primary)" : "var(--text-muted)",
-                fontWeight: isActive ? 600 : 500,
-                transition: "all 0.2s ease"
-              }}>
-                <span style={{ display: "flex", opacity: isActive ? 1 : 0.7 }}>{item.icon}</span>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-[#241c16] text-[#fbf4e3] shadow-[0_14px_28px_-18px_rgba(0,0,0,0.9)]"
+                    : "text-[#5f5144] hover:bg-white/45 hover:text-[#241c16]"
+                }`}
+              >
+                <span className="flex opacity-90">{item.icon}</span>
                 {item.label}
               </Link>
-            )
+            );
           })}
         </nav>
 
-        {/* User Profile bottom section */}
-        <div style={{ marginTop: "auto", borderTop: "1px solid var(--border)", paddingTop: "1.5rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.875rem", padding: "0.5rem", marginBottom: "1rem" }}>
-            <div style={{ width: 44, height: 44, borderRadius: "50%", background: "var(--bg-surface-hover)", border: "2px solid white", boxShadow: "var(--shadow-sm)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-              <img src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`} alt="Avatar" width={44} height={44} />
+        <div className="mt-auto border-t border-black/10 pt-5">
+          <div className="mb-4 flex items-center gap-3 rounded-2xl bg-white/40 p-3">
+            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-black/10 bg-white shadow-sm">
+              <img
+                src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
+                alt="Avatar"
+                width={44}
+                height={44}
+              />
             </div>
-            <div style={{ overflow: "hidden" }}>
-              <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-main)", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{user.name}</div>
-              <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>@{user.username}</div>
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-[#211911]">
+                {user.name}
+              </div>
+              <div className="truncate text-xs text-[#6b5b4a]">
+                @{user.username}
+              </div>
             </div>
           </div>
-          <button onClick={logout} className="btn" style={{ width: "100%", backgroundColor: "var(--bg-app)", color: "var(--text-muted)", justifyContent: "center", padding: "0.75rem", border: "1px solid var(--border)", transition: "all 0.2s" }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#fef2f2'; e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.borderColor = '#fca5a5'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'var(--bg-app)'; e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border)'; }}>
+          <button
+            onClick={logout}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.92)_100%)] px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-[#f9efe0] hover:text-[#241c16]"
+          >
             <LogOutIcon />
             Sign Out
           </button>
         </div>
       </aside>
 
-      {/* Main Content Pane */}
-      <main style={{ flex: 1, padding: "3rem 4rem", overflowY: "auto", position: "relative" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          {children}
-        </div>
+      <main className="relative flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-10 md:py-8 lg:px-12">
+        <div className="mx-auto max-w-7xl">{children}</div>
       </main>
     </div>
   );

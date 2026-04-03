@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import Link from "../models/Link.js";
-import ResumeVersion from "../models/ResumeVersion.js";
+import Resume from "../models/Resume.js";
 import View from "../models/View.js";
 
 // GET /api/public/:username/:slug
@@ -20,19 +20,16 @@ export const accessResumeViaLink = async (req, res) => {
       return res.status(404).json({ message: "Link not found or deactivated" });
     }
 
-    // 3. resolve version (fixed or latest)
-    let version;
-    if (link.versionId) {
-      version = await ResumeVersion.findById(link.versionId);
-    } else {
-      const resume = await Resume.findById(link.resumeId).populate("currentVersionId");
-      if (resume && resume.currentVersionId) {
-        version = resume.currentVersionId;
-      }
-    }
+    // 3. resolve version from resume source of truth
+    const resume = await Resume.findById(link.resumeId).populate(
+      "currentVersionId",
+    );
+    const version = resume?.currentVersionId;
 
     if (!version) {
-      return res.status(404).json({ message: "Content for this link is no longer available" });
+      return res
+        .status(404)
+        .json({ message: "Content for this link is no longer available" });
     }
 
     // 4. track view in View collection
@@ -45,12 +42,12 @@ export const accessResumeViaLink = async (req, res) => {
 
     await View.create({
       resumeId: link.resumeId,
-      versionId: link.versionId,
+      versionId: version._id,
       userId: user._id,
       slug: link.slug, // Track which link was used
       source,
       userAgent: req.headers["user-agent"],
-      ip: req.ip
+      ip: req.ip,
     });
 
     // 5. return fileUrl
@@ -59,10 +56,9 @@ export const accessResumeViaLink = async (req, res) => {
       versionNumber: version.versionNumber,
       user: {
         name: user.name,
-        username: user.username
-      }
+        username: user.username,
+      },
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error resolving link" });
@@ -80,7 +76,9 @@ export const accessDefaultResume = async (req, res) => {
     }
 
     // find default resume
-    const resume = await Resume.findOne({ userId: user._id }).populate("currentVersionId");
+    const resume = await Resume.findOne({ userId: user._id }).populate(
+      "currentVersionId",
+    );
     if (!resume || !resume.currentVersionId) {
       return res.status(404).json({ message: "No active resume found" });
     }
@@ -102,7 +100,7 @@ export const accessDefaultResume = async (req, res) => {
       slug: "default", // Mark as default profile visit
       source,
       userAgent: req.headers["user-agent"],
-      ip: req.ip
+      ip: req.ip,
     });
 
     res.json({
@@ -110,10 +108,9 @@ export const accessDefaultResume = async (req, res) => {
       versionNumber: version.versionNumber,
       user: {
         name: user.name,
-        username: user.username
-      }
+        username: user.username,
+      },
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

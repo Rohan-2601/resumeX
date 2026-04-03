@@ -29,7 +29,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg-app)] overflow-hidden">
-      <Navbar /> 
+    
       <Hero />
       <Features />
       <CTA />
