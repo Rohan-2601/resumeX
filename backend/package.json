@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.js",
     "migrate:link-versionid-cleanup": "node scripts/migrate-remove-link-versionid.js",
-    "start": "node src/index.js"
+    "start": "node src/server.js"
 
   },
   "keywords": [],
