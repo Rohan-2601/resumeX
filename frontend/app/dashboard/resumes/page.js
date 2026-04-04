@@ -1027,7 +1027,7 @@ export default function ResumesPage() {
                             onClick={copyPublicLink}
                             className="rounded-full bg-[#241c16] px-3 py-1.5 text-xs font-bold text-[#f6ebd7] transition hover:bg-[#17110c]"
                           >
-                            Copy
+                            {copyMessage === "Link copied." ? "Copied" : "Copy"}
                           </button>
                         </div>
                         <p className="mt-2 text-xs text-[#6b5b4a]">
