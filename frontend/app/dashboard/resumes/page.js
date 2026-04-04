@@ -445,7 +445,26 @@ export default function ResumesPage() {
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#f0e2c9]/50 blur-3xl" />
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-        <div className="rounded-[1.9rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-5 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-6">
+        <div className="relative rounded-[1.9rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-5 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-6">
+          <button
+            type="button"
+            onClick={loadResumeState}
+            disabled={loading}
+            aria-label="Refresh resumes"
+            className="absolute right-5 top-5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white/75 text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:right-6 sm:top-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+            >
+              <path d="M21 12a9 9 0 1 1-3.1-6.8" />
+              <path d="M21 3v6h-6" />
+            </svg>
+          </button>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
@@ -468,13 +487,6 @@ export default function ResumesPage() {
                 className="rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
               >
                 Upload new resume
-              </button>
-              <button
-                onClick={loadResumeState}
-                disabled={loading}
-                className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white/90"
-              >
-                Refresh list
               </button>
             </div>
           </div>
