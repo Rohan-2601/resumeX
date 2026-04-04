@@ -38,8 +38,9 @@ function timeAgo(dateString) {
 export default function ResumesPage() {
   const { user } = useAuth();
 
-  const [resumeId, setResumeId] = useState("");
-  const [resumeTitle, setResumeTitle] = useState("My Resume");
+  const [selectedResumeId, setSelectedResumeId] = useState("");
+  const [selectedResumeTitle, setSelectedResumeTitle] = useState("My Resume");
+  const [resumes, setResumes] = useState([]);
   const [activeVersionId, setActiveVersionId] = useState("");
   const [versions, setVersions] = useState([]);
   const [selectedVersionId, setSelectedVersionId] = useState("");
@@ -49,19 +50,32 @@ export default function ResumesPage() {
   const [analyticsLoading, setAnalyticsLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [rollingBackId, setRollingBackId] = useState("");
+  const [deletingResumeId, setDeletingResumeId] = useState("");
   const [message, setMessage] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [uploadMode, setUploadMode] = useState("version");
   const [uploadFile, setUploadFile] = useState(null);
-  const [uploadTitle, setUploadTitle] = useState("My Resume");
+  const [newResumeTitle, setNewResumeTitle] = useState("My Resume");
+  const [newResumeSlug, setNewResumeSlug] = useState("");
   const [uploadNotice, setUploadNotice] = useState("");
   const [uploadPreviewUrl, setUploadPreviewUrl] = useState("");
 
+  const selectedResume = useMemo(
+    () => resumes.find((resume) => resume._id === selectedResumeId) || null,
+    [resumes, selectedResumeId],
+  );
+
   const publicLink = useMemo(() => {
     if (!user) return "";
-    if (typeof window === "undefined") return `/${user.username}`;
-    return `${window.location.origin}/${user.username}`;
-  }, [user]);
+    const slug = selectedResume?.slug;
+    if (typeof window === "undefined") {
+      return slug ? `/${user.username}/${slug}` : `/${user.username}`;
+    }
+    return slug
+      ? `${window.location.origin}/${user.username}/${slug}`
+      : `${window.location.origin}/${user.username}`;
+  }, [selectedResume, user]);
 
   const selectedVersion = useMemo(
     () => versions.find((version) => version._id === selectedVersionId) || null,
@@ -89,9 +103,9 @@ export default function ResumesPage() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [uploadFile]);
 
-  const fetchAnalytics = async (currentResumeId = resumeId) => {
+  const fetchAnalytics = async () => {
     const token = getToken();
-    if (!token || !currentResumeId) {
+    if (!token) {
       setAnalytics(null);
       setAnalyticsLoading(false);
       return;
@@ -111,48 +125,70 @@ export default function ResumesPage() {
     }
   };
 
+  const loadVersionsForResume = async (resume) => {
+    if (!resume) {
+      setVersions([]);
+      setActiveVersionId("");
+      setSelectedVersionId("");
+      return;
+    }
+
+    setSelectedResumeTitle(resume.title || "My Resume");
+    setActiveVersionId(
+      resume.currentVersionId?._id || resume.currentVersionId || "",
+    );
+
+    const token = getToken();
+    const versionsRes = await axios.get(
+      `${backendUrl}/api/resume/${resume._id}/versions`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    const fetchedVersions = versionsRes.data.versions || [];
+    setVersions(fetchedVersions);
+
+    if (fetchedVersions.length > 0) {
+      const active = fetchedVersions.find(
+        (version) =>
+          version._id ===
+          (resume.currentVersionId?._id || resume.currentVersionId),
+      );
+      setSelectedVersionId(active ? active._id : fetchedVersions[0]._id);
+    } else {
+      setSelectedVersionId("");
+    }
+  };
+
   const loadResumeState = async () => {
     if (!user) return;
 
     setLoading(true);
-    setAnalyticsLoading(true);
     setMessage("");
 
     try {
-      const resumeRes = await axios.get(
-        `${backendUrl}/api/resume/${user.username}`,
-      );
-      const resume = resumeRes.data.resume;
-      setResumeId(resume._id);
-      setResumeTitle(resume.title || "My Resume");
-      setActiveVersionId(resume.versionId);
-
       const token = getToken();
-      const versionsRes = await axios.get(
-        `${backendUrl}/api/resume/${resume._id}/versions`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const resumeRes = await axios.get(`${backendUrl}/api/resume/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      const fetchedVersions = versionsRes.data.versions || [];
-      setVersions(fetchedVersions);
+      const fetchedResumes = resumeRes.data.resumes || [];
+      setResumes(fetchedResumes);
 
-      if (fetchedVersions.length > 0) {
-        const active = fetchedVersions.find(
-          (version) => version._id === resume.versionId,
-        );
-        setSelectedVersionId(active ? active._id : fetchedVersions[0]._id);
-      } else {
-        setSelectedVersionId("");
-      }
+      const preferredResume =
+        fetchedResumes.find((resume) => resume._id === selectedResumeId) ||
+        fetchedResumes[0] ||
+        null;
 
-      await fetchAnalytics(resume._id);
+      setSelectedResumeId(preferredResume ? preferredResume._id : "");
+      setSelectedResumeTitle(preferredResume?.title || "My Resume");
     } catch (error) {
       if (error.response?.status === 404) {
+        setResumes([]);
         setVersions([]);
-        setResumeId("");
-        setResumeTitle("My Resume");
+        setSelectedResumeId("");
+        setSelectedResumeTitle("My Resume");
         setActiveVersionId("");
         setSelectedVersionId("");
       } else {
@@ -162,7 +198,6 @@ export default function ResumesPage() {
       }
     } finally {
       setLoading(false);
-      setAnalyticsLoading(false);
     }
   };
 
@@ -170,45 +205,77 @@ export default function ResumesPage() {
     loadResumeState();
   }, [user]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    const resume =
+      resumes.find((item) => item._id === selectedResumeId) || null;
+    loadVersionsForResume(resume).catch((error) => {
+      console.error(error);
+      setMessage("Unable to load versions right now.");
+    });
+  }, [resumes, selectedResumeId, user]);
+
+  useEffect(() => {
+    fetchAnalytics().catch((error) => {
+      console.error(error);
+      setAnalytics(null);
+    });
+  }, [user]);
+
   const openUploadModal = () => {
+    setUploadMode("version");
     setUploadFile(null);
     setUploadPreviewUrl("");
-    setUploadTitle(resumeTitle || "My Resume");
+    setNewResumeTitle(selectedResumeTitle || "My Resume");
+    setNewResumeSlug(selectedResume?.slug || "");
     setUploadNotice("");
     setIsUploadModalOpen(true);
   };
 
-  const ensureResumeContainer = async (titleValue) => {
-    if (resumeId) {
-      if (
-        titleValue &&
-        titleValue.trim() &&
-        titleValue.trim() !== resumeTitle
-      ) {
-        const token = getToken();
-        await axios.patch(
-          `${backendUrl}/api/resume/${resumeId}/title`,
-          { title: titleValue.trim() },
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-        setResumeTitle(titleValue.trim());
-      }
-      return resumeId;
+  const openNewResumeModal = () => {
+    setUploadMode("new");
+    setUploadFile(null);
+    setUploadPreviewUrl("");
+    setNewResumeTitle("My Resume");
+    setNewResumeSlug("");
+    setUploadNotice("");
+    setIsUploadModalOpen(true);
+  };
+
+  const createResume = async () => {
+    const titleValue = newResumeTitle.trim() || "My Resume";
+    const slugValue = newResumeSlug.trim();
+
+    if (!slugValue) {
+      setMessage("Enter a slug for the new resume.");
+      return null;
     }
 
-    const token = getToken();
-    const createRes = await axios.post(
-      `${backendUrl}/api/resume`,
-      { title: titleValue.trim() || "My Resume" },
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
+    try {
+      const token = getToken();
+      const createRes = await axios.post(
+        `${backendUrl}/api/resume`,
+        { title: titleValue, slug: slugValue },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
 
-    const id = createRes.data.resume._id;
-    setResumeId(id);
-    setResumeTitle(
-      createRes.data.resume.title || titleValue.trim() || "My Resume",
-    );
-    return id;
+      const resume = createRes.data.resume;
+      setResumes((previous) => {
+        const next = previous.filter((item) => item._id !== resume._id);
+        return [resume, ...next];
+      });
+      setSelectedResumeId(resume._id);
+      setSelectedResumeTitle(resume.title || titleValue);
+      setNewResumeTitle(resume.title || titleValue);
+      setNewResumeSlug("");
+      setMessage(`Created /${user.username}/${resume.slug}`);
+      return resume;
+    } catch (error) {
+      console.error(error);
+      setMessage(error.response?.data?.message || "Failed to create resume.");
+      return null;
+    }
   };
 
   const uploadToCloudinary = async (pdfFile) => {
@@ -242,12 +309,21 @@ export default function ResumesPage() {
     setUploadNotice("");
 
     try {
-      const resumeContainerId = await ensureResumeContainer(uploadTitle);
+      let resumeId = selectedResumeId;
+
+      if (uploadMode === "new" || !resumeId) {
+        const createdResume = await createResume();
+        if (!createdResume) {
+          return;
+        }
+        resumeId = createdResume._id;
+      }
+
       const fileUrl = await uploadToCloudinary(uploadFile);
       const token = getToken();
 
       const versionRes = await axios.post(
-        `${backendUrl}/api/resume/${resumeContainerId}/version`,
+        `${backendUrl}/api/resume/${resumeId}/version`,
         { fileUrl },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -260,7 +336,7 @@ export default function ResumesPage() {
       setIsUploadModalOpen(false);
       setUploadFile(null);
       setUploadPreviewUrl("");
-      await fetchAnalytics(resumeContainerId);
+      await fetchAnalytics();
     } catch (error) {
       console.error(error);
       setUploadNotice("Upload failed. Please try again.");
@@ -270,7 +346,7 @@ export default function ResumesPage() {
   };
 
   const handleRollback = async (versionId) => {
-    if (!resumeId) return;
+    if (!selectedResumeId) return;
 
     setRollingBackId(versionId);
     setMessage("");
@@ -278,7 +354,7 @@ export default function ResumesPage() {
     try {
       const token = getToken();
       await axios.post(
-        `${backendUrl}/api/resume/${resumeId}/rollback/${versionId}`,
+        `${backendUrl}/api/resume/${selectedResumeId}/rollback/${versionId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -291,7 +367,7 @@ export default function ResumesPage() {
           ? `Rolled back to v${version.versionNumber}. It is now ACTIVE.`
           : "Rollback complete.",
       );
-      await fetchAnalytics(resumeId);
+      await fetchAnalytics();
     } catch (error) {
       console.error(error);
       setMessage("Rollback failed. Please try again.");
@@ -311,6 +387,53 @@ export default function ResumesPage() {
     }
   };
 
+  const handleDeleteResume = async (resumeId) => {
+    if (!resumeId) return;
+
+    const resumeToDelete = resumes.find((resume) => resume._id === resumeId);
+    if (!resumeToDelete) return;
+
+    const shouldDelete = window.confirm(
+      `Delete "${resumeToDelete.title}" and all its versions? This cannot be undone.`,
+    );
+    if (!shouldDelete) return;
+
+    setDeletingResumeId(resumeId);
+    setMessage("");
+
+    try {
+      const token = getToken();
+      await axios.delete(`${backendUrl}/api/resume/${resumeId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const remainingResumes = resumes.filter(
+        (resume) => resume._id !== resumeId,
+      );
+      setResumes(remainingResumes);
+
+      if (selectedResumeId === resumeId) {
+        const nextResume = remainingResumes[0] || null;
+        setSelectedResumeId(nextResume ? nextResume._id : "");
+        setSelectedResumeTitle(nextResume?.title || "My Resume");
+
+        if (!nextResume) {
+          setVersions([]);
+          setActiveVersionId("");
+          setSelectedVersionId("");
+        }
+      }
+
+      setMessage(`Deleted ${resumeToDelete.title}.`);
+      await fetchAnalytics();
+    } catch (error) {
+      console.error(error);
+      setMessage(error.response?.data?.message || "Failed to delete resume.");
+    } finally {
+      setDeletingResumeId("");
+    }
+  };
+
   if (!user) return null;
 
   return (
@@ -321,44 +444,169 @@ export default function ResumesPage() {
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#f0e2c9]/50 blur-3xl" />
 
-      <header className="relative overflow-hidden rounded-[2rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-7 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.6),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(123,90,61,0.12),transparent_30%)]" />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
-              Dashboard / Resume Control Center
-            </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[#211911] sm:text-5xl">
-              One link. Manual control.
-              <span
-                className={`${displayFont.className} mt-2 block text-lg font-medium italic text-[#7b5a3d] sm:text-xl`}
-              >
-                Upload a new version, switch active content, and keep the same
-                permanent URL.
-              </span>
-            </h1>
-          </div>
-
-          <div className="flex flex-col gap-3 rounded-3xl border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.9)_0%,rgba(242,233,218,0.84)_100%)] p-4 shadow-[0_20px_60px_-44px_rgba(0,0,0,0.55)] backdrop-blur-md sm:min-w-[320px]">
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-[1.9rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-5 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                Permanent Public Link
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
+                Your resumes
               </p>
-              <div className="mt-2 flex items-center gap-2 rounded-2xl border border-black/10 bg-white/65 px-3 py-2 text-sm text-[#1f1b16]">
-                <code className="min-w-0 flex-1 truncate">{publicLink}</code>
-                <button
-                  onClick={copyPublicLink}
-                  className="rounded-full bg-[#241c16] px-3 py-1.5 text-xs font-bold text-[#f6ebd7] transition hover:bg-[#17110c]"
+              <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[#211911] sm:text-4xl">
+                Pick a resume to inspect
+                <span
+                  className={`${displayFont.className} mt-2 block text-lg font-medium italic text-[#7b5a3d] sm:text-xl`}
                 >
-                  Copy
-                </button>
-              </div>
-              {copyMessage && (
-                <p className="mt-2 text-xs text-[#7b5a3d]">{copyMessage}</p>
-              )}
+                  Click any resume to open its permanent link and version
+                  history.
+                </span>
+              </h1>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-center text-[#1f1b16]">
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={openNewResumeModal}
+                className="rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
+              >
+                Upload new resume
+              </button>
+              <button
+                onClick={openUploadModal}
+                disabled={!selectedResumeId}
+                className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Upload version
+              </button>
+              <button
+                onClick={loadResumeState}
+                disabled={loading}
+                className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white/90"
+              >
+                Refresh list
+              </button>
+              <button
+                onClick={() => handleDeleteResume(selectedResumeId)}
+                disabled={
+                  !selectedResumeId || deletingResumeId === selectedResumeId
+                }
+                className="rounded-2xl border border-rose-900/20 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {deletingResumeId === selectedResumeId
+                  ? "Deleting..."
+                  : "Delete resume"}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-black/10 bg-white/65 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                Resumes
+              </p>
+              <p className="mt-1 text-2xl font-semibold text-[#211911]">
+                {resumes.length}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-white/65 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                Permanent link
+              </p>
+              <p className="mt-1 truncate font-mono text-sm text-[#211911]">
+                {publicLink || `/${user.username}`}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 space-y-3">
+            {loading && (
+              <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
+                Loading resumes...
+              </div>
+            )}
+
+            {!loading && resumes.length === 0 && (
+              <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
+                No resumes yet. Upload your first PDF or create a slugged
+                resume.
+              </div>
+            )}
+
+            {!loading &&
+              resumes.map((resume) => {
+                const isSelected = resume._id === selectedResumeId;
+
+                return (
+                  <button
+                    key={resume._id}
+                    onClick={() => setSelectedResumeId(resume._id)}
+                    className={`flex w-full items-center justify-between gap-4 rounded-2xl border p-4 text-left transition ${
+                      isSelected
+                        ? "border-[#8a6340]/40 bg-[#fff7ec] shadow-[0_14px_30px_-24px_rgba(123,90,61,0.35)]"
+                        : "border-black/10 bg-white/60 hover:border-black/15 hover:bg-white/80"
+                    }`}
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-3">
+                        <p className="truncate text-sm font-semibold text-[#211911]">
+                          {resume.title}
+                        </p>
+                        {isSelected ? (
+                          <span className="rounded-full bg-[#e6f0e5] px-2.5 py-1 text-[11px] font-bold text-[#3f6b4d]">
+                            OPEN
+                          </span>
+                        ) : null}
+                      </div>
+                      <p className="mt-1 truncate font-mono text-xs text-[#6b5b4a]">
+                        /{user.username}/{resume.slug}
+                      </p>
+                    </div>
+
+                    <div className="text-right text-xs text-[#6b5b4a]">
+                      <p>{timeAgo(resume.updatedAt)}</p>
+                    </div>
+                  </button>
+                );
+              })}
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-5 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)] backdrop-blur">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+                  Selected resume
+                </p>
+                <h2 className="mt-1 text-xl font-semibold text-[#211911]">
+                  {selectedResumeTitle || "No resume selected"}
+                </h2>
+                <p className="mt-2 font-mono text-sm text-[#6b5b4a]">
+                  {publicLink || `/${user.username}`}
+                </p>
+              </div>
+              <button
+                onClick={
+                  selectedResumeId ? openUploadModal : openNewResumeModal
+                }
+                disabled={!publicLink}
+                className="rounded-full bg-[#241c16] px-4 py-2 text-xs font-bold text-[#f6ebd7] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {selectedResumeId ? "Upload version" : "Create resume"}
+              </button>
+            </div>
+
+            <button
+              onClick={copyPublicLink}
+              disabled={!publicLink}
+              className="mt-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-bold text-[#5f5144] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Copy permanent link
+            </button>
+
+            {copyMessage && (
+              <p className="mt-3 text-xs text-[#7b5a3d]">{copyMessage}</p>
+            )}
+
+            <div className="mt-4 grid grid-cols-2 gap-3 text-center text-[#1f1b16]">
               <div className="rounded-2xl border border-black/10 bg-white/55 px-3 py-3">
                 <p className="text-[11px] uppercase tracking-[0.24em] text-[#7b5a3d]">
                   Active
@@ -376,19 +624,8 @@ export default function ResumesPage() {
                 </p>
               </div>
             </div>
-
-            <button
-              onClick={openUploadModal}
-              className="rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
-            >
-              Upload resume
-            </button>
           </div>
-        </div>
-      </header>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <div className="space-y-6">
           <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-4 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)] backdrop-blur">
             <div className="mb-4 flex items-center justify-between px-2">
               <div>
@@ -396,32 +633,31 @@ export default function ResumesPage() {
                   Versions
                 </p>
                 <h3 className="mt-1 text-lg font-semibold text-[#211911]">
-                  Manual branch switcher
+                  Version history
                 </h3>
               </div>
-              <button
-                onClick={loadResumeState}
-                disabled={loading}
-                className="rounded-xl border border-black/10 px-3.5 py-2 text-xs font-semibold text-[#5f5144] transition hover:bg-white/70"
-              >
-                Refresh
-              </button>
             </div>
 
-            <div className="max-h-[430px] space-y-3 overflow-y-auto pr-1">
-              {loading && (
+            <div className="max-h-[320px] space-y-3 overflow-y-auto pr-1">
+              {!selectedResumeId && (
+                <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
+                  Select a resume to see its versions.
+                </div>
+              )}
+
+              {selectedResumeId && loading && (
                 <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
                   Loading versions...
                 </div>
               )}
 
-              {!loading && versions.length === 0 && (
+              {selectedResumeId && !loading && versions.length === 0 && (
                 <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
-                  No versions yet. Upload your first PDF.
+                  No versions yet. Upload the first PDF for this resume.
                 </div>
               )}
 
-              {!loading &&
+              {selectedResumeId &&
                 versions.map((version) => {
                   const isActive = version._id === activeVersionId;
                   const isSelected = version._id === selectedVersionId;
@@ -487,50 +723,50 @@ export default function ResumesPage() {
                 })}
             </div>
           </div>
-        </div>
 
-        <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-4 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)] backdrop-blur">
-          <div className="mb-4 flex items-center justify-between px-2">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                Preview
-              </p>
-              <h2 className="mt-1 text-lg font-semibold text-[#211911]">
-                Live PDF preview
-              </h2>
-            </div>
-            <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-[#5f5144]">
-              {selectedVersion
-                ? `v${selectedVersion.versionNumber}`
-                : "No file"}
-            </span>
-          </div>
-
-          <div className="h-[680px] overflow-hidden rounded-[1.5rem] border border-black/10 bg-white/60">
-            {selectedVersion?.fileUrl ? (
-              <iframe
-                title="Resume PDF Preview"
-                src={selectedVersion.fileUrl}
-                className="h-full w-full"
-              />
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center p-6 text-center text-sm text-[#5f5144]">
-                <ActivityIcon />
-                <p className="mt-3 font-medium text-[#211911]">
-                  Upload a PDF to see the live preview here.
+          <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-4 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)] backdrop-blur">
+            <div className="mb-4 flex items-center justify-between px-2">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+                  Preview
                 </p>
+                <h2 className="mt-1 text-lg font-semibold text-[#211911]">
+                  Live PDF preview
+                </h2>
               </div>
-            )}
-          </div>
+              <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-[#5f5144]">
+                {selectedVersion
+                  ? `v${selectedVersion.versionNumber}`
+                  : "No file"}
+              </span>
+            </div>
 
-          {activeVersion &&
-            selectedVersion &&
-            activeVersion._id !== selectedVersion._id && (
-              <p className="mt-3 text-xs text-[#7b5a3d]">
-                Previewing v{selectedVersion.versionNumber}. Active public link
-                currently serves v{activeVersion.versionNumber}.
-              </p>
-            )}
+            <div className="h-[560px] overflow-hidden rounded-[1.5rem] border border-black/10 bg-white/60">
+              {selectedVersion?.fileUrl ? (
+                <iframe
+                  title="Resume PDF Preview"
+                  src={selectedVersion.fileUrl}
+                  className="h-full w-full"
+                />
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center p-6 text-center text-sm text-[#5f5144]">
+                  <ActivityIcon />
+                  <p className="mt-3 font-medium text-[#211911]">
+                    Upload a PDF to see the live preview here.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {activeVersion &&
+              selectedVersion &&
+              activeVersion._id !== selectedVersion._id && (
+                <p className="mt-3 text-xs text-[#7b5a3d]">
+                  Previewing v{selectedVersion.versionNumber}. Active public
+                  link currently serves v{activeVersion.versionNumber}.
+                </p>
+              )}
+          </div>
         </div>
       </section>
 
@@ -620,34 +856,88 @@ export default function ResumesPage() {
                 <div className="space-y-5">
                   <div>
                     <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                      Resume title
+                      {uploadMode === "new" ? "New resume" : "Selected resume"}
                     </label>
-                    <input
-                      value={uploadTitle}
-                      onChange={(event) => setUploadTitle(event.target.value)}
-                      placeholder="e.g. SDE Resume"
-                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
-                    />
+                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white">
+                      <div className="font-semibold">
+                        {uploadMode === "new"
+                          ? newResumeTitle || "My Resume"
+                          : selectedResumeTitle || "My Resume"}
+                      </div>
+                      <div className="mt-1 font-mono text-xs text-slate-300">
+                        {uploadMode === "new"
+                          ? `/${user.username}/${newResumeSlug || "your-slug"}`
+                          : publicLink || `/${user.username}`}
+                      </div>
+                    </div>
                   </div>
+
+                  {uploadMode === "new" && (
+                    <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4 space-y-3">
+                      <div>
+                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                          Resume title
+                        </label>
+                        <input
+                          value={newResumeTitle}
+                          onChange={(event) =>
+                            setNewResumeTitle(event.target.value)
+                          }
+                          placeholder="e.g. Frontend Resume"
+                          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                          Custom slug
+                        </label>
+                        <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+                          <span className="truncate font-mono text-sm text-slate-300">
+                            /{user.username}/
+                          </span>
+                          <input
+                            value={newResumeSlug}
+                            onChange={(event) =>
+                              setNewResumeSlug(event.target.value)
+                            }
+                            placeholder="frontend"
+                            className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+                          />
+                        </div>
+                      </div>
+
+                      <p className="text-xs text-slate-400">
+                        Use only letters, numbers, and dashes.
+                      </p>
+                    </div>
+                  )}
 
                   <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                      Permanent slug
+                      {uploadMode === "new"
+                        ? "Future permanent link"
+                        : "Permanent link"}
                     </p>
                     <div className="mt-2 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
                       <span className="truncate font-mono text-sm text-slate-100">
-                        /{user.username}
+                        {uploadMode === "new"
+                          ? `/${user.username}/${newResumeSlug || "your-slug"}`
+                          : publicLink || `/${user.username}`}
                       </span>
-                      <button
-                        onClick={copyPublicLink}
-                        className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900 transition hover:bg-cyan-50"
-                      >
-                        Copy
-                      </button>
+                      {uploadMode === "version" && (
+                        <button
+                          onClick={copyPublicLink}
+                          className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900 transition hover:bg-cyan-50"
+                        >
+                          Copy
+                        </button>
+                      )}
                     </div>
                     <p className="mt-2 text-xs text-slate-400">
-                      No custom slug needed. This link always stays the same
-                      while the content behind it changes.
+                      {uploadMode === "new"
+                        ? "This link will be created when upload finishes."
+                        : "The same link stays online while the active version changes."}
                     </p>
                   </div>
 
@@ -680,10 +970,18 @@ export default function ResumesPage() {
                   </button>
                   <button
                     onClick={handleUpload}
-                    disabled={uploading || !uploadFile}
+                    disabled={
+                      uploading ||
+                      !uploadFile ||
+                      (uploadMode === "new" && !newResumeSlug.trim())
+                    }
                     className="flex-1 rounded-2xl bg-[linear-gradient(135deg,#06b6d4_0%,#10b981_100%)] px-4 py-3 text-sm font-black text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {uploading ? "Uploading..." : "Upload"}
+                    {uploading
+                      ? "Uploading..."
+                      : uploadMode === "new"
+                        ? "Create and upload"
+                        : "Upload version"}
                   </button>
                 </div>
               </div>

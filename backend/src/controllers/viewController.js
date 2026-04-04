@@ -9,7 +9,9 @@ export const trackView = async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const resume = await Resume.findOne({ userId: user._id }).populate("currentVersionId");
+    const resume = await Resume.findOne({ userId: user._id })
+      .sort({ updatedAt: -1, createdAt: -1 })
+      .populate("currentVersionId");
 
     if (!resume || !resume.currentVersionId) {
       return res.status(404).json({ message: "No active resume found" });
@@ -29,7 +31,7 @@ export const trackView = async (req, res) => {
       userId: user._id,
       source,
       userAgent: req.headers["user-agent"],
-      ip: req.ip
+      ip: req.ip,
     });
 
     res.json({ success: true });
@@ -42,22 +44,26 @@ export const trackView = async (req, res) => {
 export const getAnalytics = async (req, res) => {
   try {
     const userId = req.user.userId;
-    
-    const resume = await Resume.findOne({ userId });
-    if (!resume) {
+
+    const resumes = await Resume.find({ userId }).select("_id");
+    if (!resumes.length) {
       return res.status(404).json({ message: "No resume container found" });
     }
 
-    const totalViews = await View.countDocuments({ resumeId: resume._id });
+    const resumeIds = resumes.map((resume) => resume._id);
+
+    const totalViews = await View.countDocuments({
+      resumeId: { $in: resumeIds },
+    });
 
     const sources = await View.aggregate([
-      { $match: { resumeId: resume._id } },
+      { $match: { resumeId: { $in: resumeIds } } },
       { $group: { _id: "$source", count: { $sum: 1 } } },
       { $project: { _id: 0, source: "$_id", count: 1 } },
-      { $sort: { count: -1 } }
+      { $sort: { count: -1 } },
     ]);
 
-    const recentViews = await View.find({ resumeId: resume._id })
+    const recentViews = await View.find({ resumeId: { $in: resumeIds } })
       .sort({ createdAt: -1 })
       .limit(10)
       .select("-ip");
@@ -65,7 +71,7 @@ export const getAnalytics = async (req, res) => {
     res.json({
       totalViews,
       sources,
-      recentViews
+      recentViews,
     });
   } catch (error) {
     console.error(error);

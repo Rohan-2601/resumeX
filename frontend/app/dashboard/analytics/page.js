@@ -45,14 +45,21 @@ export default function AnalyticsPage() {
 
   const [analytics, setAnalytics] = useState(null);
   const [resumeTitle, setResumeTitle] = useState("My Resume");
+  const [resumeSlug, setResumeSlug] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const publicLink = useMemo(() => {
     if (!user) return "";
-    if (typeof window === "undefined") return `/${user.username}`;
-    return `${window.location.origin}/${user.username}`;
-  }, [user]);
+    if (typeof window === "undefined") {
+      return resumeSlug
+        ? `/${user.username}/${resumeSlug}`
+        : `/${user.username}`;
+    }
+    return resumeSlug
+      ? `${window.location.origin}/${user.username}/${resumeSlug}`
+      : `${window.location.origin}/${user.username}`;
+  }, [resumeSlug, user]);
 
   const sourceMap = (sourceName) => {
     const found = analytics?.sources?.find(
@@ -74,13 +81,21 @@ export default function AnalyticsPage() {
     setErrorMessage("");
 
     try {
-      const resumeRes = await axios.get(
-        `${backendUrl}/api/resume/${user.username}`,
-      );
-      const resume = resumeRes.data.resume;
-      setResumeTitle(resume.title || "My Resume");
-
       const token = localStorage.getItem("token");
+      const resumeRes = await axios.get(`${backendUrl}/api/resume/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const resume = resumeRes.data.resumes?.[0] || null;
+      if (!resume) {
+        setResumeTitle("My Resume");
+        setResumeSlug("");
+        setAnalytics(null);
+        setErrorMessage("No analytics available yet. Upload a resume first.");
+        return;
+      }
+      setResumeTitle(resume.title || "My Resume");
+      setResumeSlug(resume.slug || "");
+
       if (!token) {
         setAnalytics(null);
         setErrorMessage("Sign in to view analytics.");
@@ -247,7 +262,9 @@ export default function AnalyticsPage() {
                     </thead>
                     <tbody>
                       {analytics.recentViews.map((view, index) => {
-                        const targetPath = `/${user.username}${view.slug && view.slug !== "default" ? `/${view.slug}` : ""}`;
+                        const targetPath = view.slug
+                          ? `/${user.username}/${view.slug}`
+                          : `/${user.username}`;
                         return (
                           <tr key={view._id || index}>
                             <td>

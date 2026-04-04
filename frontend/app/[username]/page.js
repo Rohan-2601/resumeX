@@ -10,20 +10,15 @@ export default function ResumePage() {
 
   const [resume, setResume] = useState(null);
 
-  // ✅ ADD FUNCTION HERE
-  const getPdfViewUrl = (url) => {
-    return url.replace("/upload/", "/upload/fl_attachment/");
-  };
-
   useEffect(() => {
     if (!username) return;
 
     const fetchResume = async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/resume/${username}`
-      );
+      const backendUrl =
+        process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+      const res = await axios.get(`${backendUrl}/api/public/${username}`);
 
-      setResume(res.data.resume);
+      setResume(res.data);
     };
 
     fetchResume();
@@ -33,8 +28,8 @@ export default function ResumePage() {
 
   return (
     <iframe
-  src={`https://docs.google.com/gview?url=${encodeURIComponent(resume.fileUrl)}&embedded=true`}
-  style={{ width: "100%", height: "100vh", border: "none" }}
-/>
+      src={`https://docs.google.com/gview?url=${encodeURIComponent(resume.fileUrl)}&embedded=true`}
+      style={{ width: "100%", height: "100vh", border: "none" }}
+    />
   );
 }

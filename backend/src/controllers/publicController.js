@@ -1,5 +1,4 @@
 import User from "../models/User.js";
-import Link from "../models/Link.js";
 import Resume from "../models/Resume.js";
 import View from "../models/View.js";
 
@@ -14,14 +13,8 @@ export const accessResumeViaLink = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // 2. find link using userId + slug
-    const link = await Link.findOne({ userId: user._id, slug });
-    if (!link) {
-      return res.status(404).json({ message: "Link not found or deactivated" });
-    }
-
-    // 3. resolve version from resume source of truth
-    const resume = await Resume.findById(link.resumeId).populate(
+    // 2. find resume using userId + slug
+    const resume = await Resume.findOne({ userId: user._id, slug }).populate(
       "currentVersionId",
     );
     const version = resume?.currentVersionId;
@@ -29,10 +22,10 @@ export const accessResumeViaLink = async (req, res) => {
     if (!version) {
       return res
         .status(404)
-        .json({ message: "Content for this link is no longer available" });
+        .json({ message: "Content for this resume is no longer available" });
     }
 
-    // 4. track view in View collection
+    // 3. track view in View collection
     const referer = req.headers.referer || "";
     let source = "Direct";
 
@@ -41,16 +34,16 @@ export const accessResumeViaLink = async (req, res) => {
     else if (referer.includes("github")) source = "GitHub";
 
     await View.create({
-      resumeId: link.resumeId,
+      resumeId: resume._id,
       versionId: version._id,
       userId: user._id,
-      slug: link.slug, // Track which link was used
+      slug: resume.slug,
       source,
       userAgent: req.headers["user-agent"],
       ip: req.ip,
     });
 
-    // 5. return fileUrl
+    // 4. return fileUrl
     res.json({
       fileUrl: version.fileUrl,
       versionNumber: version.versionNumber,
@@ -76,9 +69,9 @@ export const accessDefaultResume = async (req, res) => {
     }
 
     // find default resume
-    const resume = await Resume.findOne({ userId: user._id }).populate(
-      "currentVersionId",
-    );
+    const resume = await Resume.findOne({ userId: user._id })
+      .sort({ updatedAt: -1, createdAt: -1 })
+      .populate("currentVersionId");
     if (!resume || !resume.currentVersionId) {
       return res.status(404).json({ message: "No active resume found" });
     }
@@ -97,7 +90,7 @@ export const accessDefaultResume = async (req, res) => {
       resumeId: resume._id,
       versionId: version._id,
       userId: user._id,
-      slug: "default", // Mark as default profile visit
+      slug: resume.slug,
       source,
       userAgent: req.headers["user-agent"],
       ip: req.ip,
