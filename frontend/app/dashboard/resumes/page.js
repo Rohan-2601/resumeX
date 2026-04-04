@@ -871,30 +871,30 @@ export default function ResumesPage() {
       </section>
 
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/70 px-4 py-6 backdrop-blur-sm">
-          <div className="relative w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0f16] shadow-[0_30px_120px_-40px_rgba(0,0,0,0.85)]">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/35 px-4 py-6 backdrop-blur-sm">
+          <div className="relative w-full max-w-5xl overflow-hidden rounded-[2rem] border border-black/10 bg-[linear-gradient(135deg,rgba(249,244,236,0.98)_0%,rgba(239,229,212,0.96)_50%,rgba(232,219,194,0.96)_100%)] shadow-[0_30px_120px_-40px_rgba(0,0,0,0.6)]">
             <button
               onClick={() => setIsUploadModalOpen(false)}
-              className="absolute right-4 top-4 z-10 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-sm font-bold text-white transition hover:bg-white/20"
+              className="absolute right-4 top-4 z-10 rounded-full border border-black/10 bg-white/70 px-3 py-2 text-sm font-bold text-[#5f5144] transition hover:bg-white"
             >
               ×
             </button>
 
-            <div className="grid min-h-[80vh] grid-cols-1 lg:grid-cols-2">
-              <div className="border-b border-white/10 bg-[#0f1520] p-5 lg:border-b-0 lg:border-r">
-                <div className="mb-4 flex items-center gap-3 text-white">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="border-b border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.88)_100%)] p-5 lg:border-b-0 lg:border-r">
+                <div className="mb-4 flex items-center gap-3 text-[#211911]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/70 text-[#5f5144]">
                     <UploadIcon />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200">
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
                       Upload resume
                     </p>
-                    <h3 className="text-xl font-black">Choose a PDF</h3>
+                    <h3 className="text-xl font-semibold">Choose a PDF</h3>
                   </div>
                 </div>
 
-                <label className="flex min-h-[58vh] cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-dashed border-white/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(6,182,212,0.08)_100%)] p-4 transition hover:border-cyan-300/60 hover:bg-white/10">
+                <label className="flex min-h-[44vh] cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-dashed border-black/20 bg-white/55 p-4 transition hover:border-[#8a6340]/50 hover:bg-white/75">
                   <input
                     type="file"
                     accept="application/pdf"
@@ -908,28 +908,32 @@ export default function ResumesPage() {
 
                   {!uploadFile ? (
                     <div className="flex flex-1 items-center justify-center">
-                      <div className="text-center text-white">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-white/10 text-white">
+                      <div className="text-center text-[#211911]">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-white/75 text-[#5f5144]">
                           <UploadIcon />
                         </div>
-                        <p className="text-lg font-bold">Click to select PDF</p>
-                        <p className="mt-2 max-w-sm text-sm text-slate-300">
+                        <p className="text-lg font-semibold">
+                          Click to select PDF
+                        </p>
+                        <p className="mt-2 max-w-sm text-sm text-[#6b5b4a]">
                           Once selected, the left side will show the PDF preview
                           before upload.
                         </p>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex h-full flex-col gap-4 text-white">
-                      <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                        <p className="text-sm font-bold">{uploadFile.name}</p>
-                        <p className="mt-1 text-xs text-slate-300">
+                    <div className="flex h-full flex-col gap-4 text-[#211911]">
+                      <div className="rounded-2xl border border-black/10 bg-white/75 p-4">
+                        <p className="text-sm font-semibold">
+                          {uploadFile.name}
+                        </p>
+                        <p className="mt-1 text-xs text-[#6b5b4a]">
                           {(uploadFile.size / 1024 / 1024).toFixed(2)} MB • PDF
                           ready for upload
                         </p>
                       </div>
 
-                      <div className="min-h-[44vh] flex-1 overflow-hidden rounded-[1.25rem] border border-white/10 bg-white">
+                      <div className="min-h-[32vh] flex-1 overflow-hidden rounded-[1.25rem] border border-black/10 bg-white">
                         <iframe
                           title="Selected PDF preview"
                           src={uploadPreviewUrl}
@@ -941,41 +945,25 @@ export default function ResumesPage() {
                 </label>
               </div>
 
-              <div className="bg-[#0c1118] p-5 text-white">
+              <div className="bg-[linear-gradient(180deg,rgba(251,247,238,0.9)_0%,rgba(242,233,218,0.85)_100%)] p-5 text-[#211911]">
                 <div className="mb-5 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200">
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
                       Details
                     </p>
-                    <h3 className="mt-1 text-xl font-black">
-                      Title and permanent link
+                    <h3 className="mt-1 text-xl font-semibold">
+                      {uploadMode === "new"
+                        ? "New resume details"
+                        : "Version upload details"}
                     </h3>
                   </div>
                 </div>
 
                 <div className="space-y-5">
-                  <div>
-                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                      {uploadMode === "new" ? "New resume" : "Selected resume"}
-                    </label>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white">
-                      <div className="font-semibold">
-                        {uploadMode === "new"
-                          ? newResumeTitle || "My Resume"
-                          : selectedResumeTitle || "My Resume"}
-                      </div>
-                      <div className="mt-1 font-mono text-xs text-slate-300">
-                        {uploadMode === "new"
-                          ? `/${user.username}/${newResumeSlug || "your-slug"}`
-                          : publicLink || `/${user.username}`}
-                      </div>
-                    </div>
-                  </div>
-
-                  {uploadMode === "new" && (
-                    <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4 space-y-3">
+                  {uploadMode === "new" ? (
+                    <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4 space-y-3">
                       <div>
-                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                           Resume title
                         </label>
                         <input
@@ -984,16 +972,16 @@ export default function ResumesPage() {
                             setNewResumeTitle(event.target.value)
                           }
                           placeholder="e.g. Frontend Resume"
-                          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-400"
+                          className="w-full rounded-2xl border border-black/10 bg-white/80 px-4 py-3 text-sm text-[#211911] outline-none transition placeholder:text-[#8b7a68] focus:border-[#8a6340]/60"
                         />
                       </div>
 
                       <div>
-                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                           Custom slug
                         </label>
-                        <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-                          <span className="truncate font-mono text-sm text-slate-300">
+                        <div className="flex items-center gap-2 rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
+                          <span className="truncate font-mono text-sm text-[#6b5b4a]">
                             /{user.username}/
                           </span>
                           <input
@@ -1002,60 +990,56 @@ export default function ResumesPage() {
                               setNewResumeSlug(event.target.value)
                             }
                             placeholder="frontend"
-                            className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+                            className="min-w-0 flex-1 bg-transparent text-sm text-[#211911] outline-none placeholder:text-[#8b7a68]"
                           />
                         </div>
                       </div>
 
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-[#6b5b4a]">
                         Use only letters, numbers, and dashes.
                       </p>
                     </div>
+                  ) : (
+                    <>
+                      <div>
+                        <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                          Selected resume
+                        </label>
+                        <div className="rounded-2xl border border-black/10 bg-white/65 px-4 py-3 text-sm text-[#211911]">
+                          <div className="font-semibold">
+                            {selectedResumeTitle || "My Resume"}
+                          </div>
+                          <div className="mt-1 font-mono text-xs text-[#6b5b4a]">
+                            {publicLink || `/${user.username}`}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4">
+                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                          Permanent link
+                        </p>
+                        <div className="mt-2 flex items-center justify-between gap-3 rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
+                          <span className="truncate font-mono text-sm text-[#211911]">
+                            {publicLink || `/${user.username}`}
+                          </span>
+                          <button
+                            onClick={copyPublicLink}
+                            className="rounded-full bg-[#241c16] px-3 py-1.5 text-xs font-bold text-[#f6ebd7] transition hover:bg-[#17110c]"
+                          >
+                            Copy
+                          </button>
+                        </div>
+                        <p className="mt-2 text-xs text-[#6b5b4a]">
+                          Uploading a new PDF creates a new version and makes it
+                          active.
+                        </p>
+                      </div>
+                    </>
                   )}
 
-                  <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                      {uploadMode === "new"
-                        ? "Future permanent link"
-                        : "Permanent link"}
-                    </p>
-                    <div className="mt-2 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
-                      <span className="truncate font-mono text-sm text-slate-100">
-                        {uploadMode === "new"
-                          ? `/${user.username}/${newResumeSlug || "your-slug"}`
-                          : publicLink || `/${user.username}`}
-                      </span>
-                      {uploadMode === "version" && (
-                        <button
-                          onClick={copyPublicLink}
-                          className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900 transition hover:bg-cyan-50"
-                        >
-                          Copy
-                        </button>
-                      )}
-                    </div>
-                    <p className="mt-2 text-xs text-slate-400">
-                      {uploadMode === "new"
-                        ? "This link will be created when upload finishes."
-                        : "The same link stays online while the active version changes."}
-                    </p>
-                  </div>
-
-                  <div className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                      What happens next
-                    </p>
-                    <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                      <li>• Selected PDF uploads to Cloudinary</li>
-                      <li>• New version is created and set ACTIVE</li>
-                      <li>
-                        • The same permanent link starts serving the new version
-                      </li>
-                    </ul>
-                  </div>
-
                   {uploadNotice && (
-                    <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+                    <div className="rounded-2xl border border-rose-900/20 bg-rose-50 px-4 py-3 text-sm text-rose-700">
                       {uploadNotice}
                     </div>
                   )}
@@ -1064,7 +1048,7 @@ export default function ResumesPage() {
                 <div className="mt-6 flex gap-3">
                   <button
                     onClick={() => setIsUploadModalOpen(false)}
-                    className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                    className="flex-1 rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white"
                   >
                     Cancel
                   </button>
@@ -1075,7 +1059,7 @@ export default function ResumesPage() {
                       !uploadFile ||
                       (uploadMode === "new" && !newResumeSlug.trim())
                     }
-                    className="flex-1 rounded-2xl bg-[linear-gradient(135deg,#06b6d4_0%,#10b981_100%)] px-4 py-3 text-sm font-black text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex-1 rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {uploading
                       ? "Uploading..."
