@@ -50,6 +50,7 @@ export default function ResumesPage() {
   const [analyticsLoading, setAnalyticsLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [rollingBackId, setRollingBackId] = useState("");
+  const [deletingVersionId, setDeletingVersionId] = useState("");
   const [deletingResumeId, setDeletingResumeId] = useState("");
   const [message, setMessage] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
@@ -376,6 +377,53 @@ export default function ResumesPage() {
     }
   };
 
+  const handleDeleteVersion = async (versionId) => {
+    if (!selectedResumeId || !versionId) return;
+
+    const versionToDelete = versions.find((item) => item._id === versionId);
+    if (!versionToDelete) return;
+
+    const shouldDelete = window.confirm(
+      `Delete v${versionToDelete.versionNumber}? This cannot be undone.`,
+    );
+    if (!shouldDelete) return;
+
+    setDeletingVersionId(versionId);
+    setMessage("");
+
+    try {
+      const token = getToken();
+      const response = await axios.delete(
+        `${backendUrl}/api/resume/${selectedResumeId}/version/${versionId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      const remainingVersions = versions.filter(
+        (item) => item._id !== versionId,
+      );
+      setVersions(remainingVersions);
+
+      const newActiveVersionId = response.data.newActiveVersionId || "";
+      setActiveVersionId(newActiveVersionId);
+
+      if (selectedVersionId === versionId) {
+        const nextSelectedVersionId =
+          newActiveVersionId || remainingVersions[0]?._id || "";
+        setSelectedVersionId(nextSelectedVersionId);
+      }
+
+      setMessage(`Deleted v${versionToDelete.versionNumber}.`);
+      await fetchAnalytics();
+    } catch (error) {
+      console.error(error);
+      setMessage(error.response?.data?.message || "Failed to delete version.");
+    } finally {
+      setDeletingVersionId("");
+    }
+  };
+
   const copyPublicLink = async () => {
     try {
       await navigator.clipboard.writeText(publicLink);
@@ -444,7 +492,7 @@ export default function ResumesPage() {
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#f0e2c9]/50 blur-3xl" />
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+      <section className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="relative rounded-[1.9rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-5 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-6">
           <button
             type="button"
@@ -491,21 +539,13 @@ export default function ResumesPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-3">
             <div className="rounded-2xl border border-black/10 bg-white/65 px-4 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                 Resumes
               </p>
               <p className="mt-1 text-2xl font-semibold text-[#211911]">
                 {resumes.length}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-black/10 bg-white/65 px-4 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
-                Permanent link
-              </p>
-              <p className="mt-1 truncate font-mono text-sm text-[#211911]">
-                {publicLink || `/${user.username}`}
               </p>
             </div>
           </div>
@@ -610,9 +650,18 @@ export default function ResumesPage() {
                 <h2 className="mt-1 text-xl font-semibold text-[#211911]">
                   {selectedResumeTitle || "No resume selected"}
                 </h2>
-                <p className="mt-2 font-mono text-sm text-[#6b5b4a]">
-                  {publicLink || `/${user.username}`}
-                </p>
+                <div className="mt-2 flex items-center gap-2">
+                  <p className="min-w-0 flex-1 truncate font-mono text-sm text-[#6b5b4a]">
+                    {publicLink || `/${user.username}`}
+                  </p>
+                  <button
+                    onClick={copyPublicLink}
+                    disabled={!publicLink}
+                    className="rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[11px] font-bold text-[#5f5144] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {copyMessage === "Link copied." ? "Copied" : "Copy"}
+                  </button>
+                </div>
               </div>
               <button
                 onClick={
@@ -624,18 +673,6 @@ export default function ResumesPage() {
                 {selectedResumeId ? "Upload version" : "Create resume"}
               </button>
             </div>
-
-            <button
-              onClick={copyPublicLink}
-              disabled={!publicLink}
-              className="mt-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-bold text-[#5f5144] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              Copy permanent link
-            </button>
-
-            {copyMessage && (
-              <p className="mt-3 text-xs text-[#7b5a3d]">{copyMessage}</p>
-            )}
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-center text-[#1f1b16]">
               <div className="rounded-2xl border border-black/10 bg-white/55 px-3 py-3">
@@ -731,24 +768,56 @@ export default function ResumesPage() {
                         </p>
                       </div>
 
-                      {!isActive ? (
+                      <div className="flex items-center gap-2">
+                        {!isActive ? (
+                          <button
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              handleRollback(version._id);
+                            }}
+                            disabled={rollingBackId === version._id}
+                            className="rounded-xl border border-black/10 px-3.5 py-2 text-xs font-semibold text-[#5f5144] transition hover:bg-white/70 disabled:opacity-60"
+                          >
+                            {rollingBackId === version._id
+                              ? "Switching..."
+                              : "Set Active"}
+                          </button>
+                        ) : (
+                          <span className="text-xs font-medium text-[#3f6b4d]">
+                            Currently serving live link
+                          </span>
+                        )}
+
                         <button
+                          type="button"
                           onClick={(event) => {
                             event.stopPropagation();
-                            handleRollback(version._id);
+                            handleDeleteVersion(version._id);
                           }}
-                          disabled={rollingBackId === version._id}
-                          className="rounded-xl border border-black/10 px-3.5 py-2 text-xs font-semibold text-[#5f5144] transition hover:bg-white/70 disabled:opacity-60"
+                          disabled={deletingVersionId === version._id}
+                          aria-label={`Delete version ${version.versionNumber}`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-rose-900/25 bg-rose-50 text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                          {rollingBackId === version._id
-                            ? "Switching..."
-                            : "Set Active"}
+                          {deletingVersionId === version._id ? (
+                            <span className="text-[10px] font-bold">...</span>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="h-4 w-4"
+                            >
+                              <path d="M3 6h18" />
+                              <path d="M8 6V4h8v2" />
+                              <path d="M19 6l-1 14H6L5 6" />
+                              <path d="M10 11v6" />
+                              <path d="M14 11v6" />
+                            </svg>
+                          )}
                         </button>
-                      ) : (
-                        <span className="text-xs font-medium text-[#3f6b4d]">
-                          Currently serving live link
-                        </span>
-                      )}
+                      </div>
                     </div>
                   );
                 })}

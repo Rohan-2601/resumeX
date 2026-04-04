@@ -214,6 +214,54 @@ export const rollbackVersion = async (req, res) => {
   }
 };
 
+// 4b. Delete Version
+export const deleteVersion = async (req, res) => {
+  try {
+    const { resumeId, versionId } = req.params;
+
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    if (resume.userId.toString() !== req.user.userId) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const version = await ResumeVersion.findById(versionId);
+    if (!version || version.resumeId.toString() !== resumeId) {
+      return res.status(404).json({ message: "Version not found" });
+    }
+
+    await ResumeVersion.findByIdAndDelete(versionId);
+
+    const wasActive =
+      resume.currentVersionId &&
+      resume.currentVersionId.toString() === versionId;
+
+    let nextActiveVersion = null;
+    if (wasActive) {
+      nextActiveVersion = await ResumeVersion.findOne({ resumeId }).sort({
+        versionNumber: -1,
+        createdAt: -1,
+      });
+      resume.currentVersionId = nextActiveVersion
+        ? nextActiveVersion._id
+        : null;
+      await resume.save();
+    }
+
+    res.json({
+      message: "Version deleted",
+      deletedVersionId: versionId,
+      newActiveVersionId: nextActiveVersion?._id || null,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 // 4a. Delete Resume
 export const deleteResume = async (req, res) => {
   try {
