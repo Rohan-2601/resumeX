@@ -470,29 +470,11 @@ export default function ResumesPage() {
                 Upload new resume
               </button>
               <button
-                onClick={openUploadModal}
-                disabled={!selectedResumeId}
-                className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                Upload version
-              </button>
-              <button
                 onClick={loadResumeState}
                 disabled={loading}
                 className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white/90"
               >
                 Refresh list
-              </button>
-              <button
-                onClick={() => handleDeleteResume(selectedResumeId)}
-                disabled={
-                  !selectedResumeId || deletingResumeId === selectedResumeId
-                }
-                className="rounded-2xl border border-rose-900/20 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {deletingResumeId === selectedResumeId
-                  ? "Deleting..."
-                  : "Delete resume"}
               </button>
             </div>
           </div>
@@ -535,10 +517,18 @@ export default function ResumesPage() {
                 const isSelected = resume._id === selectedResumeId;
 
                 return (
-                  <button
+                  <div
                     key={resume._id}
+                    role="button"
+                    tabIndex={0}
                     onClick={() => setSelectedResumeId(resume._id)}
-                    className={`flex w-full items-center justify-between gap-4 rounded-2xl border p-4 text-left transition ${
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setSelectedResumeId(resume._id);
+                      }
+                    }}
+                    className={`flex w-full cursor-pointer items-center justify-between gap-4 rounded-2xl border p-4 text-left transition ${
                       isSelected
                         ? "border-[#8a6340]/40 bg-[#fff7ec] shadow-[0_14px_30px_-24px_rgba(123,90,61,0.35)]"
                         : "border-black/10 bg-white/60 hover:border-black/15 hover:bg-white/80"
@@ -560,10 +550,39 @@ export default function ResumesPage() {
                       </p>
                     </div>
 
-                    <div className="text-right text-xs text-[#6b5b4a]">
+                    <div className="flex items-center gap-3 text-right text-xs text-[#6b5b4a]">
                       <p>{timeAgo(resume.updatedAt)}</p>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleDeleteResume(resume._id);
+                        }}
+                        disabled={deletingResumeId === resume._id}
+                        aria-label={`Delete ${resume.title}`}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-rose-900/25 bg-rose-50 text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {deletingResumeId === resume._id ? (
+                          <span className="text-[10px] font-bold">...</span>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-4 w-4"
+                          >
+                            <path d="M3 6h18" />
+                            <path d="M8 6V4h8v2" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v6" />
+                            <path d="M14 11v6" />
+                          </svg>
+                        )}
+                      </button>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
           </div>
