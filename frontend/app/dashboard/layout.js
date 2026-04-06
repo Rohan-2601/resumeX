@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import {
   ActivityIcon,
   FileTextIcon,
+  LinkIcon,
   LogOutIcon,
 } from "../components/icons/Icons";
 import { Playfair_Display, Sora } from "next/font/google";
@@ -37,33 +38,9 @@ export default function DashboardLayout({ children }) {
       </div>
     );
 
-  if (!user) {
-    // We could auto-redirect, or show standard unauthorized
-    return (
-      <div
-        className={`${sansFont.className} flex h-screen items-center justify-center bg-[#e9e1d0] px-4 text-[#1f1b16]`}
-      >
-        <div className="max-w-md rounded-[2rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.92)_100%)] p-8 text-center shadow-[0_20px_70px_-44px_rgba(0,0,0,0.55)]">
-          <h2 className="mb-3 text-2xl font-semibold tracking-tight text-[#211911]">
-            Access Denied
-          </h2>
-          <p className="mb-6 text-sm leading-7 text-[#5f5144]">
-            You are not logged in. Please return to the home page to
-            authenticate via GitHub.
-          </p>
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-full bg-[#241c16] px-5 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
-          >
-            Go to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   const navItems = [
     { label: "Resumes", href: "/dashboard/resumes", icon: <FileTextIcon /> },
+    { label: "Links", href: "/dashboard/links", icon: <LinkIcon /> },
     {
       label: "Analytics",
       href: "/dashboard/analytics",
@@ -78,12 +55,9 @@ export default function DashboardLayout({ children }) {
       <aside className="sticky top-0 flex h-screen w-[300px] flex-col border-r border-black/10 bg-[linear-gradient(180deg,rgba(249,244,235,0.95)_0%,rgba(240,231,215,0.88)_100%)] px-5 py-6 shadow-[0_0_60px_-40px_rgba(0,0,0,0.35)] backdrop-blur-sm">
         <Link
           href="/dashboard"
-          className="mb-8 flex items-center gap-3 rounded-2xl px-1 py-2 no-underline"
+          className="mb-8 flex items-center rounded-2xl px-1 py-2 no-underline"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#241c16] text-sm font-bold text-[#f6ebd7] shadow-[0_14px_30px_-18px_rgba(0,0,0,0.9)]">
-            X
-          </div>
-          <span className="text-2xl font-semibold tracking-tight text-[#211911]">
+          <span className="flex items-end text-2xl font-semibold tracking-tight leading-none text-[#211911]">
             resume
             <span className={`${displayFont.className} italic text-[#8a6340]`}>
               X
@@ -115,8 +89,8 @@ export default function DashboardLayout({ children }) {
         </nav>
 
         <div className="mt-auto border-t border-black/10 pt-5">
-          <div className="mb-4 flex items-center gap-3 rounded-2xl bg-white/40 p-3">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-black/10 bg-white shadow-sm">
+          <div className="mb-4 flex items-center gap-3 px-1 py-1">
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-black/10 bg-white">
               <img
                 src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
                 alt="Avatar"
@@ -125,7 +99,7 @@ export default function DashboardLayout({ children }) {
               />
             </div>
             <div className="min-w-0">
-              <div className="truncate text-sm font-semibold text-[#211911]">
+              <div className="truncate text-sm font-semibold text-[#211911] leading-tight">
                 {user.name}
               </div>
               <div className="truncate text-xs text-[#6b5b4a]">
@@ -135,7 +109,7 @@ export default function DashboardLayout({ children }) {
           </div>
           <button
             onClick={logout}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.92)_100%)] px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-[#f9efe0] hover:text-[#241c16]"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-black/10 bg-transparent px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white/40 hover:text-[#241c16]"
           >
             <LogOutIcon />
             Sign Out

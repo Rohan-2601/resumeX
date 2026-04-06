@@ -1,48 +1,104 @@
-"use client";
+import PublicResumeClient from "./PublicResumeClient";
 
-import { useEffect, useState, use } from "react";
-import axios from "axios";
+const FALLBACK_OG_IMAGE = "/hero.png";
 
-export default function PublicResumePage({ params }) {
-  const resolvedParams = use(params);
+function buildOgImageUrlFromPdf(fileUrl) {
+  if (!fileUrl) return null;
+
+  try {
+    const url = new URL(fileUrl);
+
+    if (url.pathname.includes("/raw/upload/")) {
+      url.pathname = url.pathname.replace("/raw/upload/", "/image/upload/");
+    }
+
+    if (!url.pathname.includes("/upload/")) {
+      return fileUrl;
+    }
+
+    url.pathname = url.pathname.replace(
+      "/upload/",
+      "/upload/pg_1,w_1200,h_630,c_fill,f_jpg/",
+    );
+    url.pathname = url.pathname.replace(/\.pdf$/i, ".jpg");
+
+    return url.toString();
+  } catch {
+    return fileUrl;
+  }
+}
+
+async function getResumeMeta(username, slug) {
+  const backendUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+  const url = `${backendUrl}/api/public/${username}/${slug}/meta`;
+
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) {
+      return null;
+    }
+
+    return response.json();
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
   const username = resolvedParams?.username;
   const slug = resolvedParams?.slug;
 
-  const [resumeData, setResumeData] = useState(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const baseTitle = username ? `${username}'s Resume` : "resumeX";
 
-  useEffect(() => {
-    if (!username || !slug) return;
-
-    const fetchPublicLink = async () => {
-      try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
-        // Fetch data from the unprotected endpoint (tracks view automatically!)
-        const res = await axios.get(`${backendUrl}/api/public/${username}/${slug}`);
-        setResumeData(res.data);
-      } catch (err) {
-        console.error(err);
-        setError(err.response?.data?.message || "Link not found or deactivated.");
-      } finally {
-        setLoading(false);
-      }
+  if (!username || !slug) {
+    return {
+      title: baseTitle,
+      description: "Professional resume shared via resumeX",
     };
+  }
 
-    fetchPublicLink();
-  }, [username, slug]);
+  const meta = await getResumeMeta(username, slug);
+  const fullName = meta?.user?.name || username;
+  const title = `${fullName} | Resume`;
+  const description = `View ${fullName}'s resume shared on resumeX.`;
+  const ogImage = buildOgImageUrlFromPdf(meta?.fileUrl) || FALLBACK_OG_IMAGE;
+  const canonicalPath = `/${username}/${slug}`;
 
-  if (loading) return <p style={{ padding: "2rem" }}>Loading resume...</p>;
-  if (error) return <p style={{ color: "red", padding: "2rem" }}>{error}</p>;
-  if (!resumeData) return null;
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: canonicalPath,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${fullName} resume preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
 
-  return (
-    <div style={{ margin: 0, padding: 0, overflow: "hidden" }}>
-      <iframe
-        src={`https://docs.google.com/gview?url=${encodeURIComponent(resumeData.fileUrl)}&embedded=true`}
-        style={{ width: "100%", height: "100vh", border: "none", display: "block" }}
-        title={`${resumeData.user.name}'s Resume`}
-      />
-    </div>
-  );
+export default async function PublicResumePage({ params }) {
+  const resolvedParams = await params;
+  const username = resolvedParams?.username;
+  const slug = resolvedParams?.slug;
+
+  return <PublicResumeClient username={username} slug={slug} />;
 }

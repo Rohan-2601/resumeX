@@ -48,6 +48,7 @@ export default function AnalyticsPage() {
   const [resumeSlug, setResumeSlug] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [copyMessage, setCopyMessage] = useState("");
 
   const publicLink = useMemo(() => {
     if (!user) return "";
@@ -73,6 +74,20 @@ export default function AnalyticsPage() {
     if (sources.length === 0) return "No source data yet";
     return [...sources].sort((a, b) => b.count - a.count)[0];
   }, [analytics]);
+
+  const copyPublicLink = async () => {
+    if (!publicLink) return;
+
+    try {
+      await navigator.clipboard.writeText(publicLink);
+      setCopyMessage("Copied");
+      window.setTimeout(() => setCopyMessage(""), 1800);
+    } catch (error) {
+      console.error(error);
+      setCopyMessage("Copy failed");
+      window.setTimeout(() => setCopyMessage(""), 1800);
+    }
+  };
 
   const loadAnalytics = async () => {
     if (!user) return;
@@ -151,35 +166,7 @@ export default function AnalyticsPage() {
             </h1>
           </div>
 
-          <div className="flex flex-col gap-3 rounded-3xl border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.9)_0%,rgba(242,233,218,0.84)_100%)] p-4 shadow-[0_20px_60px_-44px_rgba(0,0,0,0.55)] backdrop-blur-md sm:min-w-[320px]">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                Permanent Public Link
-              </p>
-              <div className="mt-2 flex items-center gap-2 rounded-2xl border border-black/10 bg-white/65 px-3 py-2 text-sm text-[#1f1b16]">
-                <code className="min-w-0 flex-1 truncate">{publicLink}</code>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 text-center text-[#1f1b16]">
-              <div className="rounded-2xl border border-black/10 bg-white/55 px-3 py-3">
-                <p className="text-[11px] uppercase tracking-[0.24em] text-[#7b5a3d]">
-                  Total
-                </p>
-                <p className="mt-1 text-xl font-semibold">
-                  {loading || !analytics ? "..." : analytics.totalViews}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-black/10 bg-white/55 px-3 py-3">
-                <p className="text-[11px] uppercase tracking-[0.24em] text-[#7b5a3d]">
-                  Top source
-                </p>
-                <p className="mt-1 truncate text-sm font-semibold">
-                  {loading ? "..." : topSource?.source || "None"}
-                </p>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </header>
 

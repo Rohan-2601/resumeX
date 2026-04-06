@@ -2,6 +2,72 @@ import User from "../models/User.js";
 import Resume from "../models/Resume.js";
 import View from "../models/View.js";
 
+// GET /api/public/:username/:slug/meta
+export const getPublicResumeMeta = async (req, res) => {
+  try {
+    const { username, slug } = req.params;
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const resume = await Resume.findOne({ userId: user._id, slug }).populate(
+      "currentVersionId",
+    );
+    const version = resume?.currentVersionId;
+
+    if (!version) {
+      return res
+        .status(404)
+        .json({ message: "Content for this resume is no longer available" });
+    }
+
+    res.json({
+      fileUrl: version.fileUrl,
+      slug: resume.slug,
+      user: {
+        name: user.name,
+        username: user.username,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error resolving metadata" });
+  }
+};
+
+// GET /api/public/:username/meta
+export const getPublicDefaultResumeMeta = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const resume = await Resume.findOne({ userId: user._id })
+      .sort({ updatedAt: -1, createdAt: -1 })
+      .populate("currentVersionId");
+    if (!resume || !resume.currentVersionId) {
+      return res.status(404).json({ message: "No active resume found" });
+    }
+
+    res.json({
+      fileUrl: resume.currentVersionId.fileUrl,
+      slug: resume.slug,
+      user: {
+        name: user.name,
+        username: user.username,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error resolving metadata" });
+  }
+};
+
 // GET /api/public/:username/:slug
 export const accessResumeViaLink = async (req, res) => {
   try {

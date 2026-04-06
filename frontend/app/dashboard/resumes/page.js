@@ -650,14 +650,16 @@ export default function ResumesPage() {
                 <h2 className="mt-1 text-xl font-semibold text-[#211911]">
                   {selectedResumeTitle || "No resume selected"}
                 </h2>
-                <div className="mt-2 flex items-center gap-2">
-                  <p className="min-w-0 flex-1 truncate font-mono text-sm text-[#6b5b4a]">
+                <div className="mt-3 rounded-2xl border border-black/10 bg-white px-3 py-2.5">
+                  <p className="break-all font-mono text-sm text-[#6b5b4a]">
                     {publicLink || `/${user.username}`}
                   </p>
+                </div>
+                <div className="mt-2 flex items-center gap-2">
                   <button
                     onClick={copyPublicLink}
                     disabled={!publicLink}
-                    className="rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[11px] font-bold text-[#5f5144] transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-[11px] font-bold text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {copyMessage === "Link copied." ? "Copied" : "Copy"}
                   </button>
@@ -668,8 +670,9 @@ export default function ResumesPage() {
                   selectedResumeId ? openUploadModal : openNewResumeModal
                 }
                 disabled={!publicLink}
-                className="rounded-full bg-[#241c16] px-4 py-2 text-xs font-bold text-[#f6ebd7] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-2xl bg-[#241c16] px-5 py-3 text-sm font-bold text-[#f6ebd7] shadow-[0_14px_28px_-18px_rgba(36,28,22,0.75)] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-60"
               >
+                <UploadIcon />
                 {selectedResumeId ? "Upload version" : "Create resume"}
               </button>
             </div>
