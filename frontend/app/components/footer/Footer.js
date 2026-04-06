@@ -66,19 +66,19 @@ export default function Footer() {
 
           <div className="space-y-1 text-sm font-medium">
             <a
-              href="#home"
+              href="https://x.com/rjha72"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
               Twitter
             </a>
             <a
-              href="#home"
+              href="https://github.com/Rohan-2601"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
-              Instagram
+              Github
             </a>
             <a
-              href="#home"
+              href="https://www.linkedin.com/in/rohan-raj-5b5198294/"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
               LinkedIn

@@ -62,7 +62,7 @@ export default function Hero() {
       <div className="absolute inset-0 -z-30">
         <div
           className="h-full w-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hero.png')" }}
+          style={{ backgroundImage: "url('/hero%20(1).webp')" }}
           aria-hidden="true"
         />
       </div>
@@ -134,7 +134,7 @@ export default function Hero() {
             </button>
             <a
               href="#features"
-              className="inline-flex items-center rounded-full border border-white/35 bg-white/10 px-7 py-3 text-sm font-semibold text-[#f7ecda] backdrop-blur transition hover:bg-white/20"
+              className="inline-flex items-center rounded-full border border-white/35 bg-white/10 px-7 py-3 text-sm font-semibold text-[#f7ecda] backdrop-blur transition hover:bg-white/20 hover:!text-[#f7ecda]"
             >
               Explore Features
             </a>

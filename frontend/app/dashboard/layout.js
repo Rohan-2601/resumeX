@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
   ActivityIcon,
@@ -25,8 +26,15 @@ const sansFont = Sora({
 export default function DashboardLayout({ children }) {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
 
-  if (loading)
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/");
+    }
+  }, [loading, user, router]);
+
+  if (loading || !user)
     return (
       <div
         className={`${sansFont.className} flex h-screen items-center justify-center bg-[#e9e1d0] text-[#1f1b16]`}
@@ -87,8 +95,8 @@ export default function DashboardLayout({ children }) {
                   href={item.href}
                   className={`flex items-center gap-3 rounded-xl border px-3.5 py-2.5 text-sm font-medium transition ${
                     isActive
-                      ? "border-[#2a2119]/15 bg-[#241c16] text-[#f7ecda]"
-                      : "border-transparent text-[#5f5144] hover:border-black/10 hover:bg-white/45 hover:text-[#241c16]"
+                      ? "border-[#2a2119]/15 bg-[#241c16] text-[#f7ecda] hover:!text-[#f7ecda]"
+                      : "border-transparent text-[#5f5144] hover:border-black/10 hover:bg-white/45 hover:!text-[#241c16]"
                   }`}
                 >
                   <span className="flex opacity-90">{item.icon}</span>
@@ -160,8 +168,8 @@ export default function DashboardLayout({ children }) {
                       href={item.href}
                       className={`flex items-center justify-center gap-2 rounded-xl border px-2 py-2 text-xs font-semibold transition ${
                         isActive
-                          ? "border-[#2a2119]/15 bg-[#241c16] text-[#f7ecda]"
-                          : "border-black/10 bg-white/45 text-[#5f5144]"
+                          ? "border-[#2a2119]/15 bg-[#241c16] text-[#f7ecda] hover:!text-[#f7ecda]"
+                          : "border-black/10 bg-white/45 text-[#5f5144] hover:!text-[#241c16]"
                       }`}
                     >
                       {item.icon}
