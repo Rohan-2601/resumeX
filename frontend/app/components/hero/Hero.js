@@ -74,7 +74,7 @@ export default function Hero() {
         <header className="hero-nav-enter mx-auto w-full max-w-3xl rounded-full border border-black/15 bg-[#f5edd9]/62 px-3 py-2 shadow-[0_10px_35px_-22px_rgba(0,0,0,0.7)] backdrop-blur-md sm:px-5">
           <div className="flex items-center justify-between gap-2 sm:gap-3">
             <p className="px-3 text-xl font-semibold tracking-tight text-[#2a2118]">
-              ResumeX
+              resumeX
             </p>
             <nav className="hidden items-center gap-6 text-sm font-medium text-[#5a4c3d] md:flex">
               <a
