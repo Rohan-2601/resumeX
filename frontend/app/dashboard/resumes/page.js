@@ -536,6 +536,13 @@ export default function ResumesPage() {
               >
                 Upload new resume
               </button>
+              <button
+                onClick={openUploadModal}
+                disabled={!selectedResumeId}
+                className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Upload new version
+              </button>
             </div>
           </div>
 
@@ -665,16 +672,23 @@ export default function ResumesPage() {
                   </button>
                 </div>
               </div>
-              <button
-                onClick={
-                  selectedResumeId ? openUploadModal : openNewResumeModal
-                }
-                disabled={!publicLink}
-                className="inline-flex items-center gap-2 rounded-2xl bg-[#241c16] px-5 py-3 text-sm font-bold text-[#f6ebd7] shadow-[0_14px_28px_-18px_rgba(36,28,22,0.75)] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <UploadIcon />
-                {selectedResumeId ? "Upload version" : "Create resume"}
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={openNewResumeModal}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-[#241c16] px-4 py-2.5 text-sm font-bold text-[#f6ebd7] shadow-[0_14px_28px_-18px_rgba(36,28,22,0.75)] transition hover:bg-[#17110c]"
+                >
+                  <UploadIcon />
+                  Upload new resume
+                </button>
+                <button
+                  onClick={openUploadModal}
+                  disabled={!selectedResumeId}
+                  className="inline-flex items-center gap-2 rounded-2xl border border-black/10 bg-white/75 px-4 py-2.5 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <UploadIcon />
+                  Upload new version
+                </button>
+              </div>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-center text-[#1f1b16]">
