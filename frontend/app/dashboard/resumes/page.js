@@ -532,16 +532,10 @@ export default function ResumesPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={openNewResumeModal}
-                className="rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
+                className="inline-flex min-w-[220px] items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-[#241c16] px-6 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
               >
+                <UploadIcon />
                 Upload new resume
-              </button>
-              <button
-                onClick={openUploadModal}
-                disabled={!selectedResumeId}
-                className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                Upload new version
               </button>
             </div>
           </div>
@@ -674,16 +668,9 @@ export default function ResumesPage() {
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <button
-                  onClick={openNewResumeModal}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[#241c16] px-4 py-2.5 text-sm font-bold text-[#f6ebd7] shadow-[0_14px_28px_-18px_rgba(36,28,22,0.75)] transition hover:bg-[#17110c]"
-                >
-                  <UploadIcon />
-                  Upload new resume
-                </button>
-                <button
                   onClick={openUploadModal}
                   disabled={!selectedResumeId}
-                  className="inline-flex items-center gap-2 rounded-2xl border border-black/10 bg-white/75 px-4 py-2.5 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex min-w-[220px] items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-black/10 bg-white/75 px-6 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <UploadIcon />
                   Upload new version
