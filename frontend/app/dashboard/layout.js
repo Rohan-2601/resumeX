@@ -38,17 +38,6 @@ export default function DashboardLayout({ children }) {
       </div>
     );
 
-  if (!user)
-    return (
-      <div
-        className={`${sansFont.className} flex h-screen items-center justify-center bg-[#e9e1d0] px-4 text-[#1f1b16]`}
-      >
-        <div className="rounded-2xl border border-black/10 bg-white/70 px-6 py-5 text-sm text-[#5f5144]">
-          Please log in to access your dashboard.
-        </div>
-      </div>
-    );
-
   const navItems = [
     { label: "Resumes", href: "/dashboard/resumes", icon: <FileTextIcon /> },
     { label: "Links", href: "/dashboard/links", icon: <LinkIcon /> },

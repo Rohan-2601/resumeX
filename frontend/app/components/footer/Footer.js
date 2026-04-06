@@ -1,26 +1,120 @@
-import { GitHubIcon } from "../icons/Icons";
+import { Playfair_Display, Sora } from "next/font/google";
+
+const displayFont = Playfair_Display({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["500", "600"],
+});
+
+const sansFont = Sora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export default function Footer() {
   return (
-    <footer style={{ background: "white", padding: "4rem 2rem", borderTop: "1px solid var(--border)", position: "relative", zIndex: 15 }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "2rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: 32, height: 32, borderRadius: "8px", background: "var(--primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", fontWeight: "bold" }}>X</div>
-          <span style={{ fontSize: "1.25rem", fontWeight: 700, letterSpacing: "-0.02em" }}>resume<span style={{color: "var(--primary)"}}>X</span></span>
-        </div>
-        <div style={{ display: "flex", gap: "2rem", color: "var(--text-muted)", fontSize: "0.875rem", fontWeight: 500 }}>
-          <a href="#" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Product</a>
-          <a href="#" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Privacy</a>
-          <a href="#" style={{ color: "var(--text-muted)", textDecoration: "none" }}>Terms</a>
-        </div>
-        <div>
-          <a href="https://github.com/Rohan-2601/resumeX" target="_blank" rel="noopener noreferrer" style={{ color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", fontWeight: 600 }}>
-            <GitHubIcon /> Open Source
-          </a>
-        </div>
+    <footer
+      className={`${sansFont.className} relative isolate overflow-hidden border-t border-black/10 bg-[#ece7dc] px-4 pb-8 pt-8 text-[#1b1712] sm:px-6 md:px-10 md:pt-10`}
+    >
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_12%,rgba(255,255,255,0.4),transparent_28%),radial-gradient(circle_at_88%_18%,rgba(255,255,255,0.34),transparent_26%)]" />
+        <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-black/20 to-transparent" />
       </div>
-      <div style={{ maxWidth: 1200, margin: "2rem auto 0", paddingTop: "2rem", borderTop: "1px solid var(--border)", textAlign: "center", color: "var(--text-light)", fontSize: "0.875rem" }}>
-        © {new Date().getFullYear()} resumeX. All rights reserved. Built for developers.
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 gap-8 border-b border-black/10 pb-8 text-[#5a4e42] md:grid-cols-[1fr_auto_auto_1.2fr] md:items-start md:gap-10">
+          <div className="text-sm font-semibold text-[#2a241d]">resumeX</div>
+
+          <div className="space-y-1 text-sm font-medium">
+            <a
+              href="#features"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Features
+            </a>
+            <a
+              href="#cta"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Pricing
+            </a>
+            <a
+              href="#features"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Security
+            </a>
+            <a
+              href="#home"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Privacy
+            </a>
+            <a
+              href="#home"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Terms
+            </a>
+          </div>
+
+          <div className="space-y-1 text-sm font-medium">
+            <a
+              href="#home"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Twitter
+            </a>
+            <a
+              href="#home"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Instagram
+            </a>
+            <a
+              href="#home"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              LinkedIn
+            </a>
+          </div>
+
+          <div className="max-w-md md:justify-self-end">
+            <p className="text-sm font-medium text-[#615447]">
+              Get occasional updates on all things.
+            </p>
+            <div className="mt-3 flex items-center border border-black/10 bg-white/35 px-4 py-3">
+              <input
+                type="email"
+                placeholder="Email here"
+                aria-label="Email for updates"
+                className="w-full bg-transparent text-sm text-[#2a241d] placeholder:text-[#9b8d7f] outline-none"
+              />
+              <span className="pl-3 text-xl leading-none text-[#9b8d7f]">
+                →
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative mt-8 pb-2 pt-4">
+          <div className="select-none text-center text-[3.8rem] font-semibold leading-none tracking-tight text-[#151311] sm:text-[6rem] md:text-[9.5rem] lg:text-[11rem]">
+            resume
+            <span
+              className={`${displayFont.className} ml-2 italic text-[#151311]`}
+            >
+              X
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-2 flex flex-col gap-2 text-xs text-[#6d5e4f] sm:flex-row sm:items-center sm:justify-between sm:text-sm">
+          <p>
+            © {new Date().getFullYear()} resumeX. Crafted for better first
+            impressions.
+          </p>
+          <p className="text-[#7b5a3d]">Keep one link. Update anytime.</p>
+        </div>
       </div>
     </footer>
   );
