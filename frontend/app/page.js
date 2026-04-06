@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "./components/navbar/Navbar";
 import Hero from "./components/hero/Hero";
 import Features from "./components/features/Features";
+import FAQs from "./components/faqs/FAQs";
 import CTA from "./components/cta/CTA";
 import Footer from "./components/footer/Footer";
 
@@ -29,9 +30,9 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg-app)] overflow-hidden">
-    
       <Hero />
       <Features />
+      <FAQs />
       <CTA />
       <Footer />
     </div>
