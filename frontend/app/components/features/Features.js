@@ -53,7 +53,6 @@ export default function Features() {
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.12)_32%,transparent_72%)] blur-3xl" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.38),transparent_20%),radial-gradient(circle_at_82%_12%,rgba(123,90,61,0.14),transparent_22%),radial-gradient(circle_at_50%_100%,rgba(17,18,20,0.05),transparent_26%)]" />
       </div>
 
@@ -73,14 +72,17 @@ export default function Features() {
           <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#5f5144] md:text-lg md:leading-8">
             No more outdated PDFs, messy links, or guesswork. Update once, share
             everywhere, and finally know what happens after you send your
-            resume.
+            resume. Still curious? Scroll down to the FAQ section for details.
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:gap-7">
-          {coreFeatures.map((feature) => (
+          {coreFeatures.map((feature, index) => (
             <div
               key={feature.title}
+              style={{
+                animation: `fadeInUp 0.76s ease-out ${index * 105}ms both`,
+              }}
               className="group relative overflow-hidden rounded-[2rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-7 shadow-[0_18px_50px_-34px_rgba(0,0,0,0.45)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-black/15 hover:shadow-[0_26px_60px_-34px_rgba(0,0,0,0.52)] sm:p-8"
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/75 to-transparent opacity-90" />

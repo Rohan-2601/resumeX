@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Playfair_Display, Sora } from "next/font/google";
 
 const displayFont = Playfair_Display({
@@ -49,15 +49,48 @@ const FAQ_ITEMS = [
 
 export default function FAQs() {
   const [openIndex, setOpenIndex] = useState(0);
+  const [visibleItems, setVisibleItems] = useState(() =>
+    Array(FAQ_ITEMS.length).fill(false),
+  );
+  const itemRefs = useRef([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          const index = Number(entry.target.getAttribute("data-index"));
+          if (Number.isNaN(index)) return;
+
+          setVisibleItems((prev) => {
+            if (prev[index]) return prev;
+
+            const next = [...prev];
+            next[index] = true;
+            return next;
+          });
+
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    itemRefs.current.forEach((item) => {
+      if (item) observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
       id="faqs"
-      className={`${sansFont.className} relative overflow-hidden bg-[#e4dac6] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
+      className={`${sansFont.className} relative overflow-hidden bg-[#e9e1d0] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.35),transparent_24%),radial-gradient(circle_at_82%_10%,rgba(123,90,61,0.14),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(17,18,20,0.06),transparent_28%)]" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/12 to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-6xl">
@@ -78,16 +111,32 @@ export default function FAQs() {
               Everything you need to know before sharing your resume link with
               recruiters, hiring managers, or your network.
             </p>
+            <a
+              href="#cta"
+              className="mt-6 inline-flex items-center text-sm font-semibold text-[#6f543b] transition hover:text-[#211911]"
+            >
+              Ready to start? Go to CTA
+            </a>
           </div>
 
           <div className="space-y-3">
             {FAQ_ITEMS.map((item, index) => {
               const isOpen = openIndex === index;
+              const isVisible = visibleItems[index];
 
               return (
                 <div
                   key={item.question}
-                  className={`overflow-hidden rounded-2xl border transition ${
+                  ref={(el) => {
+                    itemRefs.current[index] = el;
+                  }}
+                  data-index={index}
+                  style={{ transitionDelay: `${index * 70}ms` }}
+                  className={`overflow-hidden rounded-2xl border transition-all duration-700 ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-5 opacity-0"
+                  } ${
                     isOpen
                       ? "border-[#8a6340]/35 bg-[linear-gradient(180deg,rgba(251,247,238,0.94)_0%,rgba(242,233,218,0.9)_100%)] shadow-[0_16px_40px_-28px_rgba(0,0,0,0.45)]"
                       : "border-black/10 bg-white/45"
@@ -97,6 +146,7 @@ export default function FAQs() {
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? -1 : index)}
                     className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6"
+                    aria-expanded={isOpen}
                   >
                     <span className="text-sm font-semibold text-[#241c16] sm:text-base">
                       {item.question}

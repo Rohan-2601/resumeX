@@ -27,31 +27,37 @@ export default function Footer() {
 
           <div className="space-y-1 text-sm font-medium">
             <a
+              href="#home"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              Home
+            </a>
+            <a
               href="#features"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
               Features
             </a>
             <a
+              href="#faqs"
+              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
+            >
+              FAQs
+            </a>
+            <a
               href="#cta"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
-              Pricing
+              CTA
             </a>
             <a
-              href="#features"
-              className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
-            >
-              Security
-            </a>
-            <a
-              href="#home"
+              href="/privacy"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
               Privacy
             </a>
             <a
-              href="#home"
+              href="/terms"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
               Terms

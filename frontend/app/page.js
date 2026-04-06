@@ -4,7 +4,6 @@ import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import Navbar from "./components/navbar/Navbar";
 import Hero from "./components/hero/Hero";
 import Features from "./components/features/Features";
 import FAQs from "./components/faqs/FAQs";

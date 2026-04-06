@@ -2,7 +2,6 @@
 
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
-import { GitHubIcon } from "../icons/Icons";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -21,15 +20,17 @@ export default function CTA() {
   return (
     <section
       id="cta"
-      className={`${sansFont.className} relative overflow-hidden bg-[#e6ddca] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
+      className={`${sansFont.className} relative overflow-hidden bg-[#e9e1d0] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-[-12%] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.14)_34%,transparent_74%)] blur-3xl" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.28),transparent_24%),radial-gradient(circle_at_80%_6%,rgba(123,90,61,0.14),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(17,18,20,0.06),transparent_28%)]" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl">
+      <div
+        className="relative mx-auto max-w-6xl"
+        style={{ animation: "fadeInUp 0.82s ease-out both" }}
+      >
         <div className="grid grid-cols-1 items-center gap-12 py-6 md:grid-cols-[minmax(0,1fr)_280px] md:gap-14 lg:grid-cols-[minmax(0,1fr)_340px]">
           <div>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-[#7b5a3d]">
@@ -37,17 +38,18 @@ export default function CTA() {
             </p>
 
             <h2 className="text-balance text-3xl font-medium leading-[1.03] tracking-tight text-[#211911] sm:text-5xl md:text-6xl">
-              Your Resume Deserves 
+              Your Resume Deserves
               <span
                 className={`${displayFont.className} ml-3 inline-block italic text-[#8a6340]`}
               >
-            Better Than a PDF
+                Better Than a PDF
               </span>
             </h2>
 
             <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-[#5f5144] md:text-lg md:leading-8">
-              One link for your resume that always stays updated —no matter where you’ve shared it.
-Track every view, know where it’s coming from, and never lose opportunities to outdated versions again.
+              One link for your resume that always stays updated, no matter
+              where you have shared it. Track every view, know where it is
+              coming from, and never lose opportunities to outdated versions.
             </p>
 
             <div className="mt-9 flex items-center gap-5">
@@ -57,6 +59,12 @@ Track every view, know where it’s coming from, and never lose opportunities to
               >
                 Create My Resume Link
               </button>
+              <a
+                href="#faqs"
+                className="text-sm font-semibold text-[#6d543f] transition hover:text-[#211911]"
+              >
+                Read FAQs first
+              </a>
               <div className="hidden h-px flex-1 bg-gradient-to-r from-[#7b5a3d]/35 to-transparent md:block" />
             </div>
           </div>

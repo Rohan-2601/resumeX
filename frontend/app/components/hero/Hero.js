@@ -90,6 +90,12 @@ export default function Hero() {
                 Features
               </a>
               <a
+                href="#faqs"
+                className="text-[#5a4c3d] transition hover:text-[#201812]"
+              >
+                FAQs
+              </a>
+              <a
                 href="#cta"
                 className="text-[#5a4c3d] transition hover:text-[#201812]"
               >
@@ -119,14 +125,24 @@ export default function Hero() {
             where they came from.
           </p>
 
-          <div className="relative mt-8">
+          <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={login}
               className="hero-cta-glow inline-flex items-center rounded-full bg-[#2a2119] px-8 py-4 text-base font-semibold text-[#fbf4e3] shadow-[0_18px_40px_-20px_rgba(0,0,0,0.82)] transition hover:bg-[#1d1712]"
             >
               Get Your Resume Link
             </button>
+            <a
+              href="#features"
+              className="inline-flex items-center rounded-full border border-white/35 bg-white/10 px-7 py-3 text-sm font-semibold text-[#f7ecda] backdrop-blur transition hover:bg-white/20"
+            >
+              Explore Features
+            </a>
           </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 overflow-hidden">
+          <div className="absolute inset-x-[-8%] bottom-[-48px] h-24 rounded-[100%] border-t border-white/20 bg-[linear-gradient(180deg,rgba(233,225,208,0)_0%,rgba(233,225,208,0.55)_100%)]" />
         </div>
       </section>
     </main>
