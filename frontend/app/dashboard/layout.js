@@ -37,7 +37,7 @@ export default function DashboardLayout({ children }) {
   if (loading || !user)
     return (
       <div
-        className={`${sansFont.className} flex h-screen items-center justify-center bg-[#e9e1d0] text-[#1f1b16]`}
+        className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#e9e1d0] text-[#1f1b16]`}
       >
         <div className="flex items-center gap-4 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-6 py-4 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
@@ -63,9 +63,9 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div
-      className={`${sansFont.className} h-screen overflow-hidden bg-[#e9e1d0] text-[#1f1b16]`}
+      className={`${sansFont.className} h-[100dvh] overflow-hidden bg-[#e9e1d0] text-[#1f1b16]`}
     >
-      <div className="flex h-screen">
+      <div className="flex h-[100dvh]">
         <aside className="hidden h-full w-[280px] shrink-0 border-r border-black/10 bg-[linear-gradient(180deg,rgba(249,244,235,0.95)_0%,rgba(240,231,215,0.88)_100%)] px-5 py-6 md:flex md:flex-col">
           <Link
             href="/dashboard"
@@ -156,7 +156,7 @@ export default function DashboardLayout({ children }) {
                   Sign Out
                 </button>
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none]">
                 {navItems.map((item) => {
                   const isActive =
                     pathname === item.href ||
@@ -166,7 +166,7 @@ export default function DashboardLayout({ children }) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center justify-center gap-2 rounded-xl border px-2 py-2 text-xs font-semibold transition ${
+                      className={`flex min-w-[104px] flex-none items-center justify-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold whitespace-nowrap transition ${
                         isActive
                           ? "border-[#2a2119]/15 bg-[#241c16] text-[#f7ecda] hover:!text-[#f7ecda]"
                           : "border-black/10 bg-white/45 text-[#5f5144] hover:!text-[#241c16]"

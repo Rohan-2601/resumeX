@@ -72,7 +72,7 @@ export default function Footer() {
               Twitter
             </a>
             <a
-              href="https://github.com/Rohan-2601"
+              href="https://github.com/Rohan-2601/resumeX"
               className="block text-[#5a4e42] transition hover:text-[#1f1a14]"
             >
               Github
@@ -119,7 +119,9 @@ export default function Footer() {
             © {new Date().getFullYear()} resumeX. Crafted for better first
             impressions.
           </p>
-          <p className="text-[#7b5a3d]">Keep one link. Update anytime.</p>
+        <p className="text-[#7b5a3d] text-center md:text-left text-sm md:text-base">
+  Keep one link. Update anytime.
+</p>
         </div>
       </div>
     </footer>

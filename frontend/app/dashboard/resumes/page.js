@@ -532,7 +532,7 @@ export default function ResumesPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={openNewResumeModal}
-                className="inline-flex min-w-[220px] items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-[#241c16] px-6 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c]"
+                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-2xl bg-[#241c16] px-6 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c] sm:w-auto sm:min-w-[220px]"
               >
                 <UploadIcon />
                 Upload new resume
@@ -643,34 +643,34 @@ export default function ResumesPage() {
 
         <div className="space-y-6">
           <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-5 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)] backdrop-blur">
-            <div className="flex items-start justify-between gap-4">
-              <div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
                   Selected resume
                 </p>
                 <h2 className="mt-1 text-xl font-semibold text-[#211911]">
                   {selectedResumeTitle || "No resume selected"}
                 </h2>
-                <div className="mt-3 rounded-2xl border border-black/10 bg-white px-3 py-2.5">
-                  <p className="break-all font-mono text-sm text-[#6b5b4a]">
+                <div className="mt-3 w-full rounded-2xl border border-black/10 bg-white px-3 py-2.5">
+                  <p className="w-full overflow-x-auto whitespace-nowrap font-mono text-sm text-[#6b5b4a]">
                     {publicLink || `/${user.username}`}
                   </p>
                 </div>
-                <div className="mt-2 flex items-center gap-2">
+                <div className="mt-2 flex flex-wrap items-center gap-2">
                   <button
                     onClick={copyPublicLink}
                     disabled={!publicLink}
-                    className="rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-[11px] font-bold text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="w-full rounded-full border border-black/10 bg-white px-3.5 py-1.5 text-[11px] font-bold text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                   >
                     {copyMessage === "Link copied." ? "Copied" : "Copy"}
                   </button>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
                 <button
                   onClick={openUploadModal}
                   disabled={!selectedResumeId}
-                  className="inline-flex min-w-[220px] items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-black/10 bg-white/75 px-6 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-black/10 bg-white/75 px-6 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:min-w-[220px]"
                 >
                   <UploadIcon />
                   Upload new version
@@ -875,17 +875,17 @@ export default function ResumesPage() {
       </section>
 
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/35 px-4 py-6 backdrop-blur-sm">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-[2rem] border border-black/10 bg-[linear-gradient(135deg,rgba(249,244,236,0.98)_0%,rgba(239,229,212,0.96)_50%,rgba(232,219,194,0.96)_100%)] shadow-[0_30px_120px_-40px_rgba(0,0,0,0.6)]">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/35 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
+          <div className="relative h-[100dvh] w-full max-w-5xl overflow-y-auto rounded-none border border-black/10 bg-[linear-gradient(135deg,rgba(249,244,236,0.98)_0%,rgba(239,229,212,0.96)_50%,rgba(232,219,194,0.96)_100%)] shadow-[0_30px_120px_-40px_rgba(0,0,0,0.6)] sm:h-auto sm:max-h-[calc(100dvh-3rem)] sm:rounded-[2rem]">
             <button
               onClick={() => setIsUploadModalOpen(false)}
-              className="absolute right-4 top-4 z-10 rounded-full border border-black/10 bg-white/70 px-3 py-2 text-sm font-bold text-[#5f5144] transition hover:bg-white"
+              className="absolute right-3 top-3 z-10 rounded-full border border-black/10 bg-white/70 px-3 py-2 text-sm font-bold text-[#5f5144] transition hover:bg-white sm:right-4 sm:top-4"
             >
               ×
             </button>
 
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="border-b border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.88)_100%)] p-5 lg:border-b-0 lg:border-r">
+              <div className="border-b border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.88)_100%)] p-4 sm:p-5 lg:border-b-0 lg:border-r">
                 <div className="mb-4 flex items-center gap-3 text-[#211911]">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/70 text-[#5f5144]">
                     <UploadIcon />
@@ -898,7 +898,7 @@ export default function ResumesPage() {
                   </div>
                 </div>
 
-                <label className="flex min-h-[44vh] cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-dashed border-black/20 bg-white/55 p-4 transition hover:border-[#8a6340]/50 hover:bg-white/75">
+                <label className="flex min-h-[32vh] cursor-pointer flex-col overflow-hidden rounded-[1.5rem] border border-dashed border-black/20 bg-white/55 p-4 transition hover:border-[#8a6340]/50 hover:bg-white/75 sm:min-h-[44vh]">
                   <input
                     type="file"
                     accept="application/pdf"
@@ -937,7 +937,7 @@ export default function ResumesPage() {
                         </p>
                       </div>
 
-                      <div className="min-h-[32vh] flex-1 overflow-hidden rounded-[1.25rem] border border-black/10 bg-white">
+                      <div className="min-h-[24vh] flex-1 overflow-hidden rounded-[1.25rem] border border-black/10 bg-white sm:min-h-[32vh]">
                         <iframe
                           title="Selected PDF preview"
                           src={uploadPreviewUrl}
@@ -949,7 +949,7 @@ export default function ResumesPage() {
                 </label>
               </div>
 
-              <div className="bg-[linear-gradient(180deg,rgba(251,247,238,0.9)_0%,rgba(242,233,218,0.85)_100%)] p-5 text-[#211911]">
+              <div className="bg-[linear-gradient(180deg,rgba(251,247,238,0.9)_0%,rgba(242,233,218,0.85)_100%)] p-4 text-[#211911] sm:p-5">
                 <div className="mb-5 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
@@ -965,7 +965,7 @@ export default function ResumesPage() {
 
                 <div className="space-y-5">
                   {uploadMode === "new" ? (
-                    <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4 space-y-3">
+                    <div className="space-y-3 rounded-[1.4rem] border border-black/10 bg-white/65 p-4">
                       <div>
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                           Resume title
@@ -984,8 +984,8 @@ export default function ResumesPage() {
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                           Custom slug
                         </label>
-                        <div className="flex items-center gap-2 rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
-                          <span className="truncate font-mono text-sm text-[#6b5b4a]">
+                        <div className="flex flex-nowrap items-center gap-2 overflow-x-auto rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
+                          <span className="shrink-0 font-mono text-sm text-[#6b5b4a]">
                             /{user.username}/
                           </span>
                           <input
@@ -1013,7 +1013,7 @@ export default function ResumesPage() {
                           <div className="font-semibold">
                             {selectedResumeTitle || "My Resume"}
                           </div>
-                          <div className="mt-1 font-mono text-xs text-[#6b5b4a]">
+                          <div className="mt-1 overflow-x-auto whitespace-nowrap font-mono text-xs text-[#6b5b4a]">
                             {publicLink || `/${user.username}`}
                           </div>
                         </div>
@@ -1023,8 +1023,8 @@ export default function ResumesPage() {
                         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                           Permanent link
                         </p>
-                        <div className="mt-2 flex items-center justify-between gap-3 rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
-                          <span className="truncate font-mono text-sm text-[#211911]">
+                        <div className="mt-2 flex items-center justify-between gap-3 overflow-x-auto rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
+                          <span className="min-w-0 whitespace-nowrap font-mono text-sm text-[#211911]">
                             {publicLink || `/${user.username}`}
                           </span>
                           <button

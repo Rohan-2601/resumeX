@@ -22,13 +22,13 @@ export default function LandingPage() {
 
   if (loading)
     return (
-      <div className="h-screen flex items-center justify-center bg-[var(--bg-app)]">
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[var(--bg-app)]">
         <div className="w-6 h-6 rounded-full border-3 border-[var(--border)] border-t-[var(--primary)] animate-spin" />
       </div>
     );
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--bg-app)] overflow-hidden">
+    <div className="min-h-[100dvh] flex flex-col bg-[var(--bg-app)] overflow-x-hidden">
       <Hero />
       <Features />
       <FAQs />
