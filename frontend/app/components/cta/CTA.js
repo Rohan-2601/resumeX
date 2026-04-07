@@ -22,11 +22,6 @@ export default function CTA() {
       id="cta"
       className={`${sansFont.className} relative overflow-hidden bg-[#e9e1d0] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
     >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[-12%] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.14)_34%,transparent_74%)] blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.28),transparent_24%),radial-gradient(circle_at_80%_6%,rgba(123,90,61,0.14),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(17,18,20,0.06),transparent_28%)]" />
-      </div>
-
       <div
         className="relative mx-auto max-w-6xl"
         style={{ animation: "fadeInUp 0.82s ease-out both" }}
@@ -65,14 +60,13 @@ export default function CTA() {
               >
                 Read FAQs first
               </a>
-              <div className="hidden h-px flex-1 bg-gradient-to-r from-[#7b5a3d]/35 to-transparent md:block" />
+              <div className="hidden h-px flex-1 bg-[#7b5a3d]/35 md:block" />
             </div>
           </div>
 
           <div className="relative">
-            <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(123,90,61,0.16)_0%,rgba(123,90,61,0.05)_42%,transparent_74%)] blur-3xl" />
             <div className="space-y-5">
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-[#7b5a3d]/45 to-transparent" />
+              <div className="h-px w-full bg-[#7b5a3d]/45" />
               <p className="text-right text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
                 Link once
               </p>
@@ -82,7 +76,7 @@ export default function CTA() {
               <p className="text-right text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
                 Track everything
               </p>
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-[#7b5a3d]/45 to-transparent" />
+              <div className="h-px w-full bg-[#7b5a3d]/45" />
             </div>
           </div>
         </div>

@@ -89,10 +89,6 @@ export default function FAQs() {
       id="faqs"
       className={`${sansFont.className} relative overflow-hidden bg-[#e9e1d0] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
     >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.35),transparent_24%),radial-gradient(circle_at_82%_10%,rgba(123,90,61,0.14),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(17,18,20,0.06),transparent_28%)]" />
-      </div>
-
       <div className="relative mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[0.95fr_1.05fr] md:gap-12 lg:gap-16">
           <div>
@@ -138,8 +134,8 @@ export default function FAQs() {
                       : "translate-y-5 opacity-0"
                   } ${
                     isOpen
-                      ? "border-[#8a6340]/35 bg-[linear-gradient(180deg,rgba(251,247,238,0.94)_0%,rgba(242,233,218,0.9)_100%)] shadow-[0_16px_40px_-28px_rgba(0,0,0,0.45)]"
-                      : "border-black/10 bg-white/45"
+                      ? "border-[#8a6340]/35 bg-[#e9e1d0] shadow-[0_16px_40px_-28px_rgba(0,0,0,0.45)]"
+                      : "border-black/10 bg-[#e9e1d0]"
                   }`}
                 >
                   <button
