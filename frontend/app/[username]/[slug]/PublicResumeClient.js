@@ -42,7 +42,7 @@ export default function PublicResumeClient({ username, slug }) {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "radial-gradient(circle at top, #f8fbff 0%, #eef4ff 40%, #e6eeff 100%)",
+            "radial-gradient(circle at top, #f7f0e2 0%, #ede2cc 44%, #e6d8bd 100%)",
           padding: "2rem",
         }}
       >
@@ -51,9 +51,9 @@ export default function PublicResumeClient({ username, slug }) {
             textAlign: "center",
             padding: "2rem 2.25rem",
             borderRadius: "20px",
-            background: "rgba(255, 255, 255, 0.84)",
-            border: "1px solid rgba(99, 102, 241, 0.12)",
-            boxShadow: "0 20px 45px rgba(30, 58, 138, 0.12)",
+            background: "rgba(250, 243, 230, 0.82)",
+            border: "1px solid rgba(123, 90, 61, 0.2)",
+            boxShadow: "0 20px 45px rgba(36, 28, 22, 0.15)",
             backdropFilter: "blur(6px)",
             maxWidth: "480px",
             width: "100%",
@@ -64,8 +64,8 @@ export default function PublicResumeClient({ username, slug }) {
               width: "44px",
               height: "44px",
               borderRadius: "999px",
-              border: "4px solid #c7d2fe",
-              borderTopColor: "#4338ca",
+              border: "4px solid #d9c5a9",
+              borderTopColor: "#7b5a3d",
               margin: "0 auto",
               animation: "resumeSpin 0.8s linear infinite",
             }}
@@ -76,12 +76,12 @@ export default function PublicResumeClient({ username, slug }) {
               marginBottom: "0.4rem",
               fontSize: "1.1rem",
               fontWeight: 700,
-              color: "#1e3a8a",
+              color: "#2a2118",
             }}
           >
             Polishing this resume for you
           </p>
-          <p style={{ margin: 0, color: "#334155", fontSize: "0.95rem" }}>
+          <p style={{ margin: 0, color: "#5f5144", fontSize: "0.95rem" }}>
             Loading your preview. This usually takes a moment.
           </p>
         </div>
