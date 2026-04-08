@@ -18,7 +18,7 @@ function buildOgImageUrlFromPdf(fileUrl) {
 
     url.pathname = url.pathname.replace(
       "/upload/",
-      "/upload/pg_1,w_1200,h_630,c_fill,f_jpg/",
+      "/upload/pg_1,w_1200,h_630,c_fill,g_north,f_jpg/",
     );
     url.pathname = url.pathname.replace(/\.pdf$/i, ".jpg");
 
