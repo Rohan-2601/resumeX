@@ -52,6 +52,7 @@ export default function ResumesPage() {
   const [rollingBackId, setRollingBackId] = useState("");
   const [deletingVersionId, setDeletingVersionId] = useState("");
   const [deletingResumeId, setDeletingResumeId] = useState("");
+  const [deleteDialog, setDeleteDialog] = useState(null);
   const [message, setMessage] = useState("");
   const [copyMessage, setCopyMessage] = useState("");
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -89,6 +90,10 @@ export default function ResumesPage() {
   );
 
   const totalViews = analytics?.totalViews || 0;
+  const isErrorMessage =
+    /failed|unable|error|not found|not authorized|required|invalid/i.test(
+      message,
+    );
 
   const getToken = () => localStorage.getItem("token");
 
@@ -377,43 +382,35 @@ export default function ResumesPage() {
     }
   };
 
-  const handleDeleteVersion = async (versionId) => {
+  const handleDeleteVersion = (versionId) => {
     if (!selectedResumeId || !versionId) return;
 
     const versionToDelete = versions.find((item) => item._id === versionId);
     if (!versionToDelete) return;
 
-    const shouldDelete = window.confirm(
-      `Delete v${versionToDelete.versionNumber}? This cannot be undone.`,
-    );
-    if (!shouldDelete) return;
+    setDeleteDialog({
+      kind: "version",
+      versionId,
+      label: `v${versionToDelete.versionNumber}`,
+    });
+  };
+
+  const performDeleteVersion = async (versionId) => {
+    if (!selectedResumeId || !versionId) return;
 
     setDeletingVersionId(versionId);
     setMessage("");
 
     try {
       const token = getToken();
-      const response = await axios.delete(
+      await axios.delete(
         `${backendUrl}/api/resume/${selectedResumeId}/version/${versionId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
 
-      const remainingVersions = versions.filter(
-        (item) => item._id !== versionId,
-      );
-      setVersions(remainingVersions);
-
-      const newActiveVersionId = response.data.newActiveVersionId || "";
-      setActiveVersionId(newActiveVersionId);
-
-      if (selectedVersionId === versionId) {
-        const nextSelectedVersionId =
-          newActiveVersionId || remainingVersions[0]?._id || "";
-        setSelectedVersionId(nextSelectedVersionId);
-      }
-
+      await loadResumeState();
       setMessage(`Deleted v${versionToDelete.versionNumber}.`);
       await fetchAnalytics();
     } catch (error) {
@@ -435,16 +432,21 @@ export default function ResumesPage() {
     }
   };
 
-  const handleDeleteResume = async (resumeId) => {
+  const handleDeleteResume = (resumeId) => {
     if (!resumeId) return;
 
     const resumeToDelete = resumes.find((resume) => resume._id === resumeId);
     if (!resumeToDelete) return;
 
-    const shouldDelete = window.confirm(
-      `Delete "${resumeToDelete.title}" and all its versions? This cannot be undone.`,
-    );
-    if (!shouldDelete) return;
+    setDeleteDialog({
+      kind: "resume",
+      resumeId,
+      label: resumeToDelete.title,
+    });
+  };
+
+  const performDeleteResume = async (resumeId) => {
+    if (!resumeId) return;
 
     setDeletingResumeId(resumeId);
     setMessage("");
@@ -455,23 +457,7 @@ export default function ResumesPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const remainingResumes = resumes.filter(
-        (resume) => resume._id !== resumeId,
-      );
-      setResumes(remainingResumes);
-
-      if (selectedResumeId === resumeId) {
-        const nextResume = remainingResumes[0] || null;
-        setSelectedResumeId(nextResume ? nextResume._id : "");
-        setSelectedResumeTitle(nextResume?.title || "My Resume");
-
-        if (!nextResume) {
-          setVersions([]);
-          setActiveVersionId("");
-          setSelectedVersionId("");
-        }
-      }
-
+      await loadResumeState();
       setMessage(`Deleted ${resumeToDelete.title}.`);
       await fetchAnalytics();
     } catch (error) {
@@ -491,6 +477,18 @@ export default function ResumesPage() {
       <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#f0e2c9]/50 blur-3xl" />
+
+      {message && (
+        <div
+          className={`rounded-[1.25rem] border px-4 py-3 text-sm shadow-[0_18px_45px_-35px_rgba(0,0,0,0.45)] ${
+            isErrorMessage
+              ? "border-rose-900/20 bg-rose-50 text-rose-700"
+              : "border-emerald-900/15 bg-emerald-50 text-emerald-800"
+          }`}
+        >
+          {message}
+        </div>
+      )}
 
       <section className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="relative rounded-[1.9rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-5 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-6">
@@ -1073,6 +1071,52 @@ export default function ResumesPage() {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteDialog && (
+        <div className="fixed inset-0 z-[110] flex items-end justify-center bg-black/45 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
+          <div className="w-full max-w-lg rounded-t-[1.5rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.98)_0%,rgba(242,233,218,0.98)_100%)] p-5 shadow-[0_28px_90px_-35px_rgba(0,0,0,0.6)] sm:rounded-[1.75rem]">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+              Confirm delete
+            </p>
+            <h3 className="mt-2 text-xl font-semibold text-[#211911]">
+              {deleteDialog.kind === "resume"
+                ? `Delete "${deleteDialog.label}"?`
+                : `Delete ${deleteDialog.label}?`}
+            </h3>
+            <p className="mt-3 text-sm text-[#5f5144]">
+              {deleteDialog.kind === "resume"
+                ? "This will remove the resume and all of its versions permanently."
+                : "This will permanently remove the selected version from this resume."}
+            </p>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => setDeleteDialog(null)}
+                className="flex-1 rounded-2xl border border-black/10 bg-white/75 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  const target = deleteDialog;
+                  setDeleteDialog(null);
+
+                  if (target.kind === "resume") {
+                    await performDeleteResume(target.resumeId);
+                  } else {
+                    await performDeleteVersion(target.versionId);
+                  }
+                }}
+                className="flex-1 rounded-2xl bg-[#7a1f1f] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#631919]"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
