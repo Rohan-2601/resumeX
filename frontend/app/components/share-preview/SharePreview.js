@@ -12,7 +12,7 @@ const sansFont = Sora({
   weight: ["400", "500", "600", "700"],
 });
 
-const sampleLink = "https://resumex.app/yourname/frontend-resume";
+const sampleLink = "https://resumex.rohann.tech/Rohan-2601/fullstack";
 
 export default function SharePreview() {
   return (
