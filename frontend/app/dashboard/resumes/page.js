@@ -1019,7 +1019,7 @@ export default function ResumesPage() {
                         </div>
                       </div>
 
-                      <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4">
+                      {/* <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4">
                         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
                           Permanent link
                         </p>
@@ -1038,7 +1038,7 @@ export default function ResumesPage() {
                           Uploading a new PDF creates a new version and makes it
                           active.
                         </p>
-                      </div>
+                      </div> */}
                     </>
                   )}
 
