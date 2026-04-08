@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }) {
     }
   }, [loading, user, router]);
 
-  if (loading || !user)
+  if (loading)
     return (
       <div
         className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#e9e1d0] text-[#1f1b16]`}
@@ -45,6 +45,8 @@ export default function DashboardLayout({ children }) {
         </div>
       </div>
     );
+
+  if (!user) return null;
 
   const navItems = [
     { label: "Resumes", href: "/dashboard/resumes", icon: <FileTextIcon /> },
