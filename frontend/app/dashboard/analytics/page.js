@@ -10,6 +10,7 @@ import {
   HistoryIcon,
   Link2Icon,
 } from "../../components/icons/Icons";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -143,40 +144,37 @@ export default function AnalyticsPage() {
 
   return (
     <div
-      className={`${sansFont.className} relative space-y-8 pb-8 text-[#1f1b16]`}
+      className={`${sansFont.className} relative space-y-6 pb-8 text-[#1f1b16]`}
     >
       <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#f0e2c9]/50 blur-3xl" />
 
-      <header className="relative overflow-hidden rounded-[2rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-7 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.55)] sm:p-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.6),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(123,90,61,0.12),transparent_30%)]" />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <header className="border-b border-black/10 pb-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
               Dashboard / Analytics
             </p>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[#211911] sm:text-5xl">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#211911] sm:text-4xl">
               Resume performance, without the clutter.
               <span
-                className={`${displayFont.className} mt-2 block text-lg font-medium italic text-[#7b5a3d] sm:text-xl`}
+                className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#7b5a3d] sm:text-lg`}
               >
                 See where your link is being opened and what is working best.
               </span>
             </h1>
           </div>
-
-         
         </div>
       </header>
 
-      <section className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-6 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)] sm:p-8">
+      <section className="space-y-3">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
               Breakdown
             </p>
-            <h2 className="mt-1 text-2xl font-semibold text-[#211911]">
+            <h2 className="mt-1 text-xl font-semibold text-[#211911]">
               Where views are coming from
             </h2>
           </div>
@@ -188,50 +186,59 @@ export default function AnalyticsPage() {
         </div>
 
         {loading ? (
-          <div className="rounded-2xl border border-black/10 bg-white/60 p-6 text-sm text-[#5f5144]">
-            Loading analytics...
-          </div>
+          <Alert className="rounded-xl border-black/10 bg-white/70 text-[#5f5144]">
+            <AlertDescription>Loading analytics...</AlertDescription>
+          </Alert>
         ) : errorMessage ? (
-          <div className="rounded-2xl border border-black/10 bg-white/60 p-6 text-sm text-[#5f5144]">
-            {errorMessage}
-          </div>
+          <Alert
+            variant="destructive"
+            className="rounded-xl border-rose-900/20 bg-rose-50 text-rose-700"
+          >
+            <AlertDescription>{errorMessage}</AlertDescription>
+          </Alert>
         ) : analytics ? (
           <>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="rounded-2xl border border-black/10 bg-white/65 p-5">
+            <div className="grid grid-cols-1 gap-2.5 md:grid-cols-3">
+              <div className="rounded-xl border border-black/10 bg-white/72 px-4 py-3">
                 <div className="flex items-center justify-between text-[#5f5144]">
-                  <span className="text-sm font-semibold">LinkedIn</span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+                    LinkedIn
+                  </span>
                   <Link2Icon />
                 </div>
-                <p className="mt-4 text-3xl font-semibold text-[#211911]">
+                <p className="mt-2 text-2xl font-semibold text-[#211911]">
                   {sourceMap("LinkedIn")}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-black/10 bg-white/65 p-5">
+              <div className="rounded-xl border border-black/10 bg-white/72 px-4 py-3">
                 <div className="flex items-center justify-between text-[#5f5144]">
-                  <span className="text-sm font-semibold">GitHub</span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+                    GitHub
+                  </span>
                   <HistoryIcon />
                 </div>
-                <p className="mt-4 text-3xl font-semibold text-[#211911]">
+                <p className="mt-2 text-2xl font-semibold text-[#211911]">
                   {sourceMap("GitHub")}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-black/10 bg-white/65 p-5">
+              <div className="rounded-xl border border-black/10 bg-white/72 px-4 py-3">
                 <div className="flex items-center justify-between text-[#5f5144]">
-                  <span className="text-sm font-semibold">Direct</span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+                    Direct
+                  </span>
                   <ActivityIcon />
                 </div>
-                <p className="mt-4 text-3xl font-semibold text-[#211911]">
+                <p className="mt-2 text-2xl font-semibold text-[#211911]">
                   {sourceMap("Direct")}
                 </p>
               </div>
             </div>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-black/10 bg-white/60">
+            <div className="mt-2 overflow-hidden rounded-xl border border-black/10 bg-white/70">
               <div className="border-b border-black/10 px-5 py-4">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7b5a3d]">
                   Recent Activity
                 </h3>
               </div>
@@ -243,7 +250,7 @@ export default function AnalyticsPage() {
                       <tr>
                         <th>Event</th>
                         <th>Source</th>
-                        <th>Target Link</th>
+                        <th>Link</th>
                         <th>Time</th>
                       </tr>
                     </thead>
@@ -289,9 +296,9 @@ export default function AnalyticsPage() {
             </div>
           </>
         ) : (
-          <div className="rounded-2xl border border-black/10 bg-white/60 p-6 text-sm text-[#5f5144]">
-            No analytics available yet.
-          </div>
+          <Alert className="rounded-xl border-black/10 bg-white/70 text-[#5f5144]">
+            <AlertDescription>No analytics available yet.</AlertDescription>
+          </Alert>
         )}
       </section>
     </div>

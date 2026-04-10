@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../../context/AuthContext";
 import { UploadIcon } from "../../../components/icons/Icons";
+import { CheckCircle2Icon, InfoIcon } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -36,10 +37,12 @@ export default function ResumeWorkspacePage() {
   const [uploading, setUploading] = useState(false);
   const [rollingBackId, setRollingBackId] = useState("");
   const [deletingVersionId, setDeletingVersionId] = useState("");
-  const [notice, setNotice] = useState("");
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [alertState, setAlertState] = useState(null);
 
   const [uploadFile, setUploadFile] = useState(null);
   const [uploadPreviewUrl, setUploadPreviewUrl] = useState("");
+  const alertTimeoutRef = useRef(null);
 
   const selectedVersion = useMemo(
     () => versions.find((version) => version._id === selectedVersionId) || null,
@@ -52,6 +55,26 @@ export default function ResumeWorkspacePage() {
   );
 
   const getToken = () => localStorage.getItem("token");
+
+  const showAlert = (message, type = "success") => {
+    if (alertTimeoutRef.current) {
+      window.clearTimeout(alertTimeoutRef.current);
+    }
+
+    setAlertState({ message, type });
+
+    alertTimeoutRef.current = window.setTimeout(() => {
+      setAlertState(null);
+    }, 1800);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (alertTimeoutRef.current) {
+        window.clearTimeout(alertTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!uploadFile) {
@@ -69,7 +92,6 @@ export default function ResumeWorkspacePage() {
     if (!resumeId || !user) return;
 
     setLoading(true);
-    setNotice("");
 
     try {
       const token = getToken();
@@ -89,7 +111,7 @@ export default function ResumeWorkspacePage() {
       if (!myResume) {
         setResume(null);
         setVersions([]);
-        setNotice("Resume not found or you do not have access.");
+        showAlert("Resume not found or no access.", "error");
         return;
       }
 
@@ -111,7 +133,7 @@ export default function ResumeWorkspacePage() {
       }
     } catch (error) {
       console.error(error);
-      setNotice("Unable to load this resume workspace right now.");
+      showAlert("Unable to load workspace.", "error");
     } finally {
       setLoading(false);
     }
@@ -139,17 +161,16 @@ export default function ResumeWorkspacePage() {
 
   const handleUploadVersion = async () => {
     if (!uploadFile) {
-      setNotice("Please select a PDF first.");
-      return;
+      showAlert("Please select a PDF first.", "error");
+      return false;
     }
 
     if (uploadFile.type !== "application/pdf") {
-      setNotice("Only PDF files are allowed.");
-      return;
+      showAlert("Only PDF files are allowed.", "error");
+      return false;
     }
 
     setUploading(true);
-    setNotice("");
 
     try {
       const token = getToken();
@@ -163,10 +184,12 @@ export default function ResumeWorkspacePage() {
       setUploadFile(null);
       setUploadPreviewUrl("");
       await loadWorkspace();
-      setNotice("New version uploaded and set active.");
+      showAlert("New version uploaded.");
+      return true;
     } catch (error) {
       console.error(error);
-      setNotice("Upload failed. Please try again.");
+      showAlert("Upload failed. Please try again.", "error");
+      return false;
     } finally {
       setUploading(false);
     }
@@ -174,7 +197,6 @@ export default function ResumeWorkspacePage() {
 
   const handleSetActive = async (versionId) => {
     setRollingBackId(versionId);
-    setNotice("");
 
     try {
       const token = getToken();
@@ -185,10 +207,10 @@ export default function ResumeWorkspacePage() {
       );
 
       await loadWorkspace();
-      setNotice("Active version updated.");
+      showAlert("Active version updated.");
     } catch (error) {
       console.error(error);
-      setNotice("Failed to update active version.");
+      showAlert("Failed to update active version.", "error");
     } finally {
       setRollingBackId("");
     }
@@ -196,7 +218,6 @@ export default function ResumeWorkspacePage() {
 
   const handleDeleteVersion = async (versionId) => {
     setDeletingVersionId(versionId);
-    setNotice("");
 
     try {
       const token = getToken();
@@ -208,10 +229,13 @@ export default function ResumeWorkspacePage() {
       );
 
       await loadWorkspace();
-      setNotice("Version deleted.");
+      showAlert("Version deleted.");
     } catch (error) {
       console.error(error);
-      setNotice(error.response?.data?.message || "Failed to delete version.");
+      showAlert(
+        error.response?.data?.message || "Failed to delete version.",
+        "error",
+      );
     } finally {
       setDeletingVersionId("");
     }
@@ -220,6 +244,22 @@ export default function ResumeWorkspacePage() {
   if (!user) return null;
 
   const publicPath = resume?.slug ? `/${user.username}/${resume.slug}` : "";
+  const publicLink =
+    typeof window !== "undefined" && publicPath
+      ? `${window.location.origin}${publicPath}`
+      : publicPath;
+
+  const handleCopyLink = async () => {
+    if (!publicLink) return;
+
+    try {
+      await navigator.clipboard.writeText(publicLink);
+      showAlert("Link copied.");
+    } catch (error) {
+      console.error(error);
+      showAlert("Failed to copy link.", "error");
+    }
+  };
 
   return (
     <div
@@ -228,64 +268,277 @@ export default function ResumeWorkspacePage() {
       <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
 
-      <div className="relative mx-auto max-w-[1500px] space-y-5">
-        <header className="rounded-[1.5rem] border border-black/10 bg-[linear-gradient(135deg,rgba(248,242,231,0.96)_0%,rgba(238,228,211,0.96)_52%,rgba(232,219,193,0.96)_100%)] p-5 shadow-[0_20px_60px_-38px_rgba(0,0,0,0.45)] sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
+      <div className="relative mx-auto max-w-[1600px] space-y-2">
+        {alertState ? (
+          <Alert
+            variant={alertState.type === "error" ? "destructive" : "default"}
+            className={
+              `fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)] ${
+                alertState.type === "error"
+                  ? "border-rose-900/25 bg-rose-50 text-rose-700"
+                  : "border-emerald-900/20 bg-emerald-50 text-emerald-800"
+              }`
+            }
+          >
+            {alertState.type === "error" ? (
+              <InfoIcon className="h-4 w-4" />
+            ) : (
+              <CheckCircle2Icon className="h-4 w-4" />
+            )}
+            <AlertDescription>{alertState.message}</AlertDescription>
+          </Alert>
+        ) : null}
+
+        <section className="grid min-h-[84dvh] grid-cols-1 gap-3 lg:grid-cols-[40%_60%]">
+          <aside className="space-y-5 border-b border-black/10 pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-5">
+            <div className="space-y-2 border-b border-black/10 pb-3">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
                 Resume workspace
               </p>
-              <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[#211911] sm:text-3xl">
+              <h1 className="text-xl font-semibold tracking-tight text-[#211911] sm:text-2xl">
                 {resume?.title || "Resume"}
                 <span
-                  className={`${displayFont.className} ml-2 text-lg italic text-[#7b5a3d]`}
+                  className={`${displayFont.className} ml-2 text-base italic text-[#7b5a3d]`}
                 >
-                  Versions + Live Preview
+                  
                 </span>
               </h1>
-              <p className="mt-1 font-mono text-sm text-[#6b5b4a]">
-                {publicPath || "-"}
-              </p>
-            </div>
 
-            <div className="flex gap-2">
-              <Link
-                href="/dashboard/resumes"
-                className="rounded-2xl border border-black/10 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#5f5144] transition hover:bg-[#f7f2ea]"
-              >
-                Back to Resumes
-              </Link>
+              <div className="flex items-center gap-2">
+                <p className="truncate font-mono text-xs text-[#6b5b4a]">
+                  {publicLink || "-"}
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  title="Copy public link"
+                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-black/10 bg-white/85 text-[#5f5144] transition hover:bg-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    className="h-4 w-4"
+                  >
+                    <rect x="9" y="9" width="11" height="11" rx="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                </button>
+              </div>
+
               <button
                 type="button"
-                onClick={loadWorkspace}
-                disabled={loading}
-                className="rounded-2xl border border-black/10 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={() => setIsUploadModalOpen(true)}
+                className="inline-flex items-center gap-2 rounded-md bg-[#241c16] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-[#f6ebd7] transition hover:bg-[#17110c]"
               >
-                {loading ? "Refreshing" : "Refresh"}
+                <UploadIcon />
+                Upload New Version
               </button>
             </div>
-          </div>
 
-          {notice ? (
-            <div className="mt-4 rounded-xl border border-black/10 bg-white/70 px-4 py-2 text-sm text-[#5f5144]">
-              {notice}
-            </div>
-          ) : null}
-        </header>
-
-        <section className="grid grid-cols-1 gap-5 xl:grid-cols-[420px_minmax(0,1fr)]">
-          <aside className="space-y-5 rounded-[1.5rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-4 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)]">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                Upload new version
+                Version history
               </p>
-              <label className="mt-3 flex cursor-pointer flex-col rounded-2xl border border-dashed border-black/20 bg-white/70 p-4 text-sm text-[#5f5144] transition hover:border-[#8a6340]/45 hover:bg-white">
+
+              <div className="mt-3 max-h-[66dvh] space-y-2 overflow-y-auto pr-1">
+                {loading ? (
+                  <div className="border border-black/10 bg-white/70 p-4 text-sm text-[#5f5144]">
+                    Loading versions...
+                  </div>
+                ) : versions.length === 0 ? (
+                  <div className="border border-black/10 bg-white/70 p-4 text-sm text-[#5f5144]">
+                    No versions yet. Upload your first PDF.
+                  </div>
+                ) : (
+                  versions.map((version) => {
+                    const isActive = version._id === activeVersionId;
+                    const isSelected = version._id === selectedVersionId;
+
+                    return (
+                      <div
+                        key={version._id}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setSelectedVersionId(version._id)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            setSelectedVersionId(version._id);
+                          }
+                        }}
+                        className={`border p-3 text-left transition ${
+                          isSelected
+                            ? "border-[#8a6340]/40 bg-[#fff7ec]"
+                            : "border-black/10 bg-white/75 hover:bg-white"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm font-semibold text-[#211911]">
+                            v{version.versionNumber}
+                          </p>
+                          <span
+                            className={`px-2 py-0.5 text-[11px] font-bold ${
+                              isActive
+                                ? "bg-[#e6f0e5] text-[#3f6b4d]"
+                                : "bg-white/80 text-[#6b5b4a]"
+                            }`}
+                          >
+                            {isActive ? "ACTIVE" : "idle"}
+                          </span>
+                        </div>
+
+                        <p className="mt-1 text-xs text-[#6b5b4a]">
+                          {new Date(version.createdAt).toLocaleString()}
+                        </p>
+
+                        <div className="mt-2 flex gap-2">
+                          {!isActive ? (
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleSetActive(version._id);
+                              }}
+                              disabled={rollingBackId === version._id}
+                              className="rounded-md border border-black/10 bg-white px-2 py-1 text-[11px] font-semibold text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:opacity-60"
+                            >
+                              {rollingBackId === version._id
+                                ? "Switching..."
+                                : "Set Active"}
+                            </button>
+                          ) : (
+                            <span className="flex-1 border border-emerald-900/15 bg-emerald-50 px-2 py-1.5 text-center text-xs font-semibold text-emerald-800">
+                              Serving public link
+                            </span>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              handleDeleteVersion(version._id);
+                            }}
+                            disabled={deletingVersionId === version._id}
+                            className="inline-flex items-center justify-center rounded-md border border-rose-900/25 bg-rose-50 px-2 py-1 text-rose-700 transition hover:bg-rose-100 disabled:opacity-60"
+                            title="Delete version"
+                          >
+                            {deletingVersionId === version._id ? (
+                              "..."
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                className="h-4 w-4"
+                              >
+                                <path d="M3 6h18" />
+                                <path d="M8 6V4h8v2" />
+                                <path d="M19 6l-1 14H6L5 6" />
+                                <path d="M10 11v6" />
+                                <path d="M14 11v6" />
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          </aside>
+
+          <div className="h-full lg:sticky lg:top-2 lg:self-start lg:pl-2">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+                  Full resume preview
+                </p>
+                <h2 className="mt-1 text-lg font-semibold text-[#211911]">
+                  {selectedVersion
+                    ? `Previewing v${selectedVersion.versionNumber}`
+                    : "Select a version"}
+                </h2>
+              </div>
+
+              {activeVersion && selectedVersion ? (
+                <span className="border border-black/10 bg-white px-2.5 py-1 text-xs font-semibold text-[#5f5144]">
+                  Active: v{activeVersion.versionNumber}
+                </span>
+              ) : null}
+            </div>
+
+            <div className="h-[86dvh] overflow-hidden border border-black/10 bg-white/75">
+              {selectedVersion?.fileUrl ? (
+                <iframe
+                  title="Resume PDF Preview"
+                  src={selectedVersion.fileUrl}
+                  className="h-full w-full"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center p-6 text-center text-sm text-[#5f5144]">
+                  Select a version from the left to preview the full resume.
+                </div>
+              )}
+            </div>
+
+            {activeVersion &&
+            selectedVersion &&
+            activeVersion._id !== selectedVersion._id ? (
+              <p className="mt-2 text-xs text-[#7b5a3d]">
+                You are previewing v{selectedVersion.versionNumber}. Public link
+                is serving v{activeVersion.versionNumber}.
+              </p>
+            ) : null}
+          </div>
+        </section>
+
+        {isUploadModalOpen ? (
+          <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/40 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
+            <div className="w-full max-w-xl border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.98)_0%,rgba(242,233,218,0.98)_100%)] p-5 shadow-[0_28px_90px_-35px_rgba(0,0,0,0.6)]">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                    Upload New Version
+                  </p>
+                  <h3 className="mt-1 text-lg font-semibold text-[#211911]">
+                    {resume?.title || "Resume"}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUploadModalOpen(false);
+                    setUploadFile(null);
+                    setUploadPreviewUrl("");
+                  }}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-white/75 text-[#5f5144]"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    className="h-4 w-4"
+                  >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <label className="mt-4 flex cursor-pointer flex-col border border-dashed border-black/20 bg-white/70 p-3 text-sm text-[#5f5144] transition hover:border-[#8a6340]/45 hover:bg-white">
                 <input
                   type="file"
                   accept="application/pdf"
                   className="hidden"
                   onChange={(event) => {
-                    setNotice("");
                     setUploadFile(event.target.files?.[0] || null);
                   }}
                 />
@@ -303,18 +556,8 @@ export default function ResumeWorkspacePage() {
                 )}
               </label>
 
-              <button
-                type="button"
-                onClick={handleUploadVersion}
-                disabled={uploading || !uploadFile}
-                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <UploadIcon />
-                {uploading ? "Uploading..." : "Upload version"}
-              </button>
-
               {uploadPreviewUrl ? (
-                <div className="mt-3 h-44 overflow-hidden rounded-2xl border border-black/10 bg-white">
+                <div className="mt-3 h-44 overflow-hidden border border-black/10 bg-white">
                   <iframe
                     title="Selected PDF preview"
                     src={uploadPreviewUrl}
@@ -322,144 +565,36 @@ export default function ResumeWorkspacePage() {
                   />
                 </div>
               ) : null}
-            </div>
 
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                Version history
-              </p>
-
-              <div className="mt-3 max-h-[52dvh] space-y-3 overflow-y-auto pr-1">
-                {loading ? (
-                  <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
-                    Loading versions...
-                  </div>
-                ) : versions.length === 0 ? (
-                  <div className="rounded-2xl border border-black/10 bg-white/65 p-4 text-sm text-[#5f5144]">
-                    No versions yet. Upload your first PDF.
-                  </div>
-                ) : (
-                  versions.map((version) => {
-                    const isActive = version._id === activeVersionId;
-                    const isSelected = version._id === selectedVersionId;
-
-                    return (
-                      <button
-                        key={version._id}
-                        type="button"
-                        onClick={() => setSelectedVersionId(version._id)}
-                        className={`w-full rounded-2xl border p-3 text-left transition ${
-                          isSelected
-                            ? "border-[#8a6340]/40 bg-[#fff7ec]"
-                            : "border-black/10 bg-white/70 hover:bg-white"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-sm font-semibold text-[#211911]">
-                            v{version.versionNumber}
-                          </p>
-                          <span
-                            className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${
-                              isActive
-                                ? "bg-[#e6f0e5] text-[#3f6b4d]"
-                                : "bg-white/80 text-[#6b5b4a]"
-                            }`}
-                          >
-                            {isActive ? "ACTIVE" : "idle"}
-                          </span>
-                        </div>
-
-                        <p className="mt-1 text-xs text-[#6b5b4a]">
-                          {new Date(version.createdAt).toLocaleString()}
-                        </p>
-
-                        <div className="mt-3 flex gap-2">
-                          {!isActive ? (
-                            <button
-                              type="button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                handleSetActive(version._id);
-                              }}
-                              disabled={rollingBackId === version._id}
-                              className="flex-1 rounded-xl border border-black/10 bg-white px-3 py-2 text-xs font-semibold text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:opacity-60"
-                            >
-                              {rollingBackId === version._id
-                                ? "Switching..."
-                                : "Set Active"}
-                            </button>
-                          ) : (
-                            <span className="flex-1 rounded-xl border border-emerald-900/15 bg-emerald-50 px-3 py-2 text-center text-xs font-semibold text-emerald-800">
-                              Serving public link
-                            </span>
-                          )}
-
-                          <button
-                            type="button"
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              handleDeleteVersion(version._id);
-                            }}
-                            disabled={deletingVersionId === version._id}
-                            className="rounded-xl border border-rose-900/25 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 disabled:opacity-60"
-                          >
-                            {deletingVersionId === version._id
-                              ? "..."
-                              : "Delete"}
-                          </button>
-                        </div>
-                      </button>
-                    );
-                  })
-                )}
+              <div className="mt-4 flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUploadModalOpen(false);
+                    setUploadFile(null);
+                    setUploadPreviewUrl("");
+                  }}
+                  className="flex-1 rounded-md border border-black/10 bg-white/75 px-3 py-2 text-sm font-semibold text-[#5f5144]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const uploaded = await handleUploadVersion();
+                    if (uploaded) {
+                      setIsUploadModalOpen(false);
+                    }
+                  }}
+                  disabled={uploading || !uploadFile}
+                  className="flex-1 rounded-md bg-[#241c16] px-3 py-2 text-sm font-semibold text-[#f6ebd7] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {uploading ? "Uploading..." : "Upload Version"}
+                </button>
               </div>
             </div>
-          </aside>
-
-          <div className="rounded-[1.5rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.95)_0%,rgba(242,233,218,0.9)_100%)] p-4 shadow-[0_20px_60px_-42px_rgba(0,0,0,0.42)]">
-            <div className="mb-3 flex items-center justify-between gap-3 px-1">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                  Full resume
-                </p>
-                <h2 className="mt-1 text-lg font-semibold text-[#211911]">
-                  {selectedVersion
-                    ? `Previewing v${selectedVersion.versionNumber}`
-                    : "Select a version"}
-                </h2>
-              </div>
-
-              {activeVersion && selectedVersion ? (
-                <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-semibold text-[#5f5144]">
-                  Active: v{activeVersion.versionNumber}
-                </span>
-              ) : null}
-            </div>
-
-            <div className="h-[78dvh] overflow-hidden rounded-[1.25rem] border border-black/10 bg-white/70">
-              {selectedVersion?.fileUrl ? (
-                <iframe
-                  title="Resume PDF Preview"
-                  src={selectedVersion.fileUrl}
-                  className="h-full w-full"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center p-6 text-center text-sm text-[#5f5144]">
-                  Select a version from the left to preview the full resume.
-                </div>
-              )}
-            </div>
-
-            {activeVersion &&
-            selectedVersion &&
-            activeVersion._id !== selectedVersion._id ? (
-              <p className="mt-3 text-xs text-[#7b5a3d]">
-                You are previewing v{selectedVersion.versionNumber}. Public link
-                is serving v{activeVersion.versionNumber}.
-              </p>
-            ) : null}
           </div>
-        </section>
+        ) : null}
       </div>
     </div>
   );
