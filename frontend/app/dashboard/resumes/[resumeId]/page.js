@@ -272,13 +272,11 @@ export default function ResumeWorkspacePage() {
         {alertState ? (
           <Alert
             variant={alertState.type === "error" ? "destructive" : "default"}
-            className={
-              `fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)] ${
-                alertState.type === "error"
-                  ? "border-rose-900/25 bg-rose-50 text-rose-700"
-                  : "border-emerald-900/20 bg-emerald-50 text-emerald-800"
-              }`
-            }
+            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)] ${
+              alertState.type === "error"
+                ? "border-rose-900/25 bg-rose-50 text-rose-700"
+                : "border-emerald-900/20 bg-emerald-50 text-emerald-800"
+            }`}
           >
             {alertState.type === "error" ? (
               <InfoIcon className="h-4 w-4" />
@@ -299,9 +297,7 @@ export default function ResumeWorkspacePage() {
                 {resume?.title || "Resume"}
                 <span
                   className={`${displayFont.className} ml-2 text-base italic text-[#7b5a3d]`}
-                >
-                  
-                </span>
+                ></span>
               </h1>
 
               <div className="flex items-center gap-2">
