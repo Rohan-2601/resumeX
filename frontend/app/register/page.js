@@ -91,7 +91,7 @@ export default function RegisterPage() {
       <main className="login-card-enter relative mx-auto grid w-full max-w-6xl overflow-hidden rounded-[30px] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.98)_0%,rgba(239,229,212,0.95)_100%)] shadow-[0_38px_90px_-38px_rgba(0,0,0,0.55)] md:min-h-[680px] md:grid-cols-2">
         <section className="group relative min-h-[320px] md:min-h-full md:order-2">
           <Image
-            src="/signup.jpg"
+            src="/signup.webp"
             alt="ResumeX signup visual"
             fill
             priority

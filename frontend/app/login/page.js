@@ -85,7 +85,7 @@ export default function LoginPage() {
       <main className="login-card-enter relative mx-auto grid w-full max-w-6xl overflow-hidden rounded-[30px] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.98)_0%,rgba(239,229,212,0.95)_100%)] shadow-[0_38px_90px_-38px_rgba(0,0,0,0.55)] md:min-h-[680px] md:grid-cols-2">
         <section className="group relative min-h-[320px] md:min-h-full">
           <Image
-            src="/login.jpg"
+            src="/login.webp"
             alt="ResumeX login visual"
             fill
             priority
