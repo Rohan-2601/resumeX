@@ -17,11 +17,11 @@ export default function LandingPage() {
 
   useEffect(() => {
     if (user && !loading) {
-      router.push("/dashboard");
+      router.replace("/dashboard");
     }
   }, [user, loading, router]);
 
-  if (loading)
+  if (loading || user)
     return (
       <div className="flex min-h-[100dvh] items-center justify-center bg-[var(--bg-app)]">
         <div className="w-6 h-6 rounded-full border-3 border-[var(--border)] border-t-[var(--primary)] animate-spin" />

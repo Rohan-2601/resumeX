@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Playfair_Display, Sora } from "next/font/google";
 
 const displayFont = Playfair_Display({
@@ -12,6 +15,21 @@ const sansFont = Sora({
 });
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [notice, setNotice] = useState("");
+
+  const handleSubscribe = (event) => {
+    event.preventDefault();
+
+    if (!email.trim() || !email.includes("@")) {
+      setNotice("Please enter a valid email.");
+      return;
+    }
+
+    setNotice("Thanks, got your mail. We will keep you posted.");
+    setEmail("");
+  };
+
   return (
     <footer
       className={`${sansFont.className} relative isolate overflow-hidden border-t border-black/10 bg-[#ece7dc] px-4 pb-8 pt-8 text-[#1b1712] sm:px-6 md:px-10 md:pt-10`}
@@ -89,17 +107,27 @@ export default function Footer() {
             <p className="text-sm font-medium text-[#615447]">
               Get occasional updates on all things.
             </p>
-            <div className="mt-3 flex items-center border border-black/10 bg-white/35 px-4 py-3">
+            <form
+              onSubmit={handleSubscribe}
+              className="mt-3 flex items-center border border-black/10 bg-white/35 px-4 py-3"
+            >
               <input
                 type="email"
                 placeholder="Email here"
                 aria-label="Email for updates"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 className="w-full bg-transparent text-sm text-[#2a241d] placeholder:text-[#9b8d7f] outline-none"
               />
-              <span className="pl-3 text-xl leading-none text-[#9b8d7f]">
+              <button
+                type="submit"
+                aria-label="Subscribe"
+                className="pl-3 text-xl leading-none text-[#7b5a3d] transition hover:text-[#1f1a14]"
+              >
                 →
-              </span>
-            </div>
+              </button>
+            </form>
+            {notice && <p className="mt-2 text-xs text-[#6d5e4f]">{notice}</p>}
           </div>
         </div>
 
@@ -119,9 +147,9 @@ export default function Footer() {
             © {new Date().getFullYear()} resumeX. Crafted for better first
             impressions.
           </p>
-        <p className="text-[#7b5a3d] text-center md:text-left text-sm md:text-base">
-  Keep one link. Update anytime.
-</p>
+          <p className="text-[#7b5a3d] text-center md:text-left text-sm md:text-base">
+            Keep one link. Update anytime.
+          </p>
         </div>
       </div>
     </footer>
