@@ -1,6 +1,7 @@
 import View from "../models/View.js";
 import User from "../models/User.js";
 import Resume from "../models/Resume.js";
+import { detectViewSource, shouldTrackView } from "../utils/viewTracking.js";
 
 export const trackView = async (req, res) => {
   try {
@@ -17,22 +18,18 @@ export const trackView = async (req, res) => {
       return res.status(404).json({ message: "No active resume found" });
     }
 
-    // detect source
-    const referer = req.headers.referer || "";
-    let source = "Direct";
+    if (shouldTrackView(req)) {
+      const source = detectViewSource(req);
 
-    if (referer.includes("linkedin")) source = "LinkedIn";
-    else if (referer.includes("twitter")) source = "Twitter";
-    else if (referer.includes("github")) source = "GitHub";
-
-    await View.create({
-      resumeId: resume._id,
-      versionId: resume.currentVersionId._id,
-      userId: user._id,
-      source,
-      userAgent: req.headers["user-agent"],
-      ip: req.ip,
-    });
+      await View.create({
+        resumeId: resume._id,
+        versionId: resume.currentVersionId._id,
+        userId: user._id,
+        source,
+        userAgent: req.headers["user-agent"],
+        ip: req.ip,
+      });
+    }
 
     res.json({ success: true });
   } catch (error) {

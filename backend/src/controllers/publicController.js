@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Resume from "../models/Resume.js";
 import View from "../models/View.js";
+import { detectViewSource, shouldTrackView } from "../utils/viewTracking.js";
 
 // GET /api/public/:username/:slug/meta
 export const getPublicResumeMeta = async (req, res) => {
@@ -92,22 +93,19 @@ export const accessResumeViaLink = async (req, res) => {
     }
 
     // 3. track view in View collection
-    const referer = req.headers.referer || "";
-    let source = "Direct";
+    if (shouldTrackView(req)) {
+      const source = detectViewSource(req);
 
-    if (referer.includes("linkedin")) source = "LinkedIn";
-    else if (referer.includes("twitter")) source = "Twitter";
-    else if (referer.includes("github")) source = "GitHub";
-
-    await View.create({
-      resumeId: resume._id,
-      versionId: version._id,
-      userId: user._id,
-      slug: resume.slug,
-      source,
-      userAgent: req.headers["user-agent"],
-      ip: req.ip,
-    });
+      await View.create({
+        resumeId: resume._id,
+        versionId: version._id,
+        userId: user._id,
+        slug: resume.slug,
+        source,
+        userAgent: req.headers["user-agent"],
+        ip: req.ip,
+      });
+    }
 
     // 4. return fileUrl
     res.json({
@@ -145,22 +143,19 @@ export const accessDefaultResume = async (req, res) => {
     const version = resume.currentVersionId;
 
     // track view in View collection
-    const referer = req.headers.referer || "";
-    let source = "Direct";
+    if (shouldTrackView(req)) {
+      const source = detectViewSource(req);
 
-    if (referer.includes("linkedin")) source = "LinkedIn";
-    else if (referer.includes("twitter")) source = "Twitter";
-    else if (referer.includes("github")) source = "GitHub";
-
-    await View.create({
-      resumeId: resume._id,
-      versionId: version._id,
-      userId: user._id,
-      slug: resume.slug,
-      source,
-      userAgent: req.headers["user-agent"],
-      ip: req.ip,
-    });
+      await View.create({
+        resumeId: resume._id,
+        versionId: version._id,
+        userId: user._id,
+        slug: resume.slug,
+        source,
+        userAgent: req.headers["user-agent"],
+        ip: req.ip,
+      });
+    }
 
     res.json({
       fileUrl: version.fileUrl,
