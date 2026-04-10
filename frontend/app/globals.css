@@ -171,6 +171,34 @@ a:hover {
   }
 }
 
+@keyframes loginCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loginImageMotion {
+  from {
+    transform: scale(1.06) translateY(8px);
+  }
+  to {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.login-card-enter {
+  animation: loginCardEnter 0.62s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.login-image-motion {
+  animation: loginImageMotion 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 10px;

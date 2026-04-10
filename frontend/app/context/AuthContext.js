@@ -4,6 +4,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
+const backendUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -25,12 +27,9 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       const fetchUser = async () => {
         try {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000"}/api/auth/me`,
-            {
-              headers: { Authorization: `Bearer ${token}` }
-            }
-          );
+          const response = await axios.get(`${backendUrl}/api/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           setUser(response.data.user);
         } catch (error) {
           console.error("Failed to fetch user", error);
@@ -46,7 +45,49 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000"}/api/auth/github`;
+    window.location.href = "/login";
+  };
+
+  const loginWithGithub = () => {
+    window.location.href = `${backendUrl}/api/auth/github`;
+  };
+
+  const loginWithCredentials = async ({ username, password }) => {
+    const response = await axios.post(`${backendUrl}/api/auth/login`, {
+      username,
+      password,
+    });
+
+    const token = response.data?.token;
+    const loggedInUser = response.data?.user;
+
+    if (!token || !loggedInUser) {
+      throw new Error("Login response missing token or user");
+    }
+
+    localStorage.setItem("token", token);
+    setUser(loggedInUser);
+
+    return loggedInUser;
+  };
+
+  const registerWithCredentials = async ({ username, password }) => {
+    const response = await axios.post(`${backendUrl}/api/auth/register`, {
+      username,
+      password,
+    });
+
+    const token = response.data?.token;
+    const registeredUser = response.data?.user;
+
+    if (!token || !registeredUser) {
+      throw new Error("Register response missing token or user");
+    }
+
+    localStorage.setItem("token", token);
+    setUser(registeredUser);
+
+    return registeredUser;
   };
 
   const logout = () => {
@@ -55,7 +96,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        loginWithGithub,
+        loginWithCredentials,
+        registerWithCredentials,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -38,7 +38,7 @@
 "use client";
 
 import { Playfair_Display, Sora } from "next/font/google";
-import { useAuth } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -52,7 +52,11 @@ const sansFont = Sora({
 });
 
 export default function Hero() {
-  const { login } = useAuth();
+  const router = useRouter();
+
+  const goToLogin = () => {
+    router.push("/login");
+  };
 
   return (
     <main
@@ -103,7 +107,7 @@ export default function Hero() {
               </a>
             </nav>
             <button
-              onClick={login}
+              onClick={goToLogin}
               className="rounded-full bg-[#241c16] px-4 py-2 text-sm font-semibold text-[#fbf4e3] shadow-[0_12px_30px_-18px_rgba(0,0,0,0.95)] transition hover:bg-[#17110c] sm:px-6"
             >
               Login
@@ -127,7 +131,7 @@ export default function Hero() {
 
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
             <button
-              onClick={login}
+              onClick={goToLogin}
               className="hero-cta-glow inline-flex items-center rounded-full bg-[#2a2119] px-8 py-4 text-base font-semibold text-[#fbf4e3] shadow-[0_18px_40px_-20px_rgba(0,0,0,0.82)] transition hover:bg-[#1d1712]"
             >
               Get Your Resume Link
