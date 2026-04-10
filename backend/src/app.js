@@ -10,7 +10,7 @@ const app = express();
 
 const allowedOrigins = (
   process.env.FRONTEND_URL ||
-  "http://localhost:3000,https://resume-x-frontend-kappa.vercel.app"
+  "http://localhost:3000,https://resume-x-frontend-kappa.vercel.app, http://localhost:3001"
 )
   .split(",")
   .map((origin) => origin.trim())

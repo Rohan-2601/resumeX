@@ -2,11 +2,12 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret";
 const usernameRegex = /^[a-zA-Z0-9_-]{3,30}$/;
 
+const getJwtSecret = () => process.env.JWT_SECRET || "fallback_secret";
+
 const buildToken = (userId) =>
-  jwt.sign({ userId }, JWT_SECRET, { expiresIn: "7d" });
+  jwt.sign({ userId }, getJwtSecret(), { expiresIn: "7d" });
 
 const serializeUser = (user) => ({
   _id: user._id,
@@ -70,6 +71,7 @@ export const register = async (req, res) => {
 
     const user = await User.create({
       name: normalizedUsername,
+      email: `${normalizedUsername}@local.resumex`,
       username: normalizedUsername,
       password,
       authProvider: "local",
