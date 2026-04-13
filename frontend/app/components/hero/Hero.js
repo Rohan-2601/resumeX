@@ -75,46 +75,52 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(92%_58%_at_50%_32%,rgba(8,12,16,0.36)_0%,rgba(8,12,16,0.22)_42%,transparent_78%),radial-gradient(circle_at_50%_0%,rgba(255,252,244,0.16),transparent_46%),radial-gradient(circle_at_50%_100%,rgba(10,11,14,0.36),transparent_46%)]" />
 
       <section className="relative mx-auto flex min-h-[100dvh] w-full max-w-6xl flex-col px-4 pb-16 pt-8 sm:px-6 md:px-10 md:pt-10">
-        <header className="hero-nav-enter mx-auto w-full max-w-3xl rounded-full border border-black/15 bg-[#f5edd9]/62 px-3 py-2 shadow-[0_10px_35px_-22px_rgba(0,0,0,0.7)] backdrop-blur-md sm:px-5">
+        <header className="hero-nav-enter mx-auto w-full max-w-5xl rounded-full border border-black/15 bg-[#f5edd9]/62 px-3 py-2 shadow-[0_10px_35px_-22px_rgba(0,0,0,0.7)] backdrop-blur-md sm:px-5">
           <div className="flex items-center justify-between gap-2 sm:gap-3">
-            <p className="px-3 text-xl font-semibold tracking-tight text-[#2a2118]">
+            <p className="px-3 text-lg font-semibold tracking-tight text-[#2a2118] lg:text-xl">
               resumeX
             </p>
-            <nav className="hidden items-center gap-6 text-sm font-medium text-[#5a4c3d] md:flex">
+            <nav className="hidden items-center gap-4 text-[0.83rem] font-medium text-[#5a4c3d] lg:flex xl:gap-6 xl:text-sm">
               <a
                 href="#home"
-                className="text-[#5a4c3d] transition hover:text-[#201812]"
+                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
               >
                 Home
               </a>
               <a
                 href="#features"
-                className="text-[#5a4c3d] transition hover:text-[#201812]"
+                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
               >
                 Features
               </a>
               <a
-                href="#comparison"
-                className="text-[#5a4c3d] transition hover:text-[#201812]"
+                href="#how-it-works"
+                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
               >
-                ResumeX vs Drive
+                Workflow
+              </a>
+              <a
+                href="#comparison"
+                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
+              >
+                Vs Drive
               </a>
               <a
                 href="#faqs"
-                className="text-[#5a4c3d] transition hover:text-[#201812]"
+                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
               >
                 FAQs
               </a>
               <a
                 href="#cta"
-                className="text-[#5a4c3d] transition hover:text-[#201812]"
+                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
               >
                 CTA
               </a>
             </nav>
             <button
               onClick={goToLogin}
-              className="rounded-full bg-[#241c16] px-4 py-2 text-sm font-semibold text-[#fbf4e3] shadow-[0_12px_30px_-18px_rgba(0,0,0,0.95)] transition hover:bg-[#17110c] sm:px-6"
+              className="rounded-full bg-[#241c16] px-4 py-2 text-sm font-semibold text-[#fbf4e3] shadow-[0_12px_30px_-18px_rgba(0,0,0,0.95)] transition hover:bg-[#17110c] sm:px-5"
             >
               Login
             </button>

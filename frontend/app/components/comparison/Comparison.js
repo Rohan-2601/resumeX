@@ -60,8 +60,43 @@ export default function Comparison() {
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-[2rem] border border-black/10 bg-[#ece4d4] shadow-[0_24px_70px_-38px_rgba(0,0,0,0.55)] sm:mt-12">
-          <div className="grid grid-cols-1 border-b border-black/10 md:grid-cols-[0.9fr_1.05fr_1.05fr]">
+        <div className="mt-10 md:hidden">
+          <div className="space-y-4">
+            {comparisonRows.map((row, index) => (
+              <article
+                key={row.metric}
+                className="overflow-hidden rounded-[1.5rem] border border-black/10 bg-[#ece4d4] shadow-[0_18px_50px_-36px_rgba(0,0,0,0.52)]"
+              >
+                <div className="bg-[#e5ddcc] px-5 py-4 text-sm font-semibold text-[#2b2219]">
+                  {index + 1}. {row.metric}
+                </div>
+
+                <div className="space-y-3 px-4 py-4">
+                  <div className="rounded-xl border border-black/10 bg-[#ebe3d2] p-4">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#7d6a56]">
+                      Google Drive Link
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[#6a5b4c]">
+                      {row.drive}
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-[#b89270]/30 bg-[#f0e8d9] p-4">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#6b4e35]">
+                      ResumeX Link
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[#3f3124]">
+                      {row.resumex}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 hidden overflow-hidden rounded-[2rem] border border-black/10 bg-[#ece4d4] shadow-[0_24px_70px_-38px_rgba(0,0,0,0.55)] md:block">
+          <div className="grid border-b border-black/10 md:grid-cols-[0.9fr_1.05fr_1.05fr]">
             <div className="border-black/10 bg-[#e5ddcc] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#6b5b4b] md:border-r md:px-7">
               Comparison
             </div>
@@ -76,7 +111,7 @@ export default function Comparison() {
           {comparisonRows.map((row, index) => (
             <div
               key={row.metric}
-              className={`grid grid-cols-1 md:grid-cols-[0.9fr_1.05fr_1.05fr] ${
+              className={`grid md:grid-cols-[0.9fr_1.05fr_1.05fr] ${
                 index !== comparisonRows.length - 1
                   ? "border-b border-black/10"
                   : ""

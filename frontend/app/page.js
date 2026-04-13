@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import Hero from "./components/hero/Hero";
 import Features from "./components/features/Features";
+import HowItWorks from "./components/how-it-works/HowItWorks";
 import Comparison from "./components/comparison/Comparison";
 import SharePreview from "./components/share-preview/SharePreview";
 import FAQs from "./components/faqs/FAQs";
@@ -33,6 +34,7 @@ export default function LandingPage() {
     <div className="min-h-[100dvh] flex flex-col bg-[var(--bg-app)] overflow-x-hidden">
       <Hero />
       <Features />
+      <HowItWorks />
       <Comparison />
       <SharePreview />
       <FAQs />
