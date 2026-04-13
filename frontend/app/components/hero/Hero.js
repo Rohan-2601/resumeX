@@ -94,6 +94,12 @@ export default function Hero() {
                 Features
               </a>
               <a
+                href="#comparison"
+                className="text-[#5a4c3d] transition hover:text-[#201812]"
+              >
+                ResumeX vs Drive
+              </a>
+              <a
                 href="#faqs"
                 className="text-[#5a4c3d] transition hover:text-[#201812]"
               >
