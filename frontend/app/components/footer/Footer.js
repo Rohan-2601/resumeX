@@ -143,7 +143,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-2 flex flex-col gap-2 text-xs text-[#6d5e4f] sm:flex-row sm:items-center sm:justify-between sm:text-sm">
-          <p>
+          <p className="text-center sm:text-left">
             © {new Date().getFullYear()} resumeX. Crafted for better first
             impressions.
           </p>
