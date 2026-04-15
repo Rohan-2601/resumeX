@@ -6,12 +6,8 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { UploadIcon } from "../../components/icons/Icons";
-import {
-  ArrowLeftIcon,
-  CheckCircle2Icon,
-  InfoIcon,
-  RotateCwIcon,
-} from "lucide-react";
+import { CheckCircle2Icon, InfoIcon, RotateCwIcon } from "lucide-react";
+import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
@@ -326,9 +322,9 @@ export default function ResumesPage() {
               <Link
                 href="/dashboard"
                 aria-label="Back to dashboard"
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-white/75 text-[#5f5144] transition hover:bg-white"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-transparent text-[#5f5144] transition hover:bg-black/5"
               >
-                <ArrowLeftIcon className="h-3.5 w-3.5" />
+                <IoIosArrowBack className="h-4 w-4" />
               </Link>
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
                 Dashboard / Resumes
