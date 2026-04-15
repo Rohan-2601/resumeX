@@ -291,9 +291,9 @@ export default function ResumesPage() {
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
 
       {uploadSuccessToast ? (
-        <Alert className="fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border-emerald-900/20 bg-emerald-50 text-emerald-800 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)]">
+        <Alert className="fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border-emerald-500/40 bg-[#141815] text-emerald-100 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.8)]">
           <AlertDescription className="flex items-center gap-2">
-            <CheckCircle2Icon className="h-4 w-4 shrink-0" />
+            <CheckCircle2Icon className="h-4 w-4 shrink-0 text-emerald-400" />
             <span>{uploadSuccessToast}</span>
           </AlertDescription>
         </Alert>
@@ -481,9 +481,12 @@ export default function ResumesPage() {
               {uploadNotice ? (
                 <Alert
                   variant="destructive"
-                  className="rounded-2xl border-rose-900/20 bg-rose-50 text-rose-700"
+                  className="rounded-2xl border-rose-500/40 bg-[#1b1314] text-rose-100"
                 >
-                  <AlertDescription>{uploadNotice}</AlertDescription>
+                  <AlertDescription className="flex items-center gap-2">
+                    <InfoIcon className="h-4 w-4 shrink-0 text-rose-400" />
+                    <span>{uploadNotice}</span>
+                  </AlertDescription>
                 </Alert>
               ) : null}
             </div>
