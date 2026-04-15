@@ -186,9 +186,12 @@ export default function AnalyticsPage() {
         </div>
 
         {loading ? (
-          <Alert className="rounded-xl border-black/10 bg-white/70 text-[#5f5144]">
-            <AlertDescription>Loading analytics...</AlertDescription>
-          </Alert>
+          <div className="flex min-h-[220px] items-center justify-center">
+            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-5 py-3 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
+              Loading analytics...
+            </div>
+          </div>
         ) : errorMessage ? (
           <Alert
             variant="destructive"

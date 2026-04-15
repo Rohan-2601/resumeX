@@ -143,11 +143,14 @@ export default function LinksPage() {
         ) : null}
 
         {loading ? (
-          <div className="rounded-xl border border-black/10 bg-white/75 p-4 text-sm text-[#5f5144]">
-            Loading links...
+          <div className="flex min-h-[220px] items-center justify-center">
+            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-5 py-3 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
+              Loading links...
+            </div>
           </div>
         ) : publicLinks.length === 0 ? (
-          <div className="rounded-xl border border-black/10 bg-white/75 p-4 text-sm text-[#5f5144]">
+          <div className="mx-auto max-w-2xl rounded-2xl border border-black/10 bg-white/75 p-6 text-center text-sm text-[#5f5144]">
             No resumes found. Upload one from the Resumes tab.
           </div>
         ) : (

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { UploadIcon } from "../../components/icons/Icons";
+import { RotateCwIcon } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
@@ -323,9 +324,13 @@ export default function ResumesPage() {
               type="button"
               onClick={loadResumes}
               disabled={loading}
-              className="w-full rounded-xl border border-black/10 bg-white/85 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+              aria-label={loading ? "Refreshing resumes" : "Refresh resumes"}
+              title={loading ? "Refreshing resumes" : "Refresh resumes"}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-white/85 text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? "Refreshing" : "Refresh"}
+              <RotateCwIcon
+                className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+              />
             </button>
             <button
               type="button"
@@ -340,11 +345,14 @@ export default function ResumesPage() {
 
       <section className="space-y-3">
         {loading ? (
-          <div className="rounded-xl border border-black/10 bg-white/70 p-4 text-sm text-[#5f5144]">
-            Loading resumes...
+          <div className="flex min-h-[220px] items-center justify-center">
+            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-5 py-3 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
+              Loading resumes...
+            </div>
           </div>
         ) : sortedResumes.length === 0 ? (
-          <div className="rounded-xl border border-black/10 bg-white/70 p-4 text-sm text-[#5f5144]">
+          <div className="mx-auto max-w-2xl rounded-2xl border border-black/10 bg-white/75 p-6 text-center text-sm text-[#5f5144]">
             No resumes yet. Upload your first PDF from the button above.
           </div>
         ) : (
