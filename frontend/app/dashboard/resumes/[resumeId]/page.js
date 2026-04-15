@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../../context/AuthContext";
 import { UploadIcon } from "../../../components/icons/Icons";
-import { CheckCircle2Icon, InfoIcon } from "lucide-react";
+import { ArrowLeftIcon, CheckCircle2Icon, InfoIcon } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
@@ -292,9 +293,18 @@ export default function ResumeWorkspacePage() {
         <section className="grid min-h-[84dvh] grid-cols-1 gap-3 lg:grid-cols-[40%_60%]">
           <aside className="space-y-5 border-b border-black/10 pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-5">
             <div className="space-y-2 border-b border-black/10 pb-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                Resume workspace
-              </p>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/dashboard/resumes"
+                  aria-label="Back to resumes"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-white/75 text-[#5f5144] transition hover:bg-white"
+                >
+                  <ArrowLeftIcon className="h-3.5 w-3.5" />
+                </Link>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+                  Resume workspace
+                </p>
+              </div>
               <h1 className="text-xl font-semibold tracking-tight text-[#211911] sm:text-2xl">
                 {resume?.title || "Resume"}
                 <span

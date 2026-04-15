@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
+import { ArrowLeftIcon } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
@@ -99,9 +101,18 @@ export default function LinksPage() {
 
       <header className="border-b border-black/10 pb-5">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
-            Dashboard / Links
-          </p>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/dashboard"
+              aria-label="Back to dashboard"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-white/75 text-[#5f5144] transition hover:bg-white"
+            >
+              <ArrowLeftIcon className="h-3.5 w-3.5" />
+            </Link>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
+              Dashboard / Links
+            </p>
+          </div>
           <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#211911] sm:text-4xl">
             Share clean resume links fast.
             <span
