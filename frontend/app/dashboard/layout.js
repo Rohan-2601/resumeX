@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }) {
       >
         <div className="flex items-center gap-4 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-6 py-4 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
-          Loading your workspace...
+          Loading
         </div>
       </div>
     );
