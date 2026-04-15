@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
@@ -42,12 +42,14 @@ export default function ResumesPage() {
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [uploadSuccessToast, setUploadSuccessToast] = useState("");
 
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadNotice, setUploadNotice] = useState("");
   const [uploadFile, setUploadFile] = useState(null);
   const [uploadPreviewUrl, setUploadPreviewUrl] = useState("");
+  const uploadToastTimeoutRef = useRef(null);
 
   const [newResumeTitle, setNewResumeTitle] = useState("My Resume");
   const [newResumeSlug, setNewResumeSlug] = useState("");
@@ -67,6 +69,17 @@ export default function ResumesPage() {
   );
 
   const getToken = () => localStorage.getItem("token");
+
+  const showUploadSuccessToast = (text) => {
+    if (uploadToastTimeoutRef.current) {
+      window.clearTimeout(uploadToastTimeoutRef.current);
+    }
+
+    setUploadSuccessToast(text);
+    uploadToastTimeoutRef.current = window.setTimeout(() => {
+      setUploadSuccessToast("");
+    }, 2200);
+  };
 
   const getValidToken = () => {
     const token = (getToken() || "").trim();
@@ -96,6 +109,14 @@ export default function ResumesPage() {
 
     return () => URL.revokeObjectURL(objectUrl);
   }, [uploadFile]);
+
+  useEffect(() => {
+    return () => {
+      if (uploadToastTimeoutRef.current) {
+        window.clearTimeout(uploadToastTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const loadResumes = async () => {
     if (!user) return;
@@ -240,7 +261,7 @@ export default function ResumesPage() {
       setUploadFile(null);
       setUploadPreviewUrl("");
       await loadResumes();
-      setMessage("New resume uploaded successfully.");
+      showUploadSuccessToast("New resume uploaded successfully.");
     } catch (error) {
       console.error(error);
       if (error.response?.status === 401) {
@@ -261,6 +282,12 @@ export default function ResumesPage() {
     >
       <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
       <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
+
+      {uploadSuccessToast ? (
+        <Alert className="fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border-emerald-900/20 bg-emerald-50 text-emerald-800 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)]">
+          <AlertDescription>{uploadSuccessToast}</AlertDescription>
+        </Alert>
+      ) : null}
 
       {message ? (
         <Alert

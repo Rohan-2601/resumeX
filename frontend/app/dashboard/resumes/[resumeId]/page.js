@@ -65,7 +65,7 @@ export default function ResumeWorkspacePage() {
 
     alertTimeoutRef.current = window.setTimeout(() => {
       setAlertState(null);
-    }, 1800);
+    }, 2200);
   };
 
   useEffect(() => {
@@ -184,7 +184,7 @@ export default function ResumeWorkspacePage() {
       setUploadFile(null);
       setUploadPreviewUrl("");
       await loadWorkspace();
-      showAlert("New version uploaded.");
+      showAlert("New version uploaded successfully.");
       return true;
     } catch (error) {
       console.error(error);
