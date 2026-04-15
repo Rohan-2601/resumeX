@@ -5,7 +5,7 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { UploadIcon } from "../../components/icons/Icons";
-import { RotateCwIcon } from "lucide-react";
+import { CheckCircle2Icon, InfoIcon, RotateCwIcon } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
@@ -286,7 +286,10 @@ export default function ResumesPage() {
 
       {uploadSuccessToast ? (
         <Alert className="fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border-emerald-900/20 bg-emerald-50 text-emerald-800 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)]">
-          <AlertDescription>{uploadSuccessToast}</AlertDescription>
+          <AlertDescription className="flex items-center gap-2">
+            <CheckCircle2Icon className="h-4 w-4 shrink-0" />
+            <span>{uploadSuccessToast}</span>
+          </AlertDescription>
         </Alert>
       ) : null}
 
@@ -299,7 +302,14 @@ export default function ResumesPage() {
               : "rounded-[1.25rem] border-emerald-900/15 bg-emerald-50 text-emerald-800 shadow-[0_18px_45px_-35px_rgba(0,0,0,0.45)]"
           }
         >
-          <AlertDescription>{message}</AlertDescription>
+          <AlertDescription className="flex items-center gap-2">
+            {isErrorMessage ? (
+              <InfoIcon className="h-4 w-4 shrink-0" />
+            ) : (
+              <CheckCircle2Icon className="h-4 w-4 shrink-0" />
+            )}
+            <span>{message}</span>
+          </AlertDescription>
         </Alert>
       ) : null}
 

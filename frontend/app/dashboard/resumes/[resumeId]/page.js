@@ -278,12 +278,14 @@ export default function ResumeWorkspacePage() {
                 : "border-emerald-900/20 bg-emerald-50 text-emerald-800"
             }`}
           >
-            {alertState.type === "error" ? (
-              <InfoIcon className="h-4 w-4" />
-            ) : (
-              <CheckCircle2Icon className="h-4 w-4" />
-            )}
-            <AlertDescription>{alertState.message}</AlertDescription>
+            <AlertDescription className="flex items-center gap-2">
+              {alertState.type === "error" ? (
+                <InfoIcon className="h-4 w-4 shrink-0" />
+              ) : (
+                <CheckCircle2Icon className="h-4 w-4 shrink-0" />
+              )}
+              <span>{alertState.message}</span>
+            </AlertDescription>
           </Alert>
         ) : null}
 
