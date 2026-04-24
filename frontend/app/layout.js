@@ -6,7 +6,7 @@ export const metadata = {
   title: "resumeX",
   description: "Version control and analytics for your resumes",
   icons: {
-    icon: "/favicon.jpeg",
+    icon: "/favicon.png",
   },
 };
 
