@@ -6,7 +6,9 @@ export const metadata = {
   title: "resumeX",
   description: "Version control and analytics for your resumes",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon-tight.png",
+    shortcut: "/favicon-tight.png",
+    apple: "/favicon-tight.png",
   },
 };
 
