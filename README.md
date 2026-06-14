@@ -413,6 +413,38 @@ npm run start
 
 ---
 
+## Running with Docker
+
+You can run the entire system (frontend and backend) in Docker using Docker Compose.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/products/docker-desktop/) installed on your machine.
+- Environment files (`backend/.env` and `frontend/.env.local`) configured as described in the **Environment Variables** section.
+
+### 1. Build and start the containers
+
+From the repository root, run:
+
+```bash
+docker compose up --build
+```
+
+This will:
+- Build the frontend container (exposing port `3000`) and the backend container (exposing port `5000`).
+- Pass respective environment variables (`frontend/.env.local` and `backend/.env`) into the containers.
+- Start both services and run them concurrently.
+
+### 2. Stop the containers
+
+To stop and clean up the containers:
+
+```bash
+docker compose down
+```
+
+---
+
 ## Typical User Journey
 
 1. Login with GitHub
