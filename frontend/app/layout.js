@@ -1,6 +1,7 @@
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   title: "resumeX",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>{children}</AuthProvider>
         <Analytics />
+        <SpeedInsights/>
       </body>
     </html>
   );
