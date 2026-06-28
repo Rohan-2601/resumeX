@@ -4,8 +4,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
-  title: "resumeX",
-  description: "Version control and analytics for your resumes",
+  title: "resumeX | Permanent Resume Link & Analytics",
+  description: "Stop sending outdated PDFs. Get one permanent resume link that's always updated, manage multiple resumes, and track exactly who views your profile.",
   icons: {
     icon: "/favicon-tight.png",
     shortcut: "/favicon-tight.png",
