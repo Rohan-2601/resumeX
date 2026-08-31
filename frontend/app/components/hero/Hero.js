@@ -39,6 +39,7 @@
 
 import { Playfair_Display, Sora } from "next/font/google";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -64,10 +65,13 @@ export default function Hero() {
       className={`${sansFont.className} relative isolate min-h-[100dvh] overflow-hidden bg-[#e8e2d4] text-[#1f1b16]`}
     >
       <div className="absolute inset-0 -z-30">
-        <div
-          className="h-full w-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hero%20(1).webp')" }}
-          aria-hidden="true"
+        <Image
+          src="/hero%20(1).webp"
+          alt="Hero Background"
+          fill
+          priority
+          unoptimized={true}
+          className="object-cover object-center"
         />
       </div>
 
