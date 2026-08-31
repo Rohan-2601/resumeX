@@ -111,11 +111,10 @@ export default function Comparison() {
           {comparisonRows.map((row, index) => (
             <div
               key={row.metric}
-              className={`grid md:grid-cols-[0.9fr_1.05fr_1.05fr] ${
-                index !== comparisonRows.length - 1
+              className={`grid md:grid-cols-[0.9fr_1.05fr_1.05fr] ${index !== comparisonRows.length - 1
                   ? "border-b border-black/10"
                   : ""
-              }`}
+                }`}
             >
               <div className="border-black/10 bg-[#e9e1d0] px-5 py-6 text-sm font-semibold text-[#2b2219] md:border-r md:px-7 md:text-[0.96rem]">
                 {row.metric}

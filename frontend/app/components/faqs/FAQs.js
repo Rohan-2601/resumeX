@@ -128,15 +128,13 @@ export default function FAQs() {
                   }}
                   data-index={index}
                   style={{ transitionDelay: `${index * 70}ms` }}
-                  className={`overflow-hidden rounded-2xl border transition-all duration-700 ${
-                    isVisible
+                  className={`overflow-hidden rounded-2xl border transition-all duration-700 ${isVisible
                       ? "translate-y-0 opacity-100"
                       : "translate-y-5 opacity-0"
-                  } ${
-                    isOpen
+                    } ${isOpen
                       ? "border-[#8a6340]/35 bg-[#e9e1d0] shadow-[0_16px_40px_-28px_rgba(0,0,0,0.45)]"
                       : "border-black/10 bg-[#e9e1d0]"
-                  }`}
+                    }`}
                 >
                   <button
                     type="button"
@@ -148,9 +146,8 @@ export default function FAQs() {
                       {item.question}
                     </span>
                     <span
-                      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black/10 text-base leading-none text-[#6f5a47] transition ${
-                        isOpen ? "rotate-45 bg-white/70" : "bg-white/45"
-                      }`}
+                      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black/10 text-base leading-none text-[#6f5a47] transition ${isOpen ? "rotate-45 bg-white/70" : "bg-white/45"
+                        }`}
                     >
                       +
                     </span>
