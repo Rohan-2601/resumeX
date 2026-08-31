@@ -42,7 +42,7 @@ export default function AuthLayout({ children }) {
           <div className="flex flex-col h-full md:hidden">
             <section className="relative h-[40vh] w-full shrink-0">
               <Image
-                src="/signup.webp"
+                src="/signup.png"
                 alt="ResumeX visual"
                 fill
                 priority
@@ -83,7 +83,7 @@ export default function AuthLayout({ children }) {
               } z-0`}
             >
               <Image
-                src="/signup.webp"
+                src="/signup.png"
                 alt="ResumeX visual"
                 fill
                 priority

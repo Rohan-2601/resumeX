@@ -59,6 +59,8 @@ export default function LoginPage() {
     }
   };
 
+  const isValid = username.trim().length > 0 && password.length > 0;
+
   return (
     <form className="w-full space-y-3 py-4" onSubmit={onSubmit}>
       <div>
@@ -122,7 +124,9 @@ export default function LoginPage() {
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex w-full items-center justify-center rounded-full bg-[#808080] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#6b6b6b] disabled:cursor-not-allowed disabled:opacity-65"
+        className={`inline-flex w-full items-center justify-center rounded-full px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-65 ${
+          isValid ? "bg-black hover:bg-zinc-800" : "bg-[#808080] hover:bg-[#6b6b6b]"
+        }`}
       >
         {submitting ? "Signing in..." : "Sign In"}
       </button>
