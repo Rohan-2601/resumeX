@@ -82,12 +82,10 @@ export default function RegisterPage() {
         </div>
       )}
     <div
-      className={`${sansFont.className} relative min-h-[100dvh] grid place-items-center overflow-hidden bg-[var(--bg-app)] p-4 sm:p-6 md:p-8 ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}
+      className={`${sansFont.className} relative min-h-screen bg-[#f3f4f6] flex items-center justify-center p-1 sm:p-2 ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(123,90,61,0.16),transparent_38%),radial-gradient(circle_at_82%_88%,rgba(36,28,22,0.16),transparent_36%)]" />
-
-      <main className="login-card-enter relative mx-auto grid w-full max-w-6xl overflow-hidden rounded-[30px] border border-[var(--border)] bg-[var(--bg-surface)] shadow-xl md:h-[calc(100dvh-4rem)] md:max-h-[680px] md:grid-cols-2">
-        <section className="group relative min-h-[320px] md:min-h-full md:order-2">
+      <main className="flex w-full max-w-[2000px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl md:h-[calc(100vh-1rem)] md:flex-row">
+        <section className="relative h-[40vh] w-full shrink-0 md:order-2 md:h-auto md:w-1/2">
           <Image
             src="/signup.webp"
             alt="ResumeX signup visual"
@@ -97,26 +95,26 @@ export default function RegisterPage() {
             className="object-cover object-bottom"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(10,10,10,0.68),rgba(12,12,12,0.24)_40%,rgba(12,10,8,0.7)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(10,10,10,0.4),rgba(12,12,12,0.1)_40%,rgba(12,10,8,0.5)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(180deg,transparent,rgba(8,7,6,0.76))]" />
 
-          <div className="absolute bottom-6 left-6 max-w-sm text-[#f8eedf] md:bottom-10 md:left-10">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#ead9bf]/90">
+          <div className="absolute bottom-6 left-6 max-w-sm text-white md:bottom-12 md:left-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/90">
               Start Your ResumeX Journey
             </p>
             <h1
-              className={`${displayFont.className} mt-3 text-3xl font-medium italic leading-tight text-[#f7ead5]`}
+              className={`${displayFont.className} mt-3 text-3xl font-medium italic leading-tight text-white`}
             >
               Create your account and start tracking your resume in minutes.
             </h1>
-            <p className="mt-3 text-sm leading-6 text-[#eadfce]/85">
+            <p className="mt-3 text-sm leading-6 text-white/80">
               A single link that stays current, polished, and ready to share.
             </p>
           </div>
         </section>
 
-        <section className="flex items-center justify-center p-6 md:p-8 lg:p-10 md:order-1">
-          <form className="w-full max-w-md space-y-4" onSubmit={onSubmit}>
+        <section className="flex w-full items-center justify-center bg-white p-6 md:order-1 md:w-1/2 md:overflow-y-auto lg:p-10">
+          <form className="w-full max-w-md space-y-3 py-4" onSubmit={onSubmit}>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#71717a]">
                 New Account
@@ -145,7 +143,7 @@ export default function RegisterPage() {
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 placeholder="Choose a username"
-                className="w-full rounded-full border border-[#e4e4e7] bg-white px-5 py-3.5 text-sm text-[#18181b] outline-none transition placeholder:text-[#a1a1aa] focus:border-[#a1a1aa] focus:ring-2 focus:ring-[#f4f4f5]"
+                className="w-full rounded-full border border-[#e4e4e7] bg-white px-5 py-3 text-sm text-[#18181b] outline-none transition placeholder:text-[#a1a1aa] focus:border-[#a1a1aa] focus:ring-2 focus:ring-[#f4f4f5]"
               />
             </div>
 
@@ -165,7 +163,7 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Create a password"
-                className="w-full rounded-full border border-[#e4e4e7] bg-white px-5 py-3.5 text-sm text-[#18181b] outline-none transition placeholder:text-[#a1a1aa] focus:border-[#a1a1aa] focus:ring-2 focus:ring-[#f4f4f5]"
+                className="w-full rounded-full border border-[#e4e4e7] bg-white px-5 py-3 text-sm text-[#18181b] outline-none transition placeholder:text-[#a1a1aa] focus:border-[#a1a1aa] focus:ring-2 focus:ring-[#f4f4f5]"
               />
             </div>
 
@@ -185,7 +183,7 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 placeholder="Repeat your password"
-                className="w-full rounded-full border border-[#e4e4e7] bg-white px-5 py-3.5 text-sm text-[#18181b] outline-none transition placeholder:text-[#a1a1aa] focus:border-[#a1a1aa] focus:ring-2 focus:ring-[#f4f4f5]"
+                className="w-full rounded-full border border-[#e4e4e7] bg-white px-5 py-3 text-sm text-[#18181b] outline-none transition placeholder:text-[#a1a1aa] focus:border-[#a1a1aa] focus:ring-2 focus:ring-[#f4f4f5]"
               />
             </div>
 
@@ -198,7 +196,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#808080] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#6b6b6b] disabled:cursor-not-allowed disabled:opacity-65"
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#808080] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#6b6b6b] disabled:cursor-not-allowed disabled:opacity-65"
             >
               {submitting ? "Creating account..." : "Create Account"}
             </button>
@@ -211,7 +209,7 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={loginWithGithub}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#f4f4f5] px-4 py-3.5 text-sm font-medium text-[#18181b] transition hover:bg-[#e4e4e7]"
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#f4f4f5] px-4 py-3 text-sm font-medium text-[#18181b] transition hover:bg-[#e4e4e7]"
             >
               Continue with GitHub
             </button>
