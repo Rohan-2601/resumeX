@@ -1,55 +1,18 @@
-// "use client";
-
-// import { useAuth } from "../../context/AuthContext";
-
-// export default function Hero() {
-//   const { login } = useAuth();
-
-//   return (
-//     <section className="relative min-h-screen overflow-hidden text-white">
-//       <div className="absolute inset-0 bg-[url('/hero.png')] bg-cover bg-center bg-no-repeat" />
-
-//       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-center px-5 py-20 sm:px-8 lg:px-12">
-//         <div
-//           className="max-w-2xl"
-//           style={{ animation: "fadeInUp 0.8s ease-out both" }}
-//         >
-//           <h1 className="mb-5 text-4xl font-black leading-tight tracking-tight text-white drop-shadow-[0_3px_18px_rgba(0,0,0,0.7)] sm:text-6xl lg:text-7xl">
-//             Stop Sending Outdated Resumes
-//           </h1>
-
-//           <p className="mb-8 max-w-xl text-base leading-relaxed text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)] sm:text-lg">
-//             One link. Always updated. Know exactly who viewed your resume and
-//             where they came from.
-//           </p>
-
-//           <button
-//             onClick={login}
-//             className="inline-flex items-center justify-center rounded-full border border-white bg-black/30 px-7 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-black/45 sm:text-base"
-//           >
-//             Get Your Resume Link
-//           </button>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
 "use client";
 
-import { Playfair_Display, Sora } from "next/font/google";
+import { Syne, Outfit } from "next/font/google";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { CornerButton } from "@/components/ui/corner-button";
 
-const displayFont = Playfair_Display({
+const headingFont = Syne({
   subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const sansFont = Sora({
+const bodyFont = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export default function Hero() {
@@ -62,11 +25,12 @@ export default function Hero() {
   return (
     <main
       id="home"
-      className={`${sansFont.className} relative isolate min-h-[100dvh] overflow-hidden bg-[#e8e2d4] text-[#1f1b16]`}
+      className={`${bodyFont.className} relative isolate min-h-[100dvh] overflow-hidden bg-[#0F2850] text-white`}
     >
-      <div className="absolute inset-0 -z-30">
+      {/* Base Image Layer */}
+      <div className="absolute inset-0 -z-40 translate-y-[2%] scale-[1.05]">
         <Image
-          src="/hero%20(1).webp"
+          src="/hero6.png"
           alt="Hero Background"
           fill
           priority
@@ -75,94 +39,65 @@ export default function Hero() {
         />
       </div>
 
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(248,242,230,0.22)_0%,rgba(245,238,224,0.12)_26%,rgba(12,15,20,0.28)_58%,rgba(9,10,12,0.42)_100%)]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(92%_58%_at_50%_32%,rgba(8,12,16,0.36)_0%,rgba(8,12,16,0.22)_42%,transparent_78%),radial-gradient(circle_at_50%_0%,rgba(255,252,244,0.16),transparent_46%),radial-gradient(circle_at_50%_100%,rgba(10,11,14,0.36),transparent_46%)]" />
+      {/* Extremely subtle dark gradient behind text for minimal contrast if needed, mostly transparent */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-b from-black/20 via-transparent to-transparent pointer-events-none" />
 
-      <section className="relative mx-auto flex min-h-[100dvh] w-full max-w-6xl flex-col px-4 pb-16 pt-8 sm:px-6 md:px-10 md:pt-10">
-        <header className="hero-nav-enter mx-auto w-full max-w-5xl rounded-full border border-black/15 bg-[#f5edd9]/62 px-3 py-2 shadow-[0_10px_35px_-22px_rgba(0,0,0,0.7)] backdrop-blur-md sm:px-5">
-          <div className="flex items-center justify-between gap-2 sm:gap-3">
-            <p className="px-3 text-lg font-semibold tracking-tight text-[#2a2118] lg:text-xl">
-              resumeX
+      <section className="relative mx-auto flex min-h-[100dvh] w-full flex-col pt-6 md:pt-10">
+
+        {/* Navbar */}
+        <header className="mx-auto w-full px-6 md:px-12 lg:px-16 flex justify-between items-center">
+
+          {/* Left Logo */}
+          <div className="flex items-center">
+            <p className={`${headingFont.className} text-2xl md:text-3xl font-bold tracking-tighter text-[#15415C]`}>
+              ResumeX
             </p>
-            <nav className="hidden items-center gap-4 text-[0.83rem] font-medium text-[#5a4c3d] lg:flex xl:gap-6 xl:text-sm">
-              <a
-                href="#home"
-                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
-              >
-                Home
-              </a>
-              <a
-                href="#features"
-                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
-              >
-                Features
-              </a>
-              <a
-                href="#how-it-works"
-                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
-              >
-                Workflow
-              </a>
-              <a
-                href="#comparison"
-                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
-              >
-                Vs Drive
-              </a>
-              <a
-                href="#faqs"
-                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
-              >
-                FAQs
-              </a>
-              <a
-                href="#cta"
-                className="whitespace-nowrap text-[#5a4c3d] transition hover:text-[#201812]"
-              >
-                CTA
-              </a>
-            </nav>
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-6">
+            <a href="#" className="hidden sm:block text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition">
+              For Providers
+            </a>
             <button
               onClick={goToLogin}
-              className="rounded-full bg-[#241c16] px-4 py-2 text-sm font-semibold text-[#fbf4e3] shadow-[0_12px_30px_-18px_rgba(0,0,0,0.95)] transition hover:bg-[#17110c] sm:px-5"
+              className="text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition"
             >
-              Login
+              Sign In
             </button>
           </div>
         </header>
 
-        <div className="hero-content-reveal relative mx-auto mt-20 flex max-w-4xl flex-1 flex-col items-center text-center md:mt-28">
-          <h1 className="relative text-balance text-3xl font-medium leading-[1.03] tracking-tight text-[#f9f4ea] [text-shadow:0_2px_4px_rgba(0,0,0,0.8),0_10px_32px_rgba(0,0,0,0.58)] [-webkit-text-stroke:0.35px_rgba(0,0,0,0.35)] sm:text-6xl md:text-7xl">
-            Stop Sending
-            <span
-              className={`${displayFont.className} ml-3 inline-block font-medium italic text-[#f3dcb9] [text-shadow:0_2px_4px_rgba(0,0,0,0.78),0_8px_24px_rgba(0,0,0,0.55)]`}
-            >
-              Outdated Resumes
-            </span>
+        {/* Hero Content */}
+        <div className="relative mx-auto mt-10 md:mt-16 flex max-w-3xl flex-1 flex-col items-center text-center px-4">
+
+          {/* Main Heading */}
+          <h1 className={`${headingFont.className} text-balance text-5xl md:text-6xl lg:text-[4rem] font-bold leading-[1.05] tracking-tighter text-[#15415C]`}>
+            Your Resume Deserves a Better Link.
           </h1>
-          <p className="relative mt-5 max-w-3xl text-pretty text-base leading-7 text-[#f3ead8] [text-shadow:0_2px_4px_rgba(0,0,0,0.72),0_8px_24px_rgba(0,0,0,0.52)] md:text-xl md:leading-8">
-            One link. Always updated. Know exactly who viewed your resume and
-            where they came from.
+
+          {/* Subheading */}
+          <p className="mt-4 md:mt-5 max-w-lg text-balance text-[15px] md:text-base leading-relaxed text-[#4F6C7D] font-medium">
+            Create a permanent resume URL that stays the same, even when your resume changes.
           </p>
 
-          <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
-            <button
+          {/* Primary CTA */}
+          <div className="mt-6 flex flex-col items-center">
+            <CornerButton
               onClick={goToLogin}
-              className="hero-cta-glow inline-flex items-center rounded-full bg-[#2a2119] px-8 py-4 text-base font-semibold text-[#fbf4e3] shadow-[0_18px_40px_-20px_rgba(0,0,0,0.82)] transition hover:bg-[#1d1712]"
+              accentColor="#E2F0C6"
+              className="!px-6 !py-2 !text-[15px] text-[#11354F] font-medium"
+              wrapperClassName="!p-3"
+              icon={
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1">
+                  <path d="M2.5 6H9.5M9.5 6L6 2.5M9.5 6L6 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              }
             >
-              Get Your Resume Link
-            </button>
-            <a
-              href="#features"
-              className="inline-flex items-center rounded-full border border-white/35 bg-white/10 px-7 py-3 text-sm font-semibold text-[#f7ecda] backdrop-blur transition hover:bg-white/20 hover:!text-[#f7ecda]"
-            >
-              Explore Features
-            </a>
+              Get My Link
+            </CornerButton>
           </div>
-        </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 overflow-hidden">
-          <div className="absolute inset-x-[-8%] bottom-[-48px] h-24 rounded-[100%] border-t border-white/20 bg-[linear-gradient(180deg,rgba(233,225,208,0)_0%,rgba(233,225,208,0.55)_100%)]" />
         </div>
       </section>
     </main>
