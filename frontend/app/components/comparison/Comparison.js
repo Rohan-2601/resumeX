@@ -38,22 +38,22 @@ export default function Comparison() {
   return (
     <section
       id="comparison"
-      className={`${sansFont.className} relative overflow-hidden bg-[#e9e1d0] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
+      className={`${sansFont.className} relative overflow-hidden bg-[#fdfdfd] px-4 py-24 text-[#123F5B] sm:px-6 md:px-10 md:py-28`}
     >
       <div className="relative mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-[#7b5a3d]">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-[#557083]">
             ResumeX vs Drive Link
           </p>
-          <h2 className="text-balance text-3xl font-medium leading-[1.03] tracking-tight text-[#211911] sm:text-5xl md:text-6xl">
+          <h2 className="text-balance text-3xl font-medium leading-[1.03] tracking-tight text-[#123F5B] sm:text-5xl md:text-6xl">
             Why Recruiters Prefer
             <span
-              className={`${displayFont.className} ml-3 inline-block italic text-[#8a6340]`}
+              className={`${displayFont.className} ml-3 inline-block italic text-[#123F5B]`}
             >
               ResumeX
             </span>
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#5f5144] md:text-lg md:leading-8">
+          <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#557083] md:text-lg md:leading-8">
             Google Drive links share files. ResumeX shares your professional
             profile flow: always current, easier to trust, and built for hiring
             conversations.
@@ -65,27 +65,27 @@ export default function Comparison() {
             {comparisonRows.map((row, index) => (
               <article
                 key={row.metric}
-                className="overflow-hidden rounded-[1.5rem] border border-black/10 bg-[#ece4d4] shadow-[0_18px_50px_-36px_rgba(0,0,0,0.52)]"
+                className="overflow-hidden rounded-[1.5rem] border border-[#E5E7E3] bg-[#FFFFFF] shadow-[0_18px_50px_-36px_rgba(0,0,0,0.06)]"
               >
-                <div className="bg-[#e5ddcc] px-5 py-4 text-sm font-semibold text-[#2b2219]">
+                <div className="bg-[#F7F7F3] px-5 py-4 text-sm font-semibold text-[#123F5B]">
                   {index + 1}. {row.metric}
                 </div>
 
                 <div className="space-y-3 px-4 py-4">
-                  <div className="rounded-xl border border-black/10 bg-[#ebe3d2] p-4">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#7d6a56]">
+                  <div className="rounded-xl border border-[#E5E7E3] bg-[#F7F7F3] p-4">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#557083]">
                       Google Drive Link
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-[#6a5b4c]">
+                    <p className="mt-2 text-sm leading-6 text-[#557083]">
                       {row.drive}
                     </p>
                   </div>
 
-                  <div className="rounded-xl border border-[#b89270]/30 bg-[#f0e8d9] p-4">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#6b4e35]">
+                  <div className="rounded-xl border border-[#E5E7E3] bg-[#FFFFFF] p-4">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#123F5B]">
                       ResumeX Link
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-[#3f3124]">
+                    <p className="mt-2 text-sm leading-6 text-[#123F5B]">
                       {row.resumex}
                     </p>
                   </div>
@@ -95,15 +95,15 @@ export default function Comparison() {
           </div>
         </div>
 
-        <div className="mt-12 hidden overflow-hidden rounded-[2rem] border border-black/10 bg-[#ece4d4] shadow-[0_24px_70px_-38px_rgba(0,0,0,0.55)] md:block">
-          <div className="grid border-b border-black/10 md:grid-cols-[0.9fr_1.05fr_1.05fr]">
-            <div className="border-black/10 bg-[#e5ddcc] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#6b5b4b] md:border-r md:px-7">
+        <div className="mt-12 hidden overflow-hidden rounded-[2rem] border border-[#E5E7E3] bg-[#FFFFFF] shadow-[0_24px_70px_-38px_rgba(0,0,0,0.08)] md:block">
+          <div className="grid border-b border-[#E5E7E3] md:grid-cols-[0.9fr_1.05fr_1.05fr]">
+            <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#557083] md:border-r md:px-7">
               Comparison
             </div>
-            <div className="border-black/10 bg-[#efe7d8] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#6d5a48] md:border-r md:px-7">
+            <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#557083] md:border-r md:px-7">
               Google Drive Link
             </div>
-            <div className="bg-[#f2ebdc] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#4f3a27] md:px-7">
+            <div className="bg-[#FFFFFF] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#123F5B] md:px-7">
               ResumeX Link
             </div>
           </div>
@@ -112,17 +112,17 @@ export default function Comparison() {
             <div
               key={row.metric}
               className={`grid md:grid-cols-[0.9fr_1.05fr_1.05fr] ${index !== comparisonRows.length - 1
-                  ? "border-b border-black/10"
+                  ? "border-b border-[#E5E7E3]"
                   : ""
                 }`}
             >
-              <div className="border-black/10 bg-[#e9e1d0] px-5 py-6 text-sm font-semibold text-[#2b2219] md:border-r md:px-7 md:text-[0.96rem]">
+              <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm font-semibold text-[#123F5B] md:border-r md:px-7 md:text-[0.96rem]">
                 {row.metric}
               </div>
-              <div className="border-black/10 bg-[#ebe3d2] px-5 py-6 text-sm leading-7 text-[#6a5b4c] md:border-r md:px-7 md:text-[0.96rem]">
+              <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm leading-7 text-[#557083] md:border-r md:px-7 md:text-[0.96rem]">
                 {row.drive}
               </div>
-              <div className="bg-[#f0e8d9] px-5 py-6 text-sm leading-7 text-[#3f3124] md:px-7 md:text-[0.96rem]">
+              <div className="bg-[#FFFFFF] px-5 py-6 text-sm leading-7 text-[#123F5B] md:px-7 md:text-[0.96rem]">
                 {row.resumex}
               </div>
             </div>

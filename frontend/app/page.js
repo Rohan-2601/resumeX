@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { preload } from "react-dom";
 
 import Hero from "./components/hero/Hero";
-import Features from "./components/features/Features";
+import PremiumFeatures from "./components/premium-features/PremiumFeatures";
 import HowItWorks from "./components/how-it-works/HowItWorks";
 import Comparison from "./components/comparison/Comparison";
 import SharePreview from "./components/share-preview/SharePreview";
@@ -35,16 +35,16 @@ export default function LandingPage() {
           <div className="w-6 h-6 rounded-full border-3 border-[var(--border)] border-t-[var(--primary)] animate-spin" />
         </div>
       )}
-    <div className={`min-h-[100dvh] flex flex-col bg-[var(--bg-app)] overflow-x-hidden ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}>
-      <Hero />
-      <Features />
-      <HowItWorks />
-      <Comparison />
-      <SharePreview />
-      <FAQs />
-      <CTA />
-      <Footer />
-    </div>
+      <div className={`min-h-[100dvh] flex flex-col bg-[var(--bg-app)] overflow-x-hidden ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}>
+        <Hero />
+        <PremiumFeatures />
+        <SharePreview />
+        <Comparison />
+        <HowItWorks />
+        <FAQs />
+        <CTA />
+        <Footer />
+      </div>
     </>
   );
 }
