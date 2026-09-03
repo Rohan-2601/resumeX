@@ -46,37 +46,37 @@ export default function Footer() {
           <div className="space-y-1 text-sm font-medium">
             <a
               href="#home"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Home
             </a>
             <a
               href="#premium-features"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Premium Features
             </a>
             <a
               href="#faqs"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               FAQs
             </a>
             <a
               href="#cta"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               CTA
             </a>
             <a
               href="/privacy"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Terms
             </a>
@@ -85,19 +85,19 @@ export default function Footer() {
           <div className="space-y-1 text-sm font-medium">
             <a
               href="https://x.com/rjha72"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Twitter
             </a>
             <a
               href="https://github.com/Rohan-2601/resumeX"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Github
             </a>
             <a
               href="https://www.linkedin.com/in/rohan-raj-5b5198294/"
-              className="block text-[#557083] transition hover:text-[#123F5B]"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               LinkedIn
             </a>
@@ -109,7 +109,7 @@ export default function Footer() {
             </p>
             <form
               onSubmit={handleSubscribe}
-              className="mt-3 flex items-center border border-black/10 bg-white/35 px-4 py-3"
+              className="mt-3 flex items-center border border-black/10 bg-white/35 px-4 py-3 transition-all duration-300 hover:border-black/20 focus-within:border-[#123F5B]/30 focus-within:bg-white/50 focus-within:shadow-[0_4px_20px_-10px_rgba(18,63,91,0.1)]"
             >
               <input
                 type="email"
@@ -122,7 +122,7 @@ export default function Footer() {
               <button
                 type="submit"
                 aria-label="Subscribe"
-                className="pl-3 text-xl leading-none text-[#123F5B] transition hover:text-[#123F5B]/70"
+                className="pl-3 text-xl leading-none text-[#123F5B] transition-all duration-300 hover:translate-x-1 hover:text-[#123F5B]/70"
               >
                 →
               </button>

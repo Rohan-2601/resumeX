@@ -3,7 +3,6 @@
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { preload } from "react-dom";
 
 import Hero from "./components/hero/Hero";
 import PremiumFeatures from "./components/premium-features/PremiumFeatures";
@@ -17,10 +16,6 @@ import Footer from "./components/footer/Footer";
 export default function LandingPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-
-  // Preload critical navigation images during render
-  preload('/login.webp', { as: 'image' });
-  preload('/signup.webp', { as: 'image' });
 
   useEffect(() => {
     if (user && !loading) {
