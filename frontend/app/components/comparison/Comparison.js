@@ -65,27 +65,27 @@ export default function Comparison() {
             {comparisonRows.map((row, index) => (
               <article
                 key={row.metric}
-                className="overflow-hidden rounded-[1.5rem] border border-[#E5E7E3] bg-[#FFFFFF] shadow-[0_18px_50px_-36px_rgba(0,0,0,0.06)]"
+                className="group overflow-hidden rounded-[1.5rem] border border-[#E5E7E3] bg-[#FFFFFF] shadow-[0_18px_50px_-36px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_-30px_rgba(0,0,0,0.12)] hover:border-[#123F5B]/20 cursor-default"
               >
-                <div className="bg-[#F7F7F3] px-5 py-4 text-sm font-semibold text-[#123F5B]">
-                  {index + 1}. {row.metric}
+                <div className="bg-[#F7F7F3] px-5 py-4 text-sm font-semibold text-[#123F5B] transition-colors duration-300 group-hover:bg-[#F0F0EA]">
+                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">{index + 1}. {row.metric}</span>
                 </div>
 
                 <div className="space-y-3 px-4 py-4">
-                  <div className="rounded-xl border border-[#E5E7E3] bg-[#F7F7F3] p-4">
+                  <div className="rounded-xl border border-[#E5E7E3] bg-[#F7F7F3] p-4 transition-all duration-300 group-hover:bg-[#F0F0EA] group-hover:border-black/10">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#557083]">
                       Google Drive Link
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-[#557083]">
+                    <p className="mt-2 text-sm leading-6 text-[#557083] transition-transform duration-300 group-hover:translate-x-0.5">
                       {row.drive}
                     </p>
                   </div>
 
-                  <div className="rounded-xl border border-[#E5E7E3] bg-[#FFFFFF] p-4">
+                  <div className="rounded-xl border border-[#E5E7E3] bg-[#FFFFFF] p-4 transition-all duration-300 group-hover:border-[#123F5B]/20 group-hover:shadow-sm">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#123F5B]">
                       resumeX Link
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-[#123F5B]">
+                    <p className="mt-2 text-sm leading-6 text-[#123F5B] transition-transform duration-300 group-hover:translate-x-0.5 font-medium">
                       {row.resumex}
                     </p>
                   </div>
@@ -111,19 +111,19 @@ export default function Comparison() {
           {comparisonRows.map((row, index) => (
             <div
               key={row.metric}
-              className={`grid md:grid-cols-[0.9fr_1.05fr_1.05fr] ${index !== comparisonRows.length - 1
+              className={`group grid md:grid-cols-[0.9fr_1.05fr_1.05fr] transition-all duration-300 cursor-default hover:relative hover:z-10 hover:shadow-[0_0_30px_rgba(0,0,0,0.04)] ${index !== comparisonRows.length - 1
                 ? "border-b border-[#E5E7E3]"
                 : ""
                 }`}
             >
-              <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm font-semibold text-[#123F5B] md:border-r md:px-7 md:text-[0.96rem]">
-                {row.metric}
+              <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm font-semibold text-[#123F5B] transition-colors duration-300 group-hover:bg-[#F0F0EA] md:border-r md:px-7 md:text-[0.96rem]">
+                <span className="block transition-transform duration-300 group-hover:translate-x-1">{row.metric}</span>
               </div>
-              <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm leading-7 text-[#557083] md:border-r md:px-7 md:text-[0.96rem]">
-                {row.drive}
+              <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm leading-7 text-[#557083] transition-colors duration-300 group-hover:bg-[#F0F0EA] md:border-r md:px-7 md:text-[0.96rem]">
+                <span className="block transition-transform duration-300 group-hover:translate-x-1">{row.drive}</span>
               </div>
-              <div className="bg-[#FFFFFF] px-5 py-6 text-sm leading-7 text-[#123F5B] md:px-7 md:text-[0.96rem]">
-                {row.resumex}
+              <div className="bg-[#FFFFFF] px-5 py-6 text-sm leading-7 text-[#123F5B] transition-colors duration-300 group-hover:bg-[#F9FAFB] md:px-7 md:text-[0.96rem]">
+                <span className="block font-medium transition-transform duration-300 group-hover:translate-x-1">{row.resumex}</span>
               </div>
             </div>
           ))}

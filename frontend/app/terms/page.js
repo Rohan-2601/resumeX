@@ -21,21 +21,21 @@ export const metadata = {
 export default function TermsPage() {
   return (
     <main
-      className={`${sansFont.className} min-h-screen bg-[#e9e1d0] px-4 py-14 text-[#1f1b16] sm:px-6 md:px-10`}
+      className={`${sansFont.className} min-h-screen bg-[#fdfdfd] px-4 py-14 text-[#123F5B] sm:px-6 md:px-10`}
     >
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#7b5a3d]">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#557083]">
           Legal
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#211911] sm:text-5xl">
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#123F5B] sm:text-5xl">
           Terms
           <span
-            className={`${displayFont.className} ml-3 italic text-[#8a6340]`}
+            className={`${displayFont.className} ml-3 italic text-[#123F5B]`}
           >
             of Use
           </span>
         </h1>
-        <p className="mt-5 text-sm leading-7 text-[#5f5144] sm:text-base sm:leading-8">
+        <p className="mt-5 text-sm leading-7 text-[#557083] sm:text-base sm:leading-8">
           These terms govern your use of resumeX. By using the product, you
           agree to use it lawfully and responsibly, especially when publishing
           resume links that others can access.
@@ -43,9 +43,9 @@ export default function TermsPage() {
 
       
 
-        <section className="mt-8 space-y-6 text-sm leading-7 text-[#5f5144] sm:text-base sm:leading-8">
+        <section className="mt-8 space-y-6 text-sm leading-7 text-[#557083] sm:text-base sm:leading-8">
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Account responsibilities
             </h3>
             <p>
@@ -56,7 +56,7 @@ export default function TermsPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Acceptable use
             </h3>
             <p>
@@ -67,7 +67,7 @@ export default function TermsPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Public link behavior
             </h3>
             <p>
@@ -77,7 +77,7 @@ export default function TermsPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Service availability
             </h3>
             <p>
@@ -87,7 +87,7 @@ export default function TermsPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Changes to terms
             </h3>
             <p>
@@ -97,10 +97,10 @@ export default function TermsPage() {
           </div>
         </section>
 
-        <div className="mt-10 border-t border-black/10 pt-5 text-sm font-medium text-[#6b5b4a]">
+        <div className="mt-10 border-t border-black/10 pt-5 text-sm font-medium text-[#557083]">
           <Link
             href="/"
-            className="text-[#6b5b4a] transition hover:text-[#241c16]"
+            className="text-[#557083] transition hover:text-[#123F5B]"
           >
             Return to home
           </Link>

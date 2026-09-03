@@ -1,9 +1,27 @@
 "use client";
 
+import { useState, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
   const { user, login, logout } = useAuth();
+
+  const [authHoverStyle, setAuthHoverStyle] = useState({ left: 0, width: 0, opacity: 0 });
+  const authContainerRef = useRef(null);
+
+  const handleAuthMouseEnter = (e) => {
+    if (!authContainerRef.current) return;
+    const { offsetLeft, offsetWidth } = e.currentTarget;
+    setAuthHoverStyle({
+      left: offsetLeft,
+      width: offsetWidth,
+      opacity: 1,
+    });
+  };
+
+  const handleAuthMouseLeave = () => {
+    setAuthHoverStyle((prev) => ({ ...prev, opacity: 0 }));
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 pt-8">
@@ -22,10 +40,10 @@ export default function Navbar() {
             Home
           </a>
           <a
-            href="#features"
+            href="#premium-features"
             className="text-sm font-medium text-white/90 transition-colors hover:text-white"
           >
-            Features
+            Premium Features
           </a>
           <a
             href="#cta"
@@ -52,12 +70,35 @@ export default function Navbar() {
             </button>
           </div>
         ) : (
-          <button
-            onClick={login}
-            className="rounded-full bg-white/20 px-6 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/30 backdrop-blur-sm hover:backdrop-blur-md"
+          <div
+            ref={authContainerRef}
+            onMouseLeave={handleAuthMouseLeave}
+            className="relative flex items-center gap-2"
           >
-            Login
-          </button>
+            <a
+              href="/login"
+              onMouseEnter={handleAuthMouseEnter}
+              className="relative z-10 px-4 py-2 text-sm font-semibold text-white/90 transition-colors hover:text-white"
+            >
+              Login
+            </a>
+            <a
+              href="/register"
+              onMouseEnter={handleAuthMouseEnter}
+              className="relative z-10 px-4 py-2 text-sm font-semibold text-white/90 transition-colors hover:text-white"
+            >
+              Register
+            </a>
+            
+            <div
+              className="absolute bottom-1 h-[2px] bg-white rounded-full transition-all duration-300 ease-out"
+              style={{
+                left: `${authHoverStyle.left}px`,
+                width: `${authHoverStyle.width}px`,
+                opacity: authHoverStyle.opacity,
+              }}
+            />
+          </div>
         )}
       </div>
     </nav>
