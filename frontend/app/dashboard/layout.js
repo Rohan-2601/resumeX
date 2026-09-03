@@ -11,6 +11,7 @@ import {
   LogOutIcon,
 } from "../components/icons/Icons";
 import { Playfair_Display, Sora } from "next/font/google";
+import Image from "next/image";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -127,7 +128,7 @@ export default function DashboardLayout({ children }) {
           <div className="mt-6 border-t border-black/10 pt-4">
             <div className="mb-3 flex items-center gap-3 px-1">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black/10 bg-white">
-                <img
+                <Image
                   src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
                   alt="Avatar"
                   width={40}

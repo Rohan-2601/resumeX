@@ -55,27 +55,27 @@ export default function CTA() {
               </button>
               <a
                 href="#faqs"
-                className="text-sm font-semibold text-[#557083] transition hover:text-[#123F5B]"
+                className="relative text-sm font-semibold text-[#557083] transition-colors hover:text-[#123F5B] after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-full after:origin-center after:scale-x-0 after:bg-[#123F5B] after:transition-transform after:duration-300 hover:after:scale-x-100"
               >
                 Read FAQs first
               </a>
-              <div className="hidden h-px flex-1 bg-[#557083]/35 md:block" />
+              <div className="hidden h-px flex-1 bg-[#557083]/20 md:block" />
             </div>
           </div>
 
           <div className="relative">
-            <div className="space-y-5">
-              <div className="h-px w-full bg-[#557083]/45" />
-              <p className="text-right text-xs font-bold uppercase tracking-[0.28em] text-[#557083]">
+            <div className="group space-y-5 cursor-default">
+              <div className="h-px w-full bg-[#557083]/20 transition-colors duration-500 group-hover:bg-[#557083]/50" />
+              <p className="text-right text-xs font-bold uppercase tracking-[0.28em] text-[#557083] transition-all duration-300 group-hover:-translate-x-1 group-hover:text-[#123F5B]">
                 Link once
               </p>
-              <p className="text-right text-xs font-bold uppercase tracking-[0.28em] text-[#557083]">
+              <p className="text-right text-xs font-bold uppercase tracking-[0.28em] text-[#557083] transition-all duration-300 delay-75 group-hover:-translate-x-1 group-hover:text-[#123F5B]">
                 Update anytime
               </p>
-              <p className="text-right text-xs font-bold uppercase tracking-[0.28em] text-[#557083]">
+              <p className="text-right text-xs font-bold uppercase tracking-[0.28em] text-[#557083] transition-all duration-300 delay-150 group-hover:-translate-x-1 group-hover:text-[#123F5B]">
                 Track everything
               </p>
-              <div className="h-px w-full bg-[#557083]/45" />
+              <div className="h-px w-full bg-[#557083]/20 transition-colors duration-500 group-hover:bg-[#557083]/50" />
             </div>
           </div>
         </div>

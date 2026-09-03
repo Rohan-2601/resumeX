@@ -2,6 +2,7 @@
 
 import { Syne, Outfit } from "next/font/google";
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 const headingFont = Syne({
   subsets: ["latin"],
@@ -18,6 +19,9 @@ function TiltCard({ children, className, isCenter = false }) {
   const [style, setStyle] = useState({
     transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translate3d(0, 0, 0)",
   });
+  
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
   
   // Disable on touch devices or small screens
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -44,6 +48,8 @@ function TiltCard({ children, className, isCenter = false }) {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
+    setMousePos({ x: mouseX, y: mouseY });
+    
     const centerX = width / 2;
     const centerY = height / 2;
     
@@ -71,8 +77,13 @@ function TiltCard({ children, className, isCenter = false }) {
     });
   };
 
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) setIsHovered(true);
+  };
+
   const handleMouseLeave = () => {
     if (isTouchDevice) return;
+    setIsHovered(false);
     setStyle({
       transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translate3d(0, 0, 0)",
       transition: "transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)",
@@ -84,11 +95,19 @@ function TiltCard({ children, className, isCenter = false }) {
   return (
     <article
       ref={cardRef}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`group ${className}`}
+      className={`group ${className} relative`}
       style={style}
     >
+      <div 
+        className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-500"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(18, 63, 91, 0.04), transparent 40%)`,
+        }}
+      />
       {children}
     </article>
   );
@@ -117,10 +136,12 @@ export default function HowItWorks() {
           {/* Card 1 (Left) */}
           <TiltCard className="md:mt-16 bg-[#FFFFFF] border border-[#E5E7E3] rounded-none overflow-hidden flex flex-col h-[420px] lg:h-[460px] w-full shadow-[0_18px_50px_-34px_rgba(0,0,0,0.06)] transition-shadow duration-500 hover:shadow-[0_26px_60px_-34px_rgba(0,0,0,0.12)] relative">
             <div className="relative h-[65%] w-full overflow-hidden border-b border-[#E5E7E3]">
-              <img
+              <Image
                 src="/computer.webp"
                 alt="Retro computer workstation"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>
             <div className="h-[35%] px-7 sm:px-8 flex flex-col justify-center bg-[#FFFFFF] relative z-10">
@@ -139,10 +160,12 @@ export default function HowItWorks() {
           {/* Card 2 (Center - Visually Dominant) */}
           <TiltCard isCenter className="bg-[#FFFFFF] border border-[#E5E7E3] rounded-none overflow-hidden flex flex-col h-[460px] lg:h-[520px] w-full shadow-[0_18px_50px_-34px_rgba(0,0,0,0.06)] transition-shadow duration-500 hover:shadow-[0_26px_60px_-34px_rgba(0,0,0,0.12)] z-10 md:-mt-8 relative">
             <div className="relative h-[70%] w-full overflow-hidden border-b border-[#E5E7E3]">
-              <img
+              <Image
                 src="/person.webp"
                 alt="Digital person"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>
             <div className="h-[30%] px-7 sm:px-8 flex flex-col justify-center bg-[#FFFFFF] relative z-10">
@@ -161,10 +184,12 @@ export default function HowItWorks() {
           {/* Card 3 (Right) */}
           <TiltCard className="md:mt-16 bg-[#FFFFFF] border border-[#E5E7E3] rounded-none overflow-hidden flex flex-col h-[420px] lg:h-[460px] w-full shadow-[0_18px_50px_-34px_rgba(0,0,0,0.06)] transition-shadow duration-500 hover:shadow-[0_26px_60px_-34px_rgba(0,0,0,0.12)] relative">
             <div className="relative h-[65%] w-full overflow-hidden border-b border-[#E5E7E3]">
-              <img
+              <Image
                 src="/share.webp"
                 alt="Paper airplane"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>
             <div className="h-[35%] px-7 sm:px-8 flex flex-col justify-center bg-[#FFFFFF] relative z-10">
