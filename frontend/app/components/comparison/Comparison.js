@@ -43,18 +43,18 @@ export default function Comparison() {
       <div className="relative mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-[#557083]">
-            ResumeX vs Drive Link
+            resumeX vs Drive Link
           </p>
           <h2 className="text-balance text-3xl font-medium leading-[1.03] tracking-tight text-[#123F5B] sm:text-5xl md:text-6xl">
             Why Recruiters Prefer
             <span
               className={`${displayFont.className} ml-3 inline-block italic text-[#123F5B]`}
             >
-              ResumeX
+              resumeX
             </span>
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-7 text-[#557083] md:text-lg md:leading-8">
-            Google Drive links share files. ResumeX shares your professional
+            Google Drive links share files. resumeX shares your professional
             profile flow: always current, easier to trust, and built for hiring
             conversations.
           </p>
@@ -83,7 +83,7 @@ export default function Comparison() {
 
                   <div className="rounded-xl border border-[#E5E7E3] bg-[#FFFFFF] p-4">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#123F5B]">
-                      ResumeX Link
+                      resumeX Link
                     </p>
                     <p className="mt-2 text-sm leading-6 text-[#123F5B]">
                       {row.resumex}
@@ -104,7 +104,7 @@ export default function Comparison() {
               Google Drive Link
             </div>
             <div className="bg-[#FFFFFF] px-5 py-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#123F5B] md:px-7">
-              ResumeX Link
+              resumeX Link
             </div>
           </div>
 
@@ -112,8 +112,8 @@ export default function Comparison() {
             <div
               key={row.metric}
               className={`grid md:grid-cols-[0.9fr_1.05fr_1.05fr] ${index !== comparisonRows.length - 1
-                  ? "border-b border-[#E5E7E3]"
-                  : ""
+                ? "border-b border-[#E5E7E3]"
+                : ""
                 }`}
             >
               <div className="border-[#E5E7E3] bg-[#F7F7F3] px-5 py-6 text-sm font-semibold text-[#123F5B] md:border-r md:px-7 md:text-[0.96rem]">

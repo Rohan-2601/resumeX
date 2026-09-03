@@ -12,7 +12,7 @@ const sansFont = Sora({
   weight: ["400", "500", "600", "700"],
 });
 
-const sampleLink = "https://resumex.rohann.tech/Rohan-2601/fullstack";
+const sampleLink = "https://resumeX.rohann.tech/Rohan-2601/fullstack";
 
 export default function SharePreview() {
   return (
@@ -48,7 +48,7 @@ export default function SharePreview() {
         >
           <div className="w-full overflow-hidden rounded-[1.35rem] border border-black/10 bg-white/90">
             <Image
-              src="/resume.png"
+              src="/resume.webp"
               alt="Resume share preview"
               width={1200}
               height={630}

@@ -10,7 +10,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
         {/* Logo */}
         <span className="text-lg font-bold text-white drop-shadow-lg">
-          ResumeX
+          resumeX
         </span>
 
         {/* Navigation Links */}

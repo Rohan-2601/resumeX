@@ -22,6 +22,10 @@ export default function Hero() {
     router.push("/login");
   };
 
+  const goToRegister = () => {
+    router.push("/register");
+  };
+
   return (
     <main
       id="home"
@@ -30,7 +34,7 @@ export default function Hero() {
       {/* Base Image Layer */}
       <div className="absolute inset-0 -z-40 translate-y-[2%] scale-[1.05]">
         <Image
-          src="/hero6.png"
+          src="/hero6.webp"
           alt="Hero Background"
           fill
           priority
@@ -50,15 +54,15 @@ export default function Hero() {
           {/* Left Logo */}
           <div className="flex items-center">
             <p className={`${headingFont.className} text-2xl md:text-3xl font-bold tracking-tighter text-[#15415C]`}>
-              ResumeX
+              resumeX
             </p>
           </div>
 
           {/* Right Actions */}
           <div className="flex items-center gap-6">
-            <a href="#" className="hidden sm:block text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition">
-              For Providers
-            </a>
+            <button onClick={goToRegister} className="hidden sm:block text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition">
+              Register
+            </button>
             <button
               onClick={goToLogin}
               className="text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition"
