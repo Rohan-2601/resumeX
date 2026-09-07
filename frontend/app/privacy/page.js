@@ -21,21 +21,21 @@ export const metadata = {
 export default function PrivacyPage() {
   return (
     <main
-      className={`${sansFont.className} min-h-screen bg-[#e9e1d0] px-4 py-14 text-[#1f1b16] sm:px-6 md:px-10`}
+      className={`${sansFont.className} min-h-screen bg-[#fdfdfd] px-4 py-14 text-[#123F5B] sm:px-6 md:px-10`}
     >
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#7b5a3d]">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#557083]">
           Legal
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#211911] sm:text-5xl">
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#123F5B] sm:text-5xl">
           Privacy
           <span
-            className={`${displayFont.className} ml-3 italic text-[#8a6340]`}
+            className={`${displayFont.className} ml-3 italic text-[#123F5B]`}
           >
             Policy
           </span>
         </h1>
-        <p className="mt-5 text-sm leading-7 text-[#5f5144] sm:text-base sm:leading-8">
+        <p className="mt-5 text-sm leading-7 text-[#557083] sm:text-base sm:leading-8">
           This page explains what information resumeX stores and why. Our goal
           is simple: give you a permanent resume link, version control, and
           useful view insights while collecting only the data needed to run the
@@ -43,9 +43,9 @@ export default function PrivacyPage() {
         </p>
 
 
-        <section className="mt-8 space-y-6 text-sm leading-7 text-[#5f5144] sm:text-base sm:leading-8">
+        <section className="mt-8 space-y-6 text-sm leading-7 text-[#557083] sm:text-base sm:leading-8">
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Data we collect
             </h3>
             <p>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               How we use data
             </h3>
             <p>
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Data sharing
             </h3>
             <p>
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">Retention</h3>
+            <h3 className="text-lg font-semibold text-[#123F5B]">Retention</h3>
             <p>
               Data is retained while your account is active and for a limited
               period after deletion for legal, security, and backup reasons.
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#211911]">
+            <h3 className="text-lg font-semibold text-[#123F5B]">
               Your choices
             </h3>
             <p>
@@ -97,10 +97,10 @@ export default function PrivacyPage() {
           </div>
         </section>
 
-        <div className="mt-10 border-t border-black/10 pt-5 text-sm font-medium text-[#6b5b4a]">
+        <div className="mt-10 border-t border-black/10 pt-5 text-sm font-medium text-[#557083]">
           <Link
             href="/"
-            className="text-[#6b5b4a] transition hover:text-[#241c16]"
+            className="text-[#557083] transition hover:text-[#123F5B]"
           >
             Return to home
           </Link>

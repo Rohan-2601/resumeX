@@ -2,6 +2,7 @@
 
 import { Syne, Outfit } from "next/font/google";
 import { useRouter } from "next/navigation";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { CornerButton } from "@/components/ui/corner-button";
 
@@ -18,8 +19,29 @@ const bodyFont = Outfit({
 export default function Hero() {
   const router = useRouter();
 
+  const [authHoverStyle, setAuthHoverStyle] = useState({ left: 0, width: 0, opacity: 0 });
+  const authContainerRef = useRef(null);
+
+  const handleAuthMouseEnter = (e) => {
+    if (!authContainerRef.current) return;
+    const { offsetLeft, offsetWidth } = e.currentTarget;
+    setAuthHoverStyle({
+      left: offsetLeft,
+      width: offsetWidth,
+      opacity: 1,
+    });
+  };
+
+  const handleAuthMouseLeave = () => {
+    setAuthHoverStyle((prev) => ({ ...prev, opacity: 0 }));
+  };
+
   const goToLogin = () => {
     router.push("/login");
+  };
+
+  const goToRegister = () => {
+    router.push("/register");
   };
 
   return (
@@ -30,7 +52,7 @@ export default function Hero() {
       {/* Base Image Layer */}
       <div className="absolute inset-0 -z-40 translate-y-[2%] scale-[1.05]">
         <Image
-          src="/hero6.png"
+          src="/hero6.webp"
           alt="Hero Background"
           fill
           priority
@@ -55,16 +77,34 @@ export default function Hero() {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-6">
-            <a href="#" className="hidden sm:block text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition">
-              For Providers
-            </a>
+          <div
+            ref={authContainerRef}
+            onMouseLeave={handleAuthMouseLeave}
+            className="relative flex items-center gap-6"
+          >
+            <button
+              onClick={goToRegister}
+              onMouseEnter={handleAuthMouseEnter}
+              className="relative z-10 hidden sm:block text-[15px] font-medium text-[#15415C] transition-colors"
+            >
+              Register
+            </button>
             <button
               onClick={goToLogin}
-              className="text-[15px] font-medium text-[#15415C] hover:text-[#15415C]/80 transition"
+              onMouseEnter={handleAuthMouseEnter}
+              className="relative z-10 text-[15px] font-medium text-[#15415C] transition-colors"
             >
-              Sign In
+              Login
             </button>
+            
+            <div
+              className="absolute -bottom-0.5 h-[2px] bg-[#15415C] rounded-full transition-all duration-300 ease-out"
+              style={{
+                left: `${authHoverStyle.left}px`,
+                width: `${authHoverStyle.width}px`,
+                opacity: authHoverStyle.opacity,
+              }}
+            />
           </div>
         </header>
 

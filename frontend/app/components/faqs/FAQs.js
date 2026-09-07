@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Playfair_Display, Sora } from "next/font/google";
+import { Syne, Outfit } from "next/font/google";
 
-const displayFont = Playfair_Display({
+const headingFont = Syne({
   subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
+  weight: ["500", "600", "700"],
 });
 
-const sansFont = Sora({
+const bodyFont = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -87,29 +86,29 @@ export default function FAQs() {
   return (
     <section
       id="faqs"
-      className={`${sansFont.className} relative overflow-hidden bg-[#e9e1d0] px-4 py-24 text-[#1f1b16] sm:px-6 md:px-10 md:py-28`}
+      className={`${bodyFont.className} relative overflow-hidden bg-[#fdfdfd] px-4 py-24 text-[#123F5B] sm:px-6 md:px-10 md:py-28`}
     >
       <div className="relative mx-auto max-w-6xl">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[0.95fr_1.05fr] md:gap-12 lg:gap-16">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[#7b5a3d]">
+            <p className="text-xs font-bold uppercase tracking-[0.34em] text-[#557083]">
               FAQs
             </p>
-            <h2 className="mt-4 text-balance text-3xl font-semibold leading-[1.04] tracking-tight text-[#211911] sm:text-5xl md:text-6xl">
+            <h2 className={`${headingFont.className} mt-4 text-balance text-3xl font-bold leading-[1.04] tracking-tighter text-[#123F5B] sm:text-5xl md:text-6xl`}>
               Answers Before
               <span
-                className={`${displayFont.className} ml-3 inline-block italic text-[#8a6340]`}
+                className="ml-3 inline-block text-[#123F5B]"
               >
                 You Ask
               </span>
             </h2>
-            <p className="mt-5 max-w-md text-sm leading-7 text-[#5f5144] sm:text-base sm:leading-8">
+            <p className="mt-5 max-w-md text-sm leading-7 text-[#557083] sm:text-base sm:leading-8">
               Everything you need to know before sharing your resume link with
               recruiters, hiring managers, or your network.
             </p>
             <a
               href="#cta"
-              className="mt-6 inline-flex items-center text-sm font-semibold text-[#6f543b] transition hover:text-[#211911]"
+              className="mt-6 inline-flex items-center text-sm font-semibold text-[#557083] transition hover:text-[#123F5B]"
             >
               Ready to start? Go to CTA
             </a>
@@ -129,11 +128,11 @@ export default function FAQs() {
                   data-index={index}
                   style={{ transitionDelay: `${index * 70}ms` }}
                   className={`overflow-hidden rounded-2xl border transition-all duration-700 ${isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-5 opacity-0"
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-5 opacity-0"
                     } ${isOpen
-                      ? "border-[#8a6340]/35 bg-[#e9e1d0] shadow-[0_16px_40px_-28px_rgba(0,0,0,0.45)]"
-                      : "border-black/10 bg-[#e9e1d0]"
+                      ? "border-[#123F5B]/35 bg-[#FFFFFF] shadow-[0_16px_40px_-28px_rgba(0,0,0,0.12)]"
+                      : "border-[#E5E7E3] bg-[#FFFFFF]"
                     }`}
                 >
                   <button
@@ -142,11 +141,11 @@ export default function FAQs() {
                     className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6"
                     aria-expanded={isOpen}
                   >
-                    <span className="text-sm font-semibold text-[#241c16] sm:text-base">
+                    <span className="text-sm font-bold text-[#123F5B] sm:text-base">
                       {item.question}
                     </span>
                     <span
-                      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black/10 text-base leading-none text-[#6f5a47] transition ${isOpen ? "rotate-45 bg-white/70" : "bg-white/45"
+                      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black/10 text-base leading-none text-[#557083] transition ${isOpen ? "rotate-45 bg-gray-100" : "bg-transparent"
                         }`}
                     >
                       +
@@ -154,7 +153,7 @@ export default function FAQs() {
                   </button>
 
                   {isOpen ? (
-                    <div className="px-5 pb-5 text-sm leading-7 text-[#5f5144] sm:px-6 sm:text-[0.97rem]">
+                    <div className="px-5 pb-5 text-sm leading-7 text-[#557083] sm:px-6 sm:text-[0.97rem]">
                       {item.answer}
                     </div>
                   ) : null}

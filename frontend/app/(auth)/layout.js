@@ -42,8 +42,8 @@ export default function AuthLayout({ children }) {
           <div className="flex flex-col h-full md:hidden">
             <section className="relative h-[40vh] w-full shrink-0">
               <Image
-                src="/signup.png"
-                alt="ResumeX visual"
+                src="/signup.webp"
+                alt="resumeX visual"
                 fill
                 priority
                 unoptimized={true}
@@ -55,7 +55,7 @@ export default function AuthLayout({ children }) {
 
               <div className="absolute bottom-6 left-6 max-w-sm text-white">
                 <p className="text-xs uppercase tracking-[0.3em] text-white/90">
-                  {isLogin ? "ResumeX Workspace" : "Start Your ResumeX Journey"}
+                  {isLogin ? "resumeX Workspace" : "Start Your resumeX Journey"}
                 </p>
                 <h1 className={`${displayFont.className} mt-3 text-3xl font-medium italic leading-tight text-white`}>
                   {isLogin
@@ -83,8 +83,8 @@ export default function AuthLayout({ children }) {
               } z-0`}
             >
               <Image
-                src="/signup.png"
-                alt="ResumeX visual"
+                src="/signup.webp"
+                alt="resumeX visual"
                 fill
                 priority
                 unoptimized={true}
@@ -99,7 +99,7 @@ export default function AuthLayout({ children }) {
                 className="absolute bottom-12 left-12 max-w-sm text-white animate-fade-in-up"
               >
                 <p className="text-xs uppercase tracking-[0.3em] text-white/90">
-                  {isLogin ? "ResumeX Workspace" : "Start Your ResumeX Journey"}
+                  {isLogin ? "resumeX Workspace" : "Start Your resumeX Journey"}
                 </p>
                 <h1 className={`${displayFont.className} mt-3 text-3xl font-medium italic leading-tight text-white`}>
                   {isLogin

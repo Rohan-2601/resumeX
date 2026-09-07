@@ -11,6 +11,7 @@ import {
   LogOutIcon,
 } from "../components/icons/Icons";
 import { Playfair_Display, Sora } from "next/font/google";
+import Image from "next/image";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -111,11 +112,10 @@ export default function DashboardLayout({ children }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-xl border px-3.5 py-2.5 text-sm font-medium transition ${
-                    isActive
+                  className={`flex items-center gap-3 rounded-xl border px-3.5 py-2.5 text-sm font-medium transition ${isActive
                       ? "border-[#123F5B] bg-[#123F5B] text-white hover:!text-white"
                       : "border-transparent text-[#557083] hover:border-[#E5E7E3] hover:bg-black/5 hover:!text-[#123F5B]"
-                  }`}
+                    }`}
                 >
                   <span className="flex opacity-90">{item.icon}</span>
                   {item.label}
@@ -126,8 +126,8 @@ export default function DashboardLayout({ children }) {
 
           <div className="mt-6 border-t border-[#E5E7E3] pt-4">
             <div className="mb-3 flex items-center gap-3 px-1">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[#E5E7E3] bg-white">
-                <img
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-black/10 bg-white">
+                <Image
                   src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
                   alt="Avatar"
                   width={40}
@@ -184,11 +184,10 @@ export default function DashboardLayout({ children }) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex min-w-[104px] flex-none items-center justify-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold whitespace-nowrap transition ${
-                        isActive
+                      className={`flex min-w-[104px] flex-none items-center justify-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold whitespace-nowrap transition ${isActive
                           ? "border-[#123F5B] bg-[#123F5B] text-white hover:!text-white"
                           : "border-[#E5E7E3] bg-white/45 text-[#557083] hover:!text-[#123F5B]"
-                      }`}
+                        }`}
                     >
                       {item.icon}
                       <span>{item.label}</span>

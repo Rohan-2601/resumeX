@@ -1,6 +1,6 @@
 import PublicResumeClient from "./PublicResumeClient";
 
-const FALLBACK_OG_IMAGE = "/hero.png";
+const FALLBACK_OG_IMAGE = "/hero.webp";
 
 function buildOgImageUrlFromPdf(fileUrl) {
   if (!fileUrl) return null;
