@@ -281,10 +281,8 @@ export default function ResumesPage() {
 
   return (
     <div
-      className={`${sansFont.className} relative space-y-6 pb-8 text-[#1f1b16]`}
+      className={`${sansFont.className} relative space-y-6 pb-8 text-[#123F5B]`}
     >
-      <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
-      <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
 
       {uploadSuccessToast ? (
         <Alert className="fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border-emerald-500/40 bg-[#141815] text-emerald-100 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.8)]">
@@ -315,25 +313,25 @@ export default function ResumesPage() {
         </Alert>
       ) : null}
 
-      <section className="border-b border-black/10 pb-5">
+      <section className="border-b border-[#E5E7E3] pb-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2">
               <Link
                 href="/dashboard"
                 aria-label="Back to dashboard"
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-transparent text-[#5f5144] transition hover:bg-black/5"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[#E5E7E3] bg-transparent text-[#557083] transition hover:bg-black/5"
               >
                 <IoIosArrowBack className="h-4 w-4" />
               </Link>
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#557083]">
                 Dashboard / Resumes
               </p>
             </div>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#211911] sm:text-4xl">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#123F5B] sm:text-4xl">
               Your resumes
               <span
-                className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#7b5a3d] sm:text-lg`}
+                className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#557083] sm:text-lg`}
               >
                 Click a resume to open its full version workspace in a new tab.
               </span>
@@ -347,7 +345,7 @@ export default function ResumesPage() {
               disabled={loading}
               aria-label={loading ? "Refreshing resumes" : "Refresh resumes"}
               title={loading ? "Refreshing resumes" : "Refresh resumes"}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-white/85 text-[#5f5144] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#E5E7E3] bg-white/85 text-[#557083] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               <RotateCwIcon
                 className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
@@ -356,7 +354,7 @@ export default function ResumesPage() {
             <button
               type="button"
               onClick={openNewResumeModal}
-              className="w-full rounded-xl bg-[#241c16] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#f6ebd7] transition hover:bg-[#17110c] sm:w-auto"
+              className="w-full rounded-xl bg-[#123F5B] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#FFFFFF] transition hover:bg-[#123F5B]/90 sm:w-auto"
             >
               Upload New Resume
             </button>
@@ -367,13 +365,13 @@ export default function ResumesPage() {
       <section className="space-y-3">
         {loading ? (
           <div className="flex min-h-[220px] items-center justify-center">
-            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-5 py-3 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
+            <div className="flex items-center gap-3 rounded-full border border-[#E5E7E3] bg-[#FFFFFF] px-5 py-3 text-sm font-medium text-[#557083] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
               Loading resumes...
             </div>
           </div>
         ) : sortedResumes.length === 0 ? (
-          <div className="mx-auto max-w-2xl rounded-2xl border border-black/10 bg-white/75 p-6 text-center text-sm text-[#5f5144]">
+          <div className="mx-auto max-w-2xl rounded-2xl border border-[#E5E7E3] bg-white/75 p-6 text-center text-sm text-[#557083]">
             No resumes yet. Upload your first PDF from the button above.
           </div>
         ) : (
@@ -385,19 +383,19 @@ export default function ResumesPage() {
                   type="button"
                   key={resume._id}
                   onClick={() => openWorkspace(resume._id)}
-                  className="w-full rounded-xl border border-black/10 bg-white/72 px-4 py-4 text-left transition hover:bg-white/90"
+                  className="w-full rounded-xl border border-[#E5E7E3] bg-white/72 px-4 py-4 text-left transition hover:bg-white/90"
                 >
                   <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
                     <div className="min-w-0 text-left">
-                      <p className="truncate text-base font-semibold text-[#211911]">
+                      <p className="truncate text-base font-semibold text-[#123F5B]">
                         {resume.title || "My Resume"}
                       </p>
-                      <p className="mt-1 truncate font-mono text-sm text-[#6b5b4a]">
+                      <p className="mt-1 truncate font-mono text-sm text-[#557083]">
                         {publicPath}
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-[#6b5b4a]">
+                    <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-[#557083]">
                       <span className="mr-1">
                         Updated {timeAgo(resume.updatedAt)}
                       </span>
@@ -412,45 +410,45 @@ export default function ResumesPage() {
 
       {isUploadModalOpen ? (
         <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/45 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
-          <div className="w-full max-w-2xl rounded-t-[1.5rem] border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.98)_0%,rgba(242,233,218,0.98)_100%)] p-5 shadow-[0_28px_90px_-35px_rgba(0,0,0,0.6)] sm:rounded-[1.75rem]">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+          <div className="w-full max-w-2xl rounded-t-[1.5rem] border border-[#E5E7E3] bg-[#f8f8f8] p-5 shadow-[0_28px_90px_-35px_rgba(0,0,0,0.6)] sm:rounded-[1.75rem]">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#557083]">
               Upload new resume
             </p>
-            <h3 className="mt-2 text-xl font-semibold text-[#211911]">
+            <h3 className="mt-2 text-xl font-semibold text-[#123F5B]">
               Create resume and upload PDF
             </h3>
 
             <div className="mt-4 space-y-4">
               <div>
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#557083]">
                   Resume title
                 </label>
                 <input
                   value={newResumeTitle}
                   onChange={(event) => setNewResumeTitle(event.target.value)}
-                  className="w-full rounded-2xl border border-black/10 bg-white/80 px-4 py-3 text-sm text-[#211911] outline-none transition placeholder:text-[#8b7a68] focus:border-[#8a6340]/60"
+                  className="w-full rounded-2xl border border-[#E5E7E3] bg-white/80 px-4 py-3 text-sm text-[#123F5B] outline-none transition placeholder:text-[#557083] focus:border-[#123F5B]/60"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#557083]">
                   Slug
                 </label>
-                <div className="flex flex-nowrap items-center gap-2 overflow-x-auto rounded-2xl border border-black/10 bg-white/80 px-4 py-3">
-                  <span className="shrink-0 font-mono text-sm text-[#6b5b4a]">
+                <div className="flex flex-nowrap items-center gap-2 overflow-x-auto rounded-2xl border border-[#E5E7E3] bg-white/80 px-4 py-3">
+                  <span className="shrink-0 font-mono text-sm text-[#557083]">
                     /{user.username}/
                   </span>
                   <input
                     value={newResumeSlug}
                     onChange={(event) => setNewResumeSlug(event.target.value)}
                     placeholder="frontend"
-                    className="min-w-0 flex-1 bg-transparent text-sm text-[#211911] outline-none placeholder:text-[#8b7a68]"
+                    className="min-w-0 flex-1 bg-transparent text-sm text-[#123F5B] outline-none placeholder:text-[#557083]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.24em] text-[#557083]">
                   PDF file
                 </label>
                 <input
@@ -460,12 +458,12 @@ export default function ResumesPage() {
                     setUploadNotice("");
                     setUploadFile(event.target.files?.[0] || null);
                   }}
-                  className="w-full rounded-2xl border border-black/10 bg-white/80 px-4 py-3 text-sm text-[#211911] file:mr-3 file:rounded-xl file:border-0 file:bg-[#241c16] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#f6ebd7]"
+                  className="w-full rounded-2xl border border-[#E5E7E3] bg-white/80 px-4 py-3 text-sm text-[#123F5B] file:mr-3 file:rounded-xl file:border-0 file:bg-[#123F5B] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-[#FFFFFF]"
                 />
               </div>
 
               {uploadPreviewUrl ? (
-                <div className="h-56 overflow-hidden rounded-2xl border border-black/10 bg-white">
+                <div className="h-56 overflow-hidden rounded-2xl border border-[#E5E7E3] bg-white">
                   <iframe
                     title="Selected PDF preview"
                     src={uploadPreviewUrl}
@@ -491,7 +489,7 @@ export default function ResumesPage() {
               <button
                 type="button"
                 onClick={() => setIsUploadModalOpen(false)}
-                className="flex-1 rounded-2xl border border-black/10 bg-white/75 px-4 py-3 text-sm font-semibold text-[#5f5144] transition hover:bg-white"
+                className="flex-1 rounded-2xl border border-[#E5E7E3] bg-white/75 px-4 py-3 text-sm font-semibold text-[#557083] transition hover:bg-white"
               >
                 Cancel
               </button>
@@ -499,7 +497,7 @@ export default function ResumesPage() {
                 type="button"
                 onClick={handleUpload}
                 disabled={uploading || !uploadFile || !newResumeSlug.trim()}
-                className="flex-1 rounded-2xl bg-[#241c16] px-4 py-3 text-sm font-semibold text-[#f6ebd7] transition hover:bg-[#17110c] disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex-1 rounded-2xl bg-[#123F5B] px-4 py-3 text-sm font-semibold text-[#FFFFFF] transition hover:bg-[#123F5B]/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {uploading ? "Uploading..." : "Upload"}
               </button>

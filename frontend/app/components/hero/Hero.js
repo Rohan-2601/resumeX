@@ -50,7 +50,7 @@ export default function Hero() {
           {/* Left Logo */}
           <div className="flex items-center">
             <p className={`${headingFont.className} text-2xl md:text-3xl font-bold tracking-tighter text-[#15415C]`}>
-              ResumeX
+              resumeX
             </p>
           </div>
 

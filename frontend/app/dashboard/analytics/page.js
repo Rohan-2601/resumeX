@@ -146,31 +146,28 @@ export default function AnalyticsPage() {
 
   return (
     <div
-      className={`${sansFont.className} relative space-y-6 pb-8 text-[#1f1b16]`}
+      className={`${sansFont.className} relative space-y-6 pb-8 text-[#123F5B]`}
     >
-      <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
-      <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#f0e2c9]/50 blur-3xl" />
 
-      <header className="border-b border-black/10 pb-5">
+      <header className="border-b border-[#E5E7E3] pb-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2">
               <Link
                 href="/dashboard"
                 aria-label="Back to dashboard"
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-transparent text-[#5f5144] transition hover:bg-black/5"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[#E5E7E3] bg-transparent text-[#557083] transition hover:bg-black/5"
               >
                 <IoIosArrowBack className="h-4 w-4" />
               </Link>
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#7b5a3d]">
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#557083]">
                 Dashboard / Analytics
               </p>
             </div>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#211911] sm:text-4xl">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#123F5B] sm:text-4xl">
               Resume performance, without the clutter.
               <span
-                className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#7b5a3d] sm:text-lg`}
+                className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#557083] sm:text-lg`}
               >
                 See where your link is being opened and what is working best.
               </span>
@@ -182,14 +179,14 @@ export default function AnalyticsPage() {
       <section className="space-y-3">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#557083]">
               Breakdown
             </p>
-            <h2 className="mt-1 text-xl font-semibold text-[#211911]">
+            <h2 className="mt-1 text-xl font-semibold text-[#123F5B]">
               Where views are coming from
             </h2>
           </div>
-          <div className="text-sm text-[#5f5144]">
+          <div className="text-sm text-[#557083]">
             {loading
               ? "Refreshing analytics..."
               : `${analytics?.totalViews || 0} total views`}
@@ -198,8 +195,8 @@ export default function AnalyticsPage() {
 
         {loading ? (
           <div className="flex min-h-[220px] items-center justify-center">
-            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-5 py-3 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
+            <div className="flex items-center gap-3 rounded-full border border-[#E5E7E3] bg-[#FFFFFF] px-5 py-3 text-sm font-medium text-[#557083] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
               Loading analytics...
             </div>
           </div>
@@ -213,46 +210,46 @@ export default function AnalyticsPage() {
         ) : analytics ? (
           <>
             <div className="grid grid-cols-1 gap-2.5 md:grid-cols-3">
-              <div className="rounded-xl border border-black/10 bg-white/72 px-4 py-3">
-                <div className="flex items-center justify-between text-[#5f5144]">
+              <div className="rounded-xl border border-[#E5E7E3] bg-white/72 px-4 py-3">
+                <div className="flex items-center justify-between text-[#557083]">
                   <span className="text-xs font-semibold uppercase tracking-[0.12em]">
                     LinkedIn
                   </span>
                   <Link2Icon />
                 </div>
-                <p className="mt-2 text-2xl font-semibold text-[#211911]">
+                <p className="mt-2 text-2xl font-semibold text-[#123F5B]">
                   {sourceMap("LinkedIn")}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-black/10 bg-white/72 px-4 py-3">
-                <div className="flex items-center justify-between text-[#5f5144]">
+              <div className="rounded-xl border border-[#E5E7E3] bg-white/72 px-4 py-3">
+                <div className="flex items-center justify-between text-[#557083]">
                   <span className="text-xs font-semibold uppercase tracking-[0.12em]">
                     GitHub
                   </span>
                   <HistoryIcon />
                 </div>
-                <p className="mt-2 text-2xl font-semibold text-[#211911]">
+                <p className="mt-2 text-2xl font-semibold text-[#123F5B]">
                   {sourceMap("GitHub")}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-black/10 bg-white/72 px-4 py-3">
-                <div className="flex items-center justify-between text-[#5f5144]">
+              <div className="rounded-xl border border-[#E5E7E3] bg-white/72 px-4 py-3">
+                <div className="flex items-center justify-between text-[#557083]">
                   <span className="text-xs font-semibold uppercase tracking-[0.12em]">
                     Direct
                   </span>
                   <ActivityIcon />
                 </div>
-                <p className="mt-2 text-2xl font-semibold text-[#211911]">
+                <p className="mt-2 text-2xl font-semibold text-[#123F5B]">
                   {sourceMap("Direct")}
                 </p>
               </div>
             </div>
 
-            <div className="mt-2 overflow-hidden rounded-xl border border-black/10 bg-white/70">
-              <div className="border-b border-black/10 px-5 py-4">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7b5a3d]">
+            <div className="mt-2 overflow-hidden rounded-xl border border-[#E5E7E3] bg-white/70">
+              <div className="border-b border-[#E5E7E3] px-5 py-4">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#557083]">
                   Recent Activity
                 </h3>
               </div>
@@ -277,23 +274,23 @@ export default function AnalyticsPage() {
                           <tr key={view._id || index}>
                             <td>
                               <div className="flex items-center gap-3">
-                                <div className="h-2 w-2 rounded-full bg-[#8a6340]" />
-                                <span className="font-semibold text-[#211911]">
+                                <div className="h-2 w-2 rounded-full bg-[#D4E5B2]" />
+                                <span className="font-semibold text-[#123F5B]">
                                   Resume Viewed
                                 </span>
                               </div>
                             </td>
                             <td>
-                              <span className="badge badge-neutral border border-black/10 bg-white/70 text-[#5f5144]">
+                              <span className="badge badge-neutral border border-[#E5E7E3] bg-white/70 text-[#557083]">
                                 {view.source}
                               </span>
                             </td>
                             <td>
-                              <span className="font-mono text-sm text-[#5f5144]">
+                              <span className="font-mono text-sm text-[#557083]">
                                 {targetPath}
                               </span>
                             </td>
-                            <td className="text-sm text-[#5f5144]">
+                            <td className="text-sm text-[#557083]">
                               {timeAgo(view.createdAt)}
                             </td>
                           </tr>
@@ -303,14 +300,14 @@ export default function AnalyticsPage() {
                   </table>
                 </div>
               ) : (
-                <div className="p-6 text-sm text-[#5f5144]">
+                <div className="p-6 text-sm text-[#557083]">
                   No recent activity yet.
                 </div>
               )}
             </div>
           </>
         ) : (
-          <Alert className="rounded-xl border-black/10 bg-white/70 text-[#5f5144]">
+          <Alert className="rounded-xl border-[#E5E7E3] bg-white/70 text-[#557083]">
             <AlertDescription>No analytics available yet.</AlertDescription>
           </Alert>
         )}
