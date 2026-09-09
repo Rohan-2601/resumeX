@@ -41,7 +41,7 @@ export default function DashboardLayout({ children }) {
     }
   }, [loading, user, hasToken, router]);
 
-  if (loading || (!user && hasToken))
+  if (!user && (loading || hasToken))
     return (
       <div
         className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#f4f7f6] text-[#0A2540]`}
@@ -158,6 +158,7 @@ export default function DashboardLayout({ children }) {
                     alt="Avatar"
                     width={44}
                     height={44}
+                    unoptimized
                     className="object-cover"
                   />
                 </div>
@@ -209,6 +210,7 @@ export default function DashboardLayout({ children }) {
                     alt="Avatar"
                     width={36}
                     height={36}
+                    unoptimized
                   />
                 </div>
               </div>
@@ -249,18 +251,15 @@ export default function DashboardLayout({ children }) {
           </motion.header>
 
           <div className="px-5 py-8 sm:px-8 md:px-12 md:py-10 lg:px-16 min-h-full">
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={pathname}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className={isWorkspace ? "mx-auto max-w-[1400px]" : "mx-auto max-w-[1000px]"}
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
+            <motion.div 
+              key={pathname}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className={isWorkspace ? "mx-auto max-w-[1400px]" : "mx-auto max-w-[1000px]"}
+            >
+              {children}
+            </motion.div>
           </div>
         </main>
       </div>

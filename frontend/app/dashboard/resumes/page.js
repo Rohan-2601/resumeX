@@ -122,10 +122,10 @@ export default function ResumesPage() {
     };
   }, []);
 
-  const loadResumes = async () => {
+  const loadResumes = async (showLoading = true) => {
     if (!user) return;
 
-    setLoading(true);
+    if (showLoading) setLoading(true);
     setMessage("");
 
     try {
@@ -159,8 +159,52 @@ export default function ResumesPage() {
   };
 
   useEffect(() => {
-    loadResumes();
-  }, [user]);
+    let isCurrent = true;
+
+    const fetchInitial = async () => {
+      if (!user) return;
+
+      try {
+        const token = getValidToken();
+        if (!token) {
+          handleUnauthorized(setMessage);
+          if (isCurrent) setResumes([]);
+          return;
+        }
+
+        const response = await axios.get(`${backendUrl}/api/resume/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (isCurrent) {
+          setResumes(response.data.resumes || []);
+        }
+      } catch (error) {
+        if (!isCurrent) return;
+        if (error.response?.status === 401) {
+          handleUnauthorized(setMessage);
+          setResumes([]);
+          return;
+        }
+
+        if (error.response?.status === 404) {
+          setResumes([]);
+        } else {
+          console.error(error);
+          setMessage("Unable to load resumes right now.");
+        }
+      } finally {
+        if (isCurrent) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchInitial();
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [user?._id]);
 
   const openWorkspace = (resumeId) => {
     window.open(
@@ -335,17 +379,6 @@ export default function ResumesPage() {
 
   return (
     <div className={`${sansFont.className} relative space-y-8 pb-8 text-[#0A2540]`}>
-      <div className="mb-2 hidden items-end justify-between md:flex">
-        <div>
-          <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
-            <span className="h-px w-6 bg-[#0A2540]/10"></span>
-            Overview
-          </div>
-          <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
-            Resumes
-          </h1>
-        </div>
-      </div>
       <AnimatePresence>
         {uploadSuccessToast && (
           <motion.div
@@ -364,28 +397,32 @@ export default function ResumesPage() {
         )}
       </AnimatePresence>
 
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            className="flex min-h-[60vh] items-center justify-center"
-          >
-            <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
-              Loading your workspaces...
+      {loading ? (
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
+            Loading your workspaces...
+          </div>
+        </div>
+      ) : (
+        <motion.div
+          key="content"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="space-y-8"
+        >
+            <div className="mb-2 hidden items-end justify-between md:flex">
+              <div>
+                <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
+                  <span className="h-px w-6 bg-[#0A2540]/10"></span>
+                  Overview
+                </div>
+                <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
+                  Resumes
+                </h1>
+              </div>
             </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="space-y-8"
-          >
             {message && (
               <Alert
                 variant={isErrorMessage ? "destructive" : "default"}
@@ -529,8 +566,6 @@ export default function ResumesPage() {
             </section>
           </motion.div>
         )}
-      </AnimatePresence>
-
       <AnimatePresence>
         {isUploadModalOpen && (
           <div className="fixed inset-0 z-[120] flex items-center justify-center px-4 py-6 sm:px-6">

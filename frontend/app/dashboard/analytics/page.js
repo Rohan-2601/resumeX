@@ -93,10 +93,10 @@ export default function AnalyticsPage() {
     }
   };
 
-  const loadAnalytics = async () => {
+  const loadAnalytics = async (showLoading = true) => {
     if (!user) return;
 
-    setLoading(true);
+    if (showLoading) setLoading(true);
     setErrorMessage("");
 
     try {
@@ -140,8 +140,68 @@ export default function AnalyticsPage() {
   };
 
   useEffect(() => {
-    loadAnalytics();
-  }, [user]);
+    let isCurrent = true;
+
+    const fetchInitial = async () => {
+      if (!user) return;
+
+      try {
+        const token = localStorage.getItem("token");
+        const resumeRes = await axios.get(`${backendUrl}/api/resume/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const resume = resumeRes.data.resumes?.[0] || null;
+        if (!resume) {
+          if (isCurrent) {
+            setResumeTitle("My Resume");
+            setResumeSlug("");
+            setAnalytics(null);
+            setErrorMessage("No analytics available yet. Upload a resume first.");
+          }
+          return;
+        }
+        if (isCurrent) {
+          setResumeTitle(resume.title || "My Resume");
+          setResumeSlug(resume.slug || "");
+        }
+
+        if (!token) {
+          if (isCurrent) {
+            setAnalytics(null);
+            setErrorMessage("Sign in to view analytics.");
+          }
+          return;
+        }
+
+        const analyticsRes = await axios.get(`${backendUrl}/api/analytics`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (isCurrent) {
+          setAnalytics(analyticsRes.data);
+        }
+      } catch (error) {
+        if (!isCurrent) return;
+        if (error.response?.status === 404) {
+          setAnalytics(null);
+          setErrorMessage("No analytics available yet. Upload a resume first.");
+        } else {
+          console.error(error);
+          setAnalytics(null);
+          setErrorMessage("Unable to load analytics right now.");
+        }
+      } finally {
+        if (isCurrent) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchInitial();
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [user?._id]);
 
   if (!user) return null;
 
@@ -149,32 +209,14 @@ export default function AnalyticsPage() {
     <div
       className={`${sansFont.className} relative pb-8 text-[#123F5B]`}
     >
-      <div className="mb-2 hidden items-end justify-between md:flex">
-        <div>
-          <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
-            <span className="h-px w-6 bg-[#0A2540]/10"></span>
-            Overview
+      {loading ? (
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
+            Loading analytics...
           </div>
-          <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
-            Analytics
-          </h1>
         </div>
-      </div>
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            className="flex min-h-[60vh] items-center justify-center"
-          >
-            <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
-              Loading analytics...
-            </div>
-          </motion.div>
-        ) : (
+      ) : (
           <motion.div
             key="content"
             initial={{ opacity: 0, y: 15 }}
@@ -182,6 +224,17 @@ export default function AnalyticsPage() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="space-y-6"
           >
+            <div className="mb-2 hidden items-end justify-between md:flex">
+              <div>
+                <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
+                  <span className="h-px w-6 bg-[#0A2540]/10"></span>
+                  Overview
+                </div>
+                <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
+                  Analytics
+                </h1>
+              </div>
+            </div>
             <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-8">
               <div className="max-w-3xl relative z-10">
                 <motion.h1 
@@ -326,7 +379,6 @@ export default function AnalyticsPage() {
           </section>
         </motion.div>
       )}
-      </AnimatePresence>
     </div>
   );
 }

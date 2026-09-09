@@ -7,7 +7,7 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../../context/AuthContext";
 import { UploadIcon } from "../../../components/icons/Icons";
-import { CheckCircle2Icon, InfoIcon } from "lucide-react";
+import { CheckCircle2Icon, InfoIcon, Check, Copy } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,7 +45,9 @@ export default function ResumeWorkspacePage() {
 
   const [uploadFile, setUploadFile] = useState(null);
   const [uploadPreviewUrl, setUploadPreviewUrl] = useState("");
+  const [copiedLink, setCopiedLink] = useState(false);
   const alertTimeoutRef = useRef(null);
+  const copyTimeoutRef = useRef(null);
 
   const selectedVersion = useMemo(
     () => versions.find((version) => version._id === selectedVersionId) || null,
@@ -75,6 +77,9 @@ export default function ResumeWorkspacePage() {
     return () => {
       if (alertTimeoutRef.current) {
         window.clearTimeout(alertTimeoutRef.current);
+      }
+      if (copyTimeoutRef.current) {
+        window.clearTimeout(copyTimeoutRef.current);
       }
     };
   }, []);
@@ -257,6 +262,13 @@ export default function ResumeWorkspacePage() {
 
     try {
       await navigator.clipboard.writeText(publicLink);
+      setCopiedLink(true);
+      if (copyTimeoutRef.current) {
+        window.clearTimeout(copyTimeoutRef.current);
+      }
+      copyTimeoutRef.current = window.setTimeout(() => {
+        setCopiedLink(false);
+      }, 2000);
       showAlert("Link copied.");
     } catch (error) {
       console.error(error);
@@ -293,9 +305,9 @@ export default function ResumeWorkspacePage() {
               <Link
                 href="/dashboard/resumes"
                 aria-label="Back to resumes"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-transparent text-[#4B5E76] transition hover:bg-[#0A2540]/[0.03]"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.03)] transition-all duration-150 hover:bg-[#0A2540]/[0.04] hover:text-[#0A2540] hover:border-[#0A2540]/20 active:scale-95"
               >
-                <IoIosArrowBack className="h-4 w-4" />
+                <IoIosArrowBack className="h-4 w-4 text-inherit" />
               </Link>
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
                 Resume Workspace
@@ -319,20 +331,39 @@ export default function ResumeWorkspacePage() {
               <button
                 type="button"
                 onClick={handleCopyLink}
-                title="Copy public link"
-                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] transition hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540]"
+                title={copiedLink ? "Copied to clipboard!" : "Copy public link"}
+                aria-label={copiedLink ? "Copied" : "Copy link"}
+                className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200 active:scale-95 ${
+                  copiedLink
+                    ? "border-emerald-500/40 bg-emerald-50/90 text-emerald-600 shadow-sm"
+                    : "border-[#0A2540]/[0.08] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.04] hover:text-[#0A2540]"
+                }`}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  className="h-4 w-4"
-                >
-                  <rect x="9" y="9" width="11" height="11" rx="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
+                <AnimatePresence mode="wait" initial={false}>
+                  {copiedLink ? (
+                    <motion.div
+                      key="check"
+                      initial={{ scale: 0.6, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.6, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                      className="flex items-center justify-center"
+                    >
+                      <Check className="h-3.5 w-3.5 stroke-[2.5]" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="copy"
+                      initial={{ scale: 0.6, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.6, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                      className="flex items-center justify-center"
+                    >
+                      <Copy className="h-3.5 w-3.5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </button>
             </div>
           </div>
@@ -346,10 +377,14 @@ export default function ResumeWorkspacePage() {
             <button
               type="button"
               onClick={() => setIsUploadModalOpen(true)}
-              className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-transparent bg-[#0A2540] px-5 py-2.5 text-sm font-medium tracking-wide text-white shadow-sm transition-all hover:bg-[#113155] active:scale-[0.98] sm:w-auto sm:flex-none"
+              className="group relative flex flex-1 items-center justify-center gap-2 rounded-xl px-6 py-2.5 text-[13.5px] font-bold tracking-wide text-white shadow-[0_4px_14px_0_rgba(10,37,64,0.25)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(10,37,64,0.15)] active:scale-[0.97] sm:w-auto sm:flex-none overflow-hidden border border-white/10"
             >
-              <UploadIcon className="h-4 w-4" />
-              Upload New Version
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0A2540] to-[#1a3857]" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-[radial-gradient(circle_at_top,white_0%,transparent_70%)] transition-opacity duration-500" />
+              <div className="relative flex items-center gap-2 drop-shadow-sm">
+                <UploadIcon className="h-4 w-4" />
+                <span>Upload New Version</span>
+              </div>
             </button>
           </motion.div>
         </section>

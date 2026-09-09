@@ -27,8 +27,16 @@ const getStoredUser = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    if (typeof window === "undefined") return null;
+    return getStoredUser();
+  });
+  const [loading, setLoading] = useState(() => {
+    if (typeof window === "undefined") return true;
+    const token = getStoredToken();
+    const cachedUser = getStoredUser();
+    return Boolean(token && !cachedUser);
+  });
 
   useEffect(() => {
     let isMounted = true;
