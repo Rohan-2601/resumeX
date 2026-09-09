@@ -248,29 +248,7 @@ export default function DashboardLayout({ children }) {
             </div>
           </motion.header>
 
-          <div className={isWorkspace ? "h-full flex flex-col" : "px-5 py-8 sm:px-8 md:px-12 md:py-10 lg:px-16 min-h-full"}>
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className={isWorkspace ? "hidden" : "mx-auto mb-8 hidden max-w-[1000px] items-end justify-between md:flex"}
-            >
-              <div>
-                <motion.div 
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.3 }}
-                  className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]"
-                >
-                  <span className="h-px w-6 bg-[#0A2540]/10"></span>
-                  Overview
-                </motion.div>
-                <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
-                  {activeItem.label}
-                </h1>
-              </div>
-            </motion.div>
-
+          <div className="px-5 py-8 sm:px-8 md:px-12 md:py-10 lg:px-16 min-h-full">
             <AnimatePresence mode="wait">
               <motion.div 
                 key={pathname}
@@ -278,7 +256,7 @@ export default function DashboardLayout({ children }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className={isWorkspace ? "flex-1 h-full flex flex-col" : "mx-auto max-w-[1000px]"}
+                className={isWorkspace ? "mx-auto max-w-[1400px]" : "mx-auto max-w-[1000px]"}
               >
                 {children}
               </motion.div>

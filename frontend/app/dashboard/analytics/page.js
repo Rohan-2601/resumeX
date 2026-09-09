@@ -149,6 +149,17 @@ export default function AnalyticsPage() {
     <div
       className={`${sansFont.className} relative pb-8 text-[#123F5B]`}
     >
+      <div className="mb-2 hidden items-end justify-between md:flex">
+        <div>
+          <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
+            <span className="h-px w-6 bg-[#0A2540]/10"></span>
+            Overview
+          </div>
+          <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
+            Analytics
+          </h1>
+        </div>
+      </div>
       <AnimatePresence mode="wait">
         {loading ? (
           <motion.div

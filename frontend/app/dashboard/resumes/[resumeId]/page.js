@@ -265,8 +265,8 @@ export default function ResumeWorkspacePage() {
   };
 
   return (
-    <div className={`${sansFont.className} flex-1 flex flex-col p-4 sm:p-6 lg:p-8 text-[#0A2540] min-h-0`}>
-      <div className="flex flex-col flex-1 mx-auto w-full min-h-0">
+    <div className={`${sansFont.className} flex flex-col text-[#0A2540]`}>
+      <div className="flex flex-col mx-auto w-full">
         {alertState ? (
           <Alert
             variant={alertState.type === "error" ? "destructive" : "default"}
@@ -354,15 +354,15 @@ export default function ResumeWorkspacePage() {
           </motion.div>
         </section>
 
-        <section className="flex flex-col lg:flex-row flex-1 min-h-0 overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white shadow-sm">
-          <aside className="w-full lg:w-[340px] xl:w-[380px] flex flex-col border-b border-[#0A2540]/[0.08] lg:border-b-0 lg:border-r bg-[#0A2540]/[0.01]">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#0A2540]/[0.08] bg-white">
+        <section className="flex flex-col lg:flex-row gap-8">
+          <aside className="w-full lg:w-[320px] xl:w-[360px] flex flex-col shrink-0">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#0A2540]/[0.08]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
                 Version history
               </p>
             </div>
 
-            <div className="flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex flex-col gap-3">
               {loading ? (
                 <div className="flex min-h-[180px] items-center justify-center p-4">
                   <div className="flex items-center gap-3 rounded-2xl border border-[#0A2540]/[0.08] bg-white px-5 py-4 text-sm font-medium text-[#4B5E76] shadow-sm">
@@ -391,10 +391,10 @@ export default function ResumeWorkspacePage() {
                           setSelectedVersionId(version._id);
                         }
                       }}
-                      className={`group flex flex-col items-start border-b border-[#0A2540]/[0.06] last:border-0 p-5 text-left transition-colors cursor-pointer ${
+                      className={`group flex flex-col items-start rounded-xl border p-4 text-left transition-colors cursor-pointer ${
                         isSelected
-                          ? "bg-white border-l-2 border-l-[#0A2540]"
-                          : "hover:bg-white/60 border-l-2 border-l-transparent"
+                          ? "bg-white border-[#0A2540] shadow-[0_2px_12px_rgba(10,37,64,0.08)]"
+                          : "bg-white border-[#0A2540]/[0.08] shadow-[0_1px_3px_rgba(10,37,64,0.02)] hover:border-[#0A2540]/30 hover:shadow-md"
                       }`}
                     >
                       <div className="flex w-full items-center justify-between gap-2">
@@ -474,7 +474,7 @@ export default function ResumeWorkspacePage() {
             </div>
           </aside>
 
-          <div className="relative flex-1 bg-[#0A2540]/[0.02] min-h-[60dvh] lg:min-h-0">
+          <div className="relative flex-1 h-[1150px] rounded-2xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.02] overflow-hidden shadow-sm">
             <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-start justify-between gap-3 pointer-events-none">
               <div className="flex items-center gap-2 pointer-events-auto">
                 {selectedVersion ? (
