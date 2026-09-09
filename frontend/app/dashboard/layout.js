@@ -259,18 +259,14 @@ export default function DashboardLayout({ children }) {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: 0.3 }}
-                  className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-[#6B7280]"
+                  className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]"
                 >
-                  <span className="h-px w-6 bg-[#6B7280]/40"></span>
+                  <span className="h-px w-6 bg-[#0A2540]/10"></span>
                   Overview
                 </motion.div>
-                <h1 className="text-[2rem] font-bold tracking-tight text-[#0A2540] flex items-center gap-3">
+                <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
                   {activeItem.label}
                 </h1>
-              </div>
-              <div className="flex items-center gap-2 text-[13px] font-semibold text-[#4B5E76] bg-white/60 border border-white/80 px-4 py-2 rounded-full backdrop-blur-md shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse" />
-                Workspace Active
               </div>
             </motion.div>
 

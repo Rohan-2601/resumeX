@@ -362,20 +362,8 @@ export default function ResumesPage() {
         >
           <button
             type="button"
-            onClick={loadResumes}
-            disabled={loading}
-            aria-label={loading ? "Refreshing resumes" : "Refresh resumes"}
-            title={loading ? "Refreshing resumes" : "Refresh resumes"}
-            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/60 bg-white/50 text-[#4B5E76] transition-all hover:bg-white hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 backdrop-blur-md"
-          >
-            <RotateCwIcon
-              className={`h-5 w-5 ${loading ? "animate-spin text-[#0A2540]" : ""}`}
-            />
-          </button>
-          <button
-            type="button"
             onClick={openNewResumeModal}
-            className="group flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[#0A2540] px-6 py-3 text-sm font-bold tracking-wide text-white transition-all hover:bg-[#1E3A8A] hover:shadow-[0_8px_25px_rgba(30,58,138,0.3)] hover:-translate-y-0.5 active:translate-y-0 sm:w-auto sm:flex-none"
+            className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
           >
             <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
             Upload New Resume
@@ -397,20 +385,21 @@ export default function ResumesPage() {
           </div>
         ) : sortedResumes.length === 0 ? (
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mx-auto flex max-w-2xl flex-col items-center justify-center rounded-[2rem] border border-white/60 bg-white/40 backdrop-blur-xl p-12 text-center shadow-sm"
+            variants={itemVariants}
+            className="flex min-h-[360px] w-full flex-col items-center justify-center rounded-2xl border border-[#0A2540]/[0.08] bg-white p-8 text-center"
           >
-            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#0A2540]/5">
-              <FileText className="h-10 w-10 text-[#0A2540]/40" />
+            <div className="mb-6 flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[#0A2540]/[0.03] border border-[#0A2540]/[0.08]">
+              <FileTextIcon className="h-6 w-6 text-[#0A2540]/60" />
             </div>
-            <h3 className="text-xl font-bold text-[#0A2540]">No resumes found</h3>
-            <p className="mt-2 mb-8 max-w-sm text-[15px] leading-relaxed text-[#4B5E76]">
-              You haven't uploaded any resumes yet. Start building your portfolio by uploading your first PDF.
+            <h3 className="mb-1.5 text-lg font-semibold tracking-tight text-[#0A2540]">
+              No resumes yet
+            </h3>
+            <p className="mb-8 max-w-sm text-[13.5px] font-medium text-[#6B7280]">
+              Create your first workspace to start building your professional resume.
             </p>
             <button
               onClick={openNewResumeModal}
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#0A2540] shadow-sm transition hover:shadow-md active:scale-95"
+              className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98]"
             >
               <UploadIcon className="h-4 w-4" />
               Upload your first resume
@@ -431,32 +420,32 @@ export default function ResumesPage() {
                   type="button"
                   key={resume._id}
                   onClick={() => openWorkspace(resume._id)}
-                  className="group relative flex flex-col items-start overflow-hidden rounded-[1.5rem] border border-white/60 bg-white/50 backdrop-blur-xl p-6 text-left transition-all duration-300 hover:bg-white hover:shadow-[0_8px_30px_rgba(10,37,64,0.08)] hover:-translate-y-1"
+                  className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 text-left transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01]"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  
-                  <div className="relative z-10 w-full">
-                    <div className="mb-5 flex items-center justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0A2540]/5 text-[#0A2540] transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#0A2540] group-hover:text-white">
-                        <FileText className="h-5 w-5" />
+                  <div className="relative z-10 w-full flex flex-col h-full justify-between">
+                    <div className="mb-5 flex items-start justify-between">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] text-[#0A2540] border border-[#0A2540]/[0.08]">
+                        <FileText className="h-4 w-4" />
                       </div>
-                      <span className="rounded-full border border-white/80 bg-white/60 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#4B5E76] shadow-sm backdrop-blur-sm transition-colors group-hover:border-[#E5E7E3]">
+                      <span className="text-[11px] font-medium text-[#6B7280]">
                         {timeAgo(resume.updatedAt)}
                       </span>
                     </div>
 
-                    <div className="min-w-0 w-full space-y-1">
-                      <h2 className="truncate text-lg font-bold text-[#0A2540] transition-colors group-hover:text-[#111827]">
+                    <div className="min-w-0 w-full mb-6">
+                      <h2 className="mb-1 truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
                         {resume.title || "My Resume"}
                       </h2>
-                      <p className="flex items-center gap-1.5 truncate text-[13px] font-medium text-[#4B5E76]">
-                        <LinkIcon className="h-3.5 w-3.5 opacity-70" />
-                        {publicPath}
-                      </p>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <LinkIcon className="h-3 w-3 text-[#4B5E76] opacity-70" />
+                        <span className="truncate text-[13px] font-medium text-[#4B5E76]">
+                          {publicPath}
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="mt-6 flex w-full items-center justify-between border-t border-black/5 pt-4">
-                      <span className="text-[13px] font-semibold text-[#0A2540]/60 group-hover:text-[#0A2540]">
+                    <div className="flex w-full items-center justify-between border-t border-[#0A2540]/[0.06] pt-4 mt-auto">
+                      <span className="text-[13px] font-medium text-[#0A2540]/60 transition-colors group-hover:text-[#0A2540]">
                         Open Workspace
                       </span>
                       <ArrowRight className="h-4 w-4 text-[#0A2540] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
@@ -487,16 +476,14 @@ export default function ResumesPage() {
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className="relative w-full max-w-[600px] overflow-hidden rounded-[2rem] border border-white/20 bg-[#fafafa] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.4)]"
             >
-              {/* Decorative header background */}
-              <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-[#0A2540] to-[#1E3A8A]" />
-              
+              {/* Minimal header */}
               <div className="relative z-10 px-8 pb-8 pt-10">
-                <div className="mb-8 text-center text-white">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md shadow-inner">
-                    <UploadIcon className="h-7 w-7 text-white" />
+                <div className="mb-8 text-center">
+                  <div className="mx-auto mb-5 flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-[#0A2540]/[0.03] border border-[#0A2540]/[0.08]">
+                    <UploadIcon className="h-5 w-5 text-[#0A2540]" />
                   </div>
-                  <h3 className="text-2xl font-bold tracking-tight">Upload New Resume</h3>
-                  <p className="mt-2 text-sm text-blue-100/80">
+                  <h3 className="text-xl font-semibold tracking-tight text-[#0A2540]">Upload New Resume</h3>
+                  <p className="mt-1.5 text-[13.5px] font-medium text-[#6B7280]">
                     Add a PDF to create a new editable workspace.
                   </p>
                 </div>
@@ -601,7 +588,7 @@ export default function ResumesPage() {
                     type="button"
                     onClick={handleUpload}
                     disabled={uploading || !uploadFile || !newResumeSlug.trim()}
-                    className="flex min-w-[140px] items-center justify-center gap-2 rounded-xl bg-[#0A2540] px-6 py-3 text-[15px] font-bold tracking-wide text-white shadow-[0_8px_20px_rgba(10,37,64,0.25)] transition-all hover:bg-[#1E3A8A] hover:shadow-[0_8px_25px_rgba(30,58,138,0.3)] hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+                    className="group flex min-w-[140px] items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {uploading ? (
                       <>
