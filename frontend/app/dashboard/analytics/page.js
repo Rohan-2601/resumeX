@@ -12,6 +12,7 @@ import {
   HistoryIcon,
   Link2Icon,
 } from "../../components/icons/Icons";
+import { motion, AnimatePresence } from "framer-motion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const displayFont = Playfair_Display({
@@ -146,61 +147,61 @@ export default function AnalyticsPage() {
 
   return (
     <div
-      className={`${sansFont.className} relative space-y-6 pb-8 text-[#123F5B]`}
+      className={`${sansFont.className} relative pb-8 text-[#123F5B]`}
     >
-
-      <header className="border-b border-[#E5E7E3] pb-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2">
-              <Link
-                href="/dashboard"
-                aria-label="Back to dashboard"
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[#E5E7E3] bg-transparent text-[#557083] transition hover:bg-black/5"
-              >
-                <IoIosArrowBack className="h-4 w-4" />
-              </Link>
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#557083]">
-                Dashboard / Analytics
-              </p>
-            </div>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#123F5B] sm:text-4xl">
-              Resume performance, without the clutter.
-              <span
-                className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#557083] sm:text-lg`}
-              >
-                See where your link is being opened and what is working best.
-              </span>
-            </h1>
-          </div>
-        </div>
-      </header>
-
-      <section className="space-y-3">
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#557083]">
-              Breakdown
-            </p>
-            <h2 className="mt-1 text-xl font-semibold text-[#123F5B]">
-              Where views are coming from
-            </h2>
-          </div>
-          <div className="text-sm text-[#557083]">
-            {loading
-              ? "Refreshing analytics..."
-              : `${analytics?.totalViews || 0} total views`}
-          </div>
-        </div>
-
+      <AnimatePresence mode="wait">
         {loading ? (
-          <div className="flex min-h-[220px] items-center justify-center">
-            <div className="flex items-center gap-3 rounded-full border border-[#E5E7E3] bg-[#FFFFFF] px-5 py-3 text-sm font-medium text-[#557083] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="flex min-h-[60vh] items-center justify-center"
+          >
+            <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
               Loading analytics...
             </div>
-          </div>
-        ) : errorMessage ? (
+          </motion.div>
+        ) : (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="space-y-6"
+          >
+            <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-8">
+              <div className="max-w-3xl relative z-10">
+                <motion.h1 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
+                >
+                  Resume performance
+                </motion.h1>
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+                >
+                  See where your link is being opened and what is working best.
+                </motion.p>
+              </div>
+            </section>
+
+            <section className="relative z-10 space-y-8">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <h2 className="text-xl font-semibold tracking-tight text-[#0A2540]">
+                  Where views are coming from
+                </h2>
+                <div className="text-[13px] font-medium text-[#4B5E76]">
+                  {analytics?.totalViews || 0} total views
+                </div>
+              </div>
+
+              {errorMessage ? (
           <Alert
             variant="destructive"
             className="rounded-xl border-rose-900/20 bg-rose-50 text-rose-700"
@@ -310,8 +311,11 @@ export default function AnalyticsPage() {
           <Alert className="rounded-xl border-[#E5E7E3] bg-white/70 text-[#557083]">
             <AlertDescription>No analytics available yet.</AlertDescription>
           </Alert>
-        )}
-      </section>
+            )}
+          </section>
+        </motion.div>
+      )}
+      </AnimatePresence>
     </div>
   );
 }

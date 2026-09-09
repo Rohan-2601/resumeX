@@ -10,6 +10,7 @@ import { UploadIcon } from "../../../components/icons/Icons";
 import { CheckCircle2Icon, InfoIcon } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { motion, AnimatePresence } from "framer-motion";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -264,261 +265,260 @@ export default function ResumeWorkspacePage() {
   };
 
   return (
-    <div
-      className={`${sansFont.className} relative min-h-[100dvh] bg-[#e9e1d0] px-4 py-6 text-[#1f1b16] sm:px-6 md:px-8`}
-    >
-      <div className="pointer-events-none absolute -top-24 left-10 h-72 w-72 rounded-full bg-white/50 blur-3xl" />
-      <div className="pointer-events-none absolute right-4 top-24 h-96 w-96 rounded-full bg-[#d7c0a0]/35 blur-3xl" />
-
-      <div className="relative mx-auto max-w-[1600px] space-y-2">
+    <div className={`${sansFont.className} flex-1 flex flex-col p-4 sm:p-6 lg:p-8 text-[#0A2540] min-h-0`}>
+      <div className="flex flex-col flex-1 mx-auto w-full min-h-0">
         {alertState ? (
           <Alert
             variant={alertState.type === "error" ? "destructive" : "default"}
-            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-xl border shadow-[0_20px_50px_-30px_rgba(0,0,0,0.65)] ${
+            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-2xl border shadow-lg ${
               alertState.type === "error"
-                ? "border-rose-500/40 bg-[#1b1314] text-rose-100"
-                : "border-emerald-500/40 bg-[#141815] text-emerald-100"
+                ? "border-rose-200 bg-rose-50/90 backdrop-blur-md text-rose-800"
+                : "border-emerald-200 bg-emerald-50/90 backdrop-blur-md text-emerald-800"
             }`}
           >
-            <AlertDescription className="flex items-center gap-2">
+            <AlertDescription className="flex items-center gap-2 font-medium">
               {alertState.type === "error" ? (
-                <InfoIcon className="h-4 w-4 shrink-0 text-rose-400" />
+                <InfoIcon className="h-4 w-4 shrink-0 text-rose-600" />
               ) : (
-                <CheckCircle2Icon className="h-4 w-4 shrink-0 text-emerald-400" />
+                <CheckCircle2Icon className="h-4 w-4 shrink-0 text-emerald-600" />
               )}
               <span>{alertState.message}</span>
             </AlertDescription>
           </Alert>
         ) : null}
 
-        <section className="grid min-h-[84dvh] grid-cols-1 gap-3 lg:grid-cols-[40%_60%]">
-          <aside className="space-y-5 border-b border-black/10 pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-5">
-            <div className="space-y-2 border-b border-black/10 pb-3">
-              <div className="flex items-center gap-2">
-                <Link
-                  href="/dashboard/resumes"
-                  aria-label="Back to resumes"
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-black/10 bg-transparent text-[#5f5144] transition hover:bg-black/5"
-                >
-                  <IoIosArrowBack className="h-4 w-4" />
-                </Link>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                  Resume workspace
-                </p>
-              </div>
-              <h1 className="text-xl font-semibold tracking-tight text-[#211911] sm:text-2xl">
-                {resume?.title || "Resume"}
-                <span
-                  className={`${displayFont.className} ml-2 text-base italic text-[#7b5a3d]`}
-                ></span>
-              </h1>
-
-              <div className="flex items-center gap-2">
-                <p className="truncate font-mono text-xs text-[#6b5b4a]">
+        <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-6 shrink-0">
+          <div className="max-w-3xl relative z-10">
+            <div className="flex items-center gap-2 mb-2">
+              <Link
+                href="/dashboard/resumes"
+                aria-label="Back to resumes"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-transparent text-[#4B5E76] transition hover:bg-[#0A2540]/[0.03]"
+              >
+                <IoIosArrowBack className="h-4 w-4" />
+              </Link>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
+                Resume Workspace
+              </p>
+            </div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
+            >
+              {resume?.title || "Resume"}
+            </motion.h1>
+            
+            <div className="mt-3 flex items-center gap-2">
+              <div className="rounded-lg border border-[#0A2540]/[0.06] bg-[#0A2540]/[0.02] px-3 py-1.5">
+                <p className="truncate font-mono text-[11px] text-[#4B5E76]">
                   {publicLink || "-"}
                 </p>
-                <button
-                  type="button"
-                  onClick={handleCopyLink}
-                  title="Copy public link"
-                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-black/10 bg-transparent text-[#5f5144] transition hover:bg-black/5"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    className="h-4 w-4"
-                  >
-                    <rect x="9" y="9" width="11" height="11" rx="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                  </svg>
-                </button>
               </div>
-
               <button
                 type="button"
-                onClick={() => setIsUploadModalOpen(true)}
-                className="inline-flex items-center gap-2 rounded-md bg-[#241c16] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-[#f6ebd7] transition hover:bg-[#17110c]"
+                onClick={handleCopyLink}
+                title="Copy public link"
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] transition hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540]"
               >
-                <UploadIcon />
-                Upload New Version
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="h-4 w-4"
+                >
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
               </button>
             </div>
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="flex w-full gap-3 sm:w-auto relative z-10"
+          >
+            <button
+              type="button"
+              onClick={() => setIsUploadModalOpen(true)}
+              className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-transparent bg-[#0A2540] px-5 py-2.5 text-sm font-medium tracking-wide text-white shadow-sm transition-all hover:bg-[#113155] active:scale-[0.98] sm:w-auto sm:flex-none"
+            >
+              <UploadIcon className="h-4 w-4" />
+              Upload New Version
+            </button>
+          </motion.div>
+        </section>
 
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
+        <section className="flex flex-col lg:flex-row flex-1 min-h-0 overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white shadow-sm">
+          <aside className="w-full lg:w-[340px] xl:w-[380px] flex flex-col border-b border-[#0A2540]/[0.08] lg:border-b-0 lg:border-r bg-[#0A2540]/[0.01]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#0A2540]/[0.08] bg-white">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
                 Version history
               </p>
+            </div>
 
-              <div className="mt-3 max-h-[66dvh] space-y-2 overflow-y-auto pr-1">
-                {loading ? (
-                  <div className="flex min-h-[180px] items-center justify-center">
-                    <div className="flex items-center gap-3 rounded-full border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.92)_0%,rgba(242,233,218,0.9)_100%)] px-5 py-3 text-sm font-medium text-[#5f5144] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#d7c6aa] border-t-[#7b5a3d]" />
-                      Loading versions...
-                    </div>
+            <div className="flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {loading ? (
+                <div className="flex min-h-[180px] items-center justify-center p-4">
+                  <div className="flex items-center gap-3 rounded-2xl border border-[#0A2540]/[0.08] bg-white px-5 py-4 text-sm font-medium text-[#4B5E76] shadow-sm">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
+                    Loading versions...
                   </div>
-                ) : versions.length === 0 ? (
-                  <div className="rounded-xl border border-black/10 bg-white/75 p-5 text-center text-sm text-[#5f5144]">
-                    No versions yet. Upload your first PDF.
-                  </div>
-                ) : (
-                  versions.map((version) => {
-                    const isActive = version._id === activeVersionId;
-                    const isSelected = version._id === selectedVersionId;
+                </div>
+              ) : versions.length === 0 ? (
+                <div className="p-8 text-center text-[13.5px] font-medium text-[#6B7280]">
+                  No versions yet. Upload your first PDF.
+                </div>
+              ) : (
+                versions.map((version) => {
+                  const isActive = version._id === activeVersionId;
+                  const isSelected = version._id === selectedVersionId;
 
-                    return (
-                      <div
-                        key={version._id}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedVersionId(version._id)}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            setSelectedVersionId(version._id);
-                          }
-                        }}
-                        className={`border p-3 text-left transition ${
-                          isSelected
-                            ? "border-[#8a6340]/40 bg-[#fff7ec]"
-                            : "border-black/10 bg-white/75 hover:bg-white"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-sm font-semibold text-[#211911]">
-                            v{version.versionNumber}
-                          </p>
-                          <span
-                            className={`px-2 py-0.5 text-[11px] font-bold ${
-                              isActive
-                                ? "bg-[#e6f0e5] text-[#3f6b4d]"
-                                : "bg-white/80 text-[#6b5b4a]"
-                            }`}
-                          >
-                            {isActive ? "ACTIVE" : "idle"}
-                          </span>
-                        </div>
-
-                        <p className="mt-1 text-xs text-[#6b5b4a]">
-                          {new Date(version.createdAt).toLocaleString()}
+                  return (
+                    <div
+                      key={version._id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelectedVersionId(version._id)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setSelectedVersionId(version._id);
+                        }
+                      }}
+                      className={`group flex flex-col items-start border-b border-[#0A2540]/[0.06] last:border-0 p-5 text-left transition-colors cursor-pointer ${
+                        isSelected
+                          ? "bg-white border-l-2 border-l-[#0A2540]"
+                          : "hover:bg-white/60 border-l-2 border-l-transparent"
+                      }`}
+                    >
+                      <div className="flex w-full items-center justify-between gap-2">
+                        <p className={`text-[1.05rem] font-semibold ${isSelected ? "text-[#0A2540]" : "text-[#4B5E76] group-hover:text-[#0A2540]"}`}>
+                          v{version.versionNumber}
                         </p>
+                        <span
+                          className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
+                            isActive
+                              ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
+                              : "bg-[#0A2540]/[0.03] text-[#6B7280] border border-[#0A2540]/[0.06]"
+                          }`}
+                        >
+                          {isActive ? "ACTIVE" : "idle"}
+                        </span>
+                      </div>
 
-                        <div className="mt-2 flex gap-2">
-                          {!isActive ? (
-                            <button
-                              type="button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                handleSetActive(version._id);
-                              }}
-                              disabled={rollingBackId === version._id}
-                              className="rounded-md border border-black/10 bg-white px-2 py-1 text-[11px] font-semibold text-[#5f5144] transition hover:bg-[#f7f2ea] disabled:opacity-60"
-                            >
-                              {rollingBackId === version._id
-                                ? "Switching..."
-                                : "Set Active"}
-                            </button>
-                          ) : (
-                            <span className="flex-1 border border-emerald-900/15 bg-emerald-50 px-2 py-1.5 text-center text-xs font-semibold text-emerald-800">
-                              Serving public link
-                            </span>
-                          )}
+                      <p className="mt-1 text-[12px] font-medium text-[#6B7280]">
+                        {new Date(version.createdAt).toLocaleString()}
+                      </p>
 
+                      <div className="mt-4 flex w-full gap-2">
+                        {!isActive ? (
                           <button
                             type="button"
                             onClick={(event) => {
                               event.stopPropagation();
-                              handleDeleteVersion(version._id);
+                              handleSetActive(version._id);
                             }}
-                            disabled={deletingVersionId === version._id}
-                            className="inline-flex items-center justify-center rounded-md border border-rose-900/25 bg-rose-50 px-2 py-1 text-rose-700 transition hover:bg-rose-100 disabled:opacity-60"
-                            title="Delete version"
+                            disabled={rollingBackId === version._id}
+                            className="flex-1 rounded-lg border border-[#0A2540]/[0.12] bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] transition hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540] disabled:opacity-60"
                           >
-                            {deletingVersionId === version._id ? (
-                              "..."
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                className="h-4 w-4"
-                              >
-                                <path d="M3 6h18" />
-                                <path d="M8 6V4h8v2" />
-                                <path d="M19 6l-1 14H6L5 6" />
-                                <path d="M10 11v6" />
-                                <path d="M14 11v6" />
-                              </svg>
-                            )}
+                            {rollingBackId === version._id
+                              ? "Switching..."
+                              : "Set Active"}
                           </button>
-                        </div>
+                        ) : (
+                          <span className="flex-1 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-center text-[11px] font-bold uppercase tracking-wide text-emerald-700">
+                            Serving public link
+                          </span>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleDeleteVersion(version._id);
+                          }}
+                          disabled={deletingVersionId === version._id}
+                          className="inline-flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-rose-600 transition hover:bg-rose-100 disabled:opacity-60"
+                          title="Delete version"
+                        >
+                          {deletingVersionId === version._id ? (
+                            "..."
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="h-3.5 w-3.5"
+                            >
+                              <path d="M3 6h18" />
+                              <path d="M8 6V4h8v2" />
+                              <path d="M19 6l-1 14H6L5 6" />
+                              <path d="M10 11v6" />
+                              <path d="M14 11v6" />
+                            </svg>
+                          )}
+                        </button>
                       </div>
-                    );
-                  })
-                )}
-              </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </aside>
 
-          <div className="h-full lg:sticky lg:top-2 lg:self-start lg:pl-2">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7b5a3d]">
-                  Full resume preview
-                </p>
-                <h2 className="mt-1 text-lg font-semibold text-[#211911]">
-                  {selectedVersion
-                    ? `Previewing v${selectedVersion.versionNumber}`
-                    : "Select a version"}
-                </h2>
+          <div className="relative flex-1 bg-[#0A2540]/[0.02] min-h-[60dvh] lg:min-h-0">
+            <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-start justify-between gap-3 pointer-events-none">
+              <div className="flex items-center gap-2 pointer-events-auto">
+                {selectedVersion ? (
+                  <div className="flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-white/90 px-3 py-1.5 shadow-sm backdrop-blur-md">
+                    <div className={`h-2 w-2 rounded-full ${activeVersion && activeVersion._id === selectedVersion._id ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"}`} />
+                    <span className="text-[12px] font-bold text-[#0A2540]">
+                      Previewing v{selectedVersion.versionNumber}
+                    </span>
+                  </div>
+                ) : null}
               </div>
-
-              {activeVersion && selectedVersion ? (
-                <span className="border border-black/10 bg-white px-2.5 py-1 text-xs font-semibold text-[#5f5144]">
-                  Active: v{activeVersion.versionNumber}
-                </span>
+              
+              {activeVersion && selectedVersion && activeVersion._id !== selectedVersion._id ? (
+                <div className="rounded-xl border border-rose-200 bg-rose-50/95 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-rose-700 shadow-sm backdrop-blur-md pointer-events-auto">
+                  Not Public
+                </div>
               ) : null}
             </div>
 
-            <div className="h-[86dvh] overflow-hidden border border-black/10 bg-white/75">
+            <div className="h-full w-full">
               {selectedVersion?.fileUrl ? (
                 <iframe
                   title="Resume PDF Preview"
                   src={selectedVersion.fileUrl}
-                  className="h-full w-full"
+                  className="h-full w-full border-none bg-white"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center p-6 text-center text-sm text-[#5f5144]">
+                <div className="flex h-full items-center justify-center p-6 text-center text-[13.5px] font-medium text-[#6B7280]">
                   Select a version from the left to preview the full resume.
                 </div>
               )}
             </div>
-
-            {activeVersion &&
-            selectedVersion &&
-            activeVersion._id !== selectedVersion._id ? (
-              <p className="mt-2 text-xs text-[#7b5a3d]">
-                You are previewing v{selectedVersion.versionNumber}. Public link
-                is serving v{activeVersion.versionNumber}.
-              </p>
-            ) : null}
           </div>
         </section>
 
         {isUploadModalOpen ? (
-          <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/40 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
-            <div className="w-full max-w-xl border border-black/10 bg-[linear-gradient(180deg,rgba(251,247,238,0.98)_0%,rgba(242,233,218,0.98)_100%)] p-5 shadow-[0_28px_90px_-35px_rgba(0,0,0,0.6)]">
-              <div className="flex items-center justify-between gap-3">
+          <div className="fixed inset-0 z-[120] flex items-end justify-center bg-[#0A2540]/40 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
+            <div className="w-full max-w-xl rounded-2xl border border-[#0A2540]/10 bg-white p-6 shadow-2xl">
+              <div className="flex items-center justify-between gap-3 border-b border-[#0A2540]/[0.06] pb-4 mb-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7b5a3d]">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
                     Upload New Version
                   </p>
-                  <h3 className="mt-1 text-lg font-semibold text-[#211911]">
+                  <h3 className="mt-1 text-lg font-semibold text-[#0A2540]">
                     {resume?.title || "Resume"}
                   </h3>
                 </div>
@@ -529,7 +529,7 @@ export default function ResumeWorkspacePage() {
                     setUploadFile(null);
                     setUploadPreviewUrl("");
                   }}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-black/10 bg-white/75 text-[#5f5144]"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-white text-[#4B5E76] transition hover:bg-[#0A2540]/[0.03]"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -545,7 +545,7 @@ export default function ResumeWorkspacePage() {
                 </button>
               </div>
 
-              <label className="mt-4 flex cursor-pointer flex-col border border-dashed border-black/20 bg-white/70 p-3 text-sm text-[#5f5144] transition hover:border-[#8a6340]/45 hover:bg-white">
+              <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#0A2540]/15 bg-[#0A2540]/[0.02] p-8 text-center transition hover:border-[#0A2540]/30 hover:bg-[#0A2540]/[0.04]">
                 <input
                   type="file"
                   accept="application/pdf"
@@ -554,22 +554,28 @@ export default function ResumeWorkspacePage() {
                     setUploadFile(event.target.files?.[0] || null);
                   }}
                 />
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/[0.05] mb-3">
+                  <UploadIcon className="h-5 w-5 text-[#0A2540]" />
+                </div>
                 {uploadFile ? (
                   <>
-                    <span className="font-semibold text-[#211911]">
+                    <span className="font-semibold text-[#0A2540]">
                       {uploadFile.name}
                     </span>
-                    <span className="mt-1 text-xs text-[#6b5b4a]">
+                    <span className="mt-1 text-[13px] font-medium text-[#6B7280]">
                       {(uploadFile.size / 1024 / 1024).toFixed(2)} MB
                     </span>
                   </>
                 ) : (
-                  <span>Select PDF file</span>
+                  <>
+                    <span className="font-semibold text-[#0A2540]">Click to select PDF</span>
+                    <span className="mt-1 text-[13px] font-medium text-[#6B7280]">or drag and drop here</span>
+                  </>
                 )}
               </label>
 
               {uploadPreviewUrl ? (
-                <div className="mt-3 h-44 overflow-hidden border border-black/10 bg-white">
+                <div className="mt-4 h-44 overflow-hidden rounded-xl border border-[#0A2540]/[0.08] bg-white">
                   <iframe
                     title="Selected PDF preview"
                     src={uploadPreviewUrl}
@@ -578,7 +584,7 @@ export default function ResumeWorkspacePage() {
                 </div>
               ) : null}
 
-              <div className="mt-4 flex gap-2">
+              <div className="mt-6 flex gap-3">
                 <button
                   type="button"
                   onClick={() => {
@@ -586,7 +592,7 @@ export default function ResumeWorkspacePage() {
                     setUploadFile(null);
                     setUploadPreviewUrl("");
                   }}
-                  className="flex-1 rounded-md border border-black/10 bg-white/75 px-3 py-2 text-sm font-semibold text-[#5f5144]"
+                  className="flex-1 rounded-xl border border-[#0A2540]/[0.12] bg-white px-4 py-2.5 text-sm font-semibold text-[#4B5E76] shadow-sm transition hover:bg-[#0A2540]/[0.02]"
                 >
                   Cancel
                 </button>
@@ -599,7 +605,7 @@ export default function ResumeWorkspacePage() {
                     }
                   }}
                   disabled={uploading || !uploadFile}
-                  className="flex-1 rounded-md bg-[#241c16] px-3 py-2 text-sm font-semibold text-[#f6ebd7] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex-1 rounded-xl bg-[#0A2540] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#113155] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {uploading ? "Uploading..." : "Upload Version"}
                 </button>

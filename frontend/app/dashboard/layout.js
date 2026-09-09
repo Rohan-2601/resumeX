@@ -29,6 +29,7 @@ export default function DashboardLayout({ children }) {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+  const isWorkspace = pathname?.includes("/dashboard/resumes/") && pathname.split("/").length > 3;
 
   const hasToken =
     typeof window !== "undefined" &&
@@ -247,12 +248,12 @@ export default function DashboardLayout({ children }) {
             </div>
           </motion.header>
 
-          <div className="px-5 py-8 sm:px-8 md:px-12 md:py-10 lg:px-16 min-h-full">
+          <div className={isWorkspace ? "h-full flex flex-col" : "px-5 py-8 sm:px-8 md:px-12 md:py-10 lg:px-16 min-h-full"}>
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              className="mx-auto mb-8 hidden max-w-[1000px] items-end justify-between md:flex"
+              className={isWorkspace ? "hidden" : "mx-auto mb-8 hidden max-w-[1000px] items-end justify-between md:flex"}
             >
               <div>
                 <motion.div 
@@ -277,7 +278,7 @@ export default function DashboardLayout({ children }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="mx-auto max-w-[1000px]"
+                className={isWorkspace ? "flex-1 h-full flex flex-col" : "mx-auto max-w-[1000px]"}
               >
                 {children}
               </motion.div>

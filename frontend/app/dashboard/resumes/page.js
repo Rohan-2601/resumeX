@@ -6,7 +6,7 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { UploadIcon } from "../../components/icons/Icons";
-import { CheckCircle2Icon, InfoIcon, RotateCwIcon, FileText, Plus, ArrowRight, Link as LinkIcon } from "lucide-react";
+import { CheckCircle2Icon, InfoIcon, RotateCwIcon, FileText, Plus, ArrowRight, Link as LinkIcon, Trash2 } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion, AnimatePresence } from "framer-motion";
@@ -268,13 +268,51 @@ export default function ResumesPage() {
       showUploadSuccessToast("New resume uploaded successfully.");
     } catch (error) {
       console.error(error);
-      if (error.response?.status === 401) {
+      if (
+        error.response?.status === 401 &&
+        error.config?.url?.includes(backendUrl)
+      ) {
         handleUnauthorized(setUploadNotice);
         return;
       }
-      setUploadNotice(error.response?.data?.message || "Upload failed.");
+      
+      const errorMessage = error.response?.data?.error?.message || error.response?.data?.message || "Upload failed. Please try again.";
+      setUploadNotice(errorMessage);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleDeleteResume = async (e, resumeId) => {
+    e.stopPropagation();
+    
+    if (!window.confirm("Are you sure you want to delete this workspace? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const token = getValidToken();
+      if (!token) {
+        handleUnauthorized(setMessage);
+        return;
+      }
+
+      await axios.delete(`${backendUrl}/api/resume/${resumeId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setResumes((prev) => prev.filter((r) => r._id !== resumeId));
+      showUploadSuccessToast("Workspace deleted successfully.");
+    } catch (error) {
+      console.error(error);
+      if (
+        error.response?.status === 401 &&
+        error.config?.url?.includes(backendUrl)
+      ) {
+        handleUnauthorized(setMessage);
+        return;
+      }
+      alert("Failed to delete workspace. Please try again.");
     }
   };
 
@@ -315,75 +353,86 @@ export default function ResumesPage() {
         )}
       </AnimatePresence>
 
-      {message && (
-        <Alert
-          variant={isErrorMessage ? "destructive" : "default"}
-          className={
-            isErrorMessage
-              ? "rounded-2xl border-rose-200 bg-rose-50/80 backdrop-blur-md text-rose-800 shadow-sm"
-              : "rounded-2xl border-emerald-200 bg-emerald-50/80 backdrop-blur-md text-emerald-800 shadow-sm"
-          }
-        >
-          <AlertDescription className="flex items-center gap-3 py-1">
-            {isErrorMessage ? (
-              <InfoIcon className="h-5 w-5 shrink-0 text-rose-500" />
-            ) : (
-              <CheckCircle2Icon className="h-5 w-5 shrink-0 text-emerald-500" />
-            )}
-            <span className="font-medium text-[15px]">{message}</span>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div className="max-w-3xl relative z-10">
-          <motion.h1 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
-          >
-            Your resumes
-          </motion.h1>
-          <motion.p 
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <motion.div
+            key="loading"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="flex min-h-[60vh] items-center justify-center"
           >
-            Manage and edit your professional profiles in one place.
-          </motion.p>
-        </div>
-
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex w-full gap-3 sm:w-auto relative z-10"
-        >
-          <button
-            type="button"
-            onClick={openNewResumeModal}
-            className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
-          >
-            <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
-            Upload New Resume
-          </button>
-        </motion.div>
-      </section>
-
-      <section className="relative z-10">
-        {loading ? (
-          <div className="flex min-h-[300px] items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg"
-            >
+            <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
               Loading your workspaces...
-            </motion.div>
-          </div>
-        ) : sortedResumes.length === 0 ? (
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="space-y-8"
+          >
+            {message && (
+              <Alert
+                variant={isErrorMessage ? "destructive" : "default"}
+                className={
+                  isErrorMessage
+                    ? "rounded-2xl border-rose-200 bg-rose-50/80 backdrop-blur-md text-rose-800 shadow-sm"
+                    : "rounded-2xl border-emerald-200 bg-emerald-50/80 backdrop-blur-md text-emerald-800 shadow-sm"
+                }
+              >
+                <AlertDescription className="flex items-center gap-3 py-1">
+                  {isErrorMessage ? (
+                    <InfoIcon className="h-5 w-5 shrink-0 text-rose-500" />
+                  ) : (
+                    <CheckCircle2Icon className="h-5 w-5 shrink-0 text-emerald-500" />
+                  )}
+                  <span className="font-medium text-[15px]">{message}</span>
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+              <div className="max-w-3xl relative z-10">
+                <motion.h1 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
+                >
+                  Your resumes
+                </motion.h1>
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+                >
+                  Manage and edit your professional profiles in one place.
+                </motion.p>
+              </div>
+
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex w-full gap-3 sm:w-auto relative z-10"
+              >
+                <button
+                  type="button"
+                  onClick={openNewResumeModal}
+                  className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
+                >
+                  <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
+                  Upload New Resume
+                </button>
+              </motion.div>
+            </section>
+
+            <section className="relative z-10">
+              {sortedResumes.length === 0 ? (
           <motion.div 
             variants={itemVariants}
             className="flex min-h-[360px] w-full flex-col items-center justify-center rounded-2xl border border-[#0A2540]/[0.08] bg-white p-8 text-center"
@@ -423,21 +472,31 @@ export default function ResumesPage() {
                   className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 text-left transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01]"
                 >
                   <div className="relative z-10 w-full flex flex-col h-full justify-between">
-                    <div className="mb-5 flex items-start justify-between">
+                    <div className="mb-5 flex items-start justify-between w-full">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] text-[#0A2540] border border-[#0A2540]/[0.08]">
                         <FileText className="h-4 w-4" />
                       </div>
-                      <span className="text-[11px] font-medium text-[#6B7280]">
-                        {timeAgo(resume.updatedAt)}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] font-medium text-[#6B7280]">
+                          {timeAgo(resume.updatedAt)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteResume(e, resume._id)}
+                          className="flex h-10 w-10 items-center justify-center rounded-xl text-[#6B7280]/60 transition-colors hover:bg-rose-50 hover:text-rose-500"
+                          title="Delete Workspace"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
 
                     <div className="min-w-0 w-full mb-6">
-                      <h2 className="mb-1 truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
+                      <h2 className="mb-1.5 truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
                         {resume.title || "My Resume"}
                       </h2>
                       <div className="flex items-center gap-1.5 truncate">
-                        <LinkIcon className="h-3 w-3 text-[#4B5E76] opacity-70" />
+                        <LinkIcon className="shrink-0 h-3 w-3 text-[#4B5E76] opacity-70 translate-y-[-1px]" />
                         <span className="truncate text-[13px] font-medium text-[#4B5E76]">
                           {publicPath}
                         </span>
@@ -455,8 +514,11 @@ export default function ResumesPage() {
               );
             })}
           </motion.div>
+              )}
+            </section>
+          </motion.div>
         )}
-      </section>
+      </AnimatePresence>
 
       <AnimatePresence>
         {isUploadModalOpen && (
@@ -469,17 +531,17 @@ export default function ResumesPage() {
               onClick={() => !uploading && setIsUploadModalOpen(false)}
             />
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="relative w-full max-w-[600px] overflow-hidden rounded-[2rem] border border-white/20 bg-[#fafafa] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.4)]"
-            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)]"
+              >
               {/* Minimal header */}
-              <div className="relative z-10 px-8 pb-8 pt-10">
-                <div className="mb-8 text-center">
-                  <div className="mx-auto mb-5 flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-[#0A2540]/[0.03] border border-[#0A2540]/[0.08]">
+              <div className="relative z-10 overflow-y-auto px-6 pb-6 pt-8">
+                <div className="mb-6 text-center">
+                  <div className="mx-auto mb-4 flex h-[48px] w-[48px] items-center justify-center rounded-xl bg-[#0A2540]/[0.03] border border-[#0A2540]/[0.08]">
                     <UploadIcon className="h-5 w-5 text-[#0A2540]" />
                   </div>
                   <h3 className="text-xl font-semibold tracking-tight text-[#0A2540]">Upload New Resume</h3>
@@ -488,41 +550,41 @@ export default function ResumesPage() {
                   </p>
                 </div>
 
-                <div className="rounded-[1.5rem] bg-white p-6 shadow-sm border border-black/5 space-y-5">
+                <div className="space-y-4">
                   <div>
-                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B7280]">
+                    <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.1em] text-[#6B7280]">
                       Resume title
                     </label>
                     <input
                       value={newResumeTitle}
                       onChange={(event) => setNewResumeTitle(event.target.value)}
-                      className="w-full rounded-xl border border-[#E5E7E3] bg-[#fafafa] px-4 py-3.5 text-[15px] font-semibold text-[#0A2540] outline-none transition-all placeholder:font-medium placeholder:text-[#9CA3AF] focus:border-[#0A2540] focus:bg-white focus:ring-4 focus:ring-[#0A2540]/5"
+                      className="w-full rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.02] px-4 py-3 text-[14px] font-medium text-[#0A2540] outline-none transition-all placeholder:text-[#9CA3AF] focus:border-[#0A2540]/20 focus:bg-[#0A2540]/[0.04] focus:ring-0"
                       placeholder="e.g. Software Engineer Role"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B7280]">
+                    <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.1em] text-[#6B7280]">
                       Public Slug
                     </label>
-                    <div className="flex flex-nowrap items-center gap-2 overflow-x-auto rounded-xl border border-[#E5E7E3] bg-[#fafafa] px-4 py-3.5 transition-all focus-within:border-[#0A2540] focus-within:bg-white focus-within:ring-4 focus-within:ring-[#0A2540]/5">
-                      <span className="shrink-0 font-mono text-[15px] text-[#6B7280]">
+                    <div className="flex flex-nowrap items-center gap-2 overflow-x-auto rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.02] px-4 py-3 transition-all focus-within:border-[#0A2540]/20 focus-within:bg-[#0A2540]/[0.04] focus-within:ring-0">
+                      <span className="shrink-0 font-mono text-[13px] text-[#6B7280]">
                         /{user.username}/
                       </span>
                       <input
                         value={newResumeSlug}
                         onChange={(event) => setNewResumeSlug(event.target.value)}
                         placeholder="frontend"
-                        className="min-w-0 flex-1 bg-transparent text-[15px] font-semibold text-[#0A2540] outline-none placeholder:font-medium placeholder:text-[#9CA3AF]"
+                        className="min-w-0 flex-1 bg-transparent text-[14px] font-medium text-[#0A2540] outline-none placeholder:text-[#9CA3AF]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B7280]">
+                    <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.1em] text-[#6B7280]">
                       PDF file
                     </label>
-                    <div className="relative overflow-hidden rounded-xl border border-[#E5E7E3] bg-[#fafafa] transition-all focus-within:border-[#0A2540] focus-within:bg-white focus-within:ring-4 focus-within:ring-[#0A2540]/5 hover:border-[#0A2540]/30">
+                    <div className="relative overflow-hidden rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.02] transition-all hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.04]">
                       <input
                         type="file"
                         accept="application/pdf"
@@ -530,13 +592,13 @@ export default function ResumesPage() {
                           setUploadNotice("");
                           setUploadFile(event.target.files?.[0] || null);
                         }}
-                        className="absolute inset-0 h-full w-full opacity-0 cursor-pointer"
+                        className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                       />
-                      <div className="flex items-center px-4 py-3.5">
-                        <div className="flex items-center gap-2 rounded-lg bg-[#0A2540] px-3 py-1.5 text-xs font-bold text-white shadow-sm">
+                      <div className="flex w-full min-w-0 items-center px-4 py-2.5">
+                        <div className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#0A2540]/[0.12] bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0A2540] shadow-[0_1px_2px_rgba(10,37,64,0.04)] transition-all">
                           Choose File
                         </div>
-                        <span className="ml-3 truncate text-[14px] font-medium text-[#6B7280]">
+                        <span className="ml-3 truncate text-[13px] font-medium text-[#6B7280]">
                           {uploadFile ? uploadFile.name : "No PDF selected"}
                         </span>
                       </div>
@@ -547,16 +609,16 @@ export default function ResumesPage() {
                     <motion.div 
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="overflow-hidden rounded-xl border border-[#E5E7E3] bg-white shadow-sm"
+                      className="overflow-hidden rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.02]"
                     >
-                      <div className="bg-[#f8f9fa] border-b border-[#E5E7E3] px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-[#6B7280]">
+                      <div className="border-b border-[#0A2540]/[0.08] bg-[#0A2540]/[0.01] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#6B7280]">
                         Preview
                       </div>
-                      <div className="h-48 w-full bg-[#e9ecef]">
+                      <div className="h-56 w-full">
                         <iframe
                           title="Selected PDF preview"
                           src={uploadPreviewUrl}
-                          className="h-full w-full border-none"
+                          className="h-full w-full border-none opacity-90"
                         />
                       </div>
                     </motion.div>
@@ -565,9 +627,9 @@ export default function ResumesPage() {
                   {uploadNotice && (
                     <Alert
                       variant="destructive"
-                      className="rounded-xl border-rose-200 bg-rose-50 text-rose-800"
+                      className="rounded-xl border border-rose-100 bg-rose-50/50 text-rose-600"
                     >
-                      <AlertDescription className="flex items-center gap-2 text-sm font-medium">
+                      <AlertDescription className="flex items-center gap-2 text-[13px] font-medium">
                         <InfoIcon className="h-4 w-4 shrink-0 text-rose-500" />
                         <span>{uploadNotice}</span>
                       </AlertDescription>
@@ -575,12 +637,12 @@ export default function ResumesPage() {
                   )}
                 </div>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+                <div className="mt-6 flex gap-3">
                   <button
                     type="button"
                     onClick={() => setIsUploadModalOpen(false)}
                     disabled={uploading}
-                    className="rounded-xl border border-transparent bg-transparent px-6 py-3 text-[15px] font-bold text-[#6B7280] transition-colors hover:bg-black/5 hover:text-[#0A2540] disabled:opacity-50"
+                    className="flex-1 rounded-xl border border-[#0A2540]/[0.08] bg-white px-5 py-2.5 text-[14px] font-medium text-[#4B5E76] transition-all hover:bg-[#0A2540]/[0.02] active:scale-[0.98] disabled:opacity-50"
                   >
                     Cancel
                   </button>

@@ -6,7 +6,9 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { IoIosArrowBack } from "react-icons/io";
+import { motion, AnimatePresence } from "framer-motion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Link as LinkIcon } from "lucide-react";
 
 const displayFont = Playfair_Display({
   subsets: ["latin"],
@@ -94,112 +96,133 @@ export default function LinksPage() {
 
   return (
     <div
-      className={`${sansFont.className} relative space-y-6 pb-8 text-[#123F5B]`}
+      className={`${sansFont.className} relative pb-8 text-[#123F5B]`}
     >
-
-      <header className="border-b border-[#E5E7E3] pb-5">
-        <div>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/dashboard"
-              aria-label="Back to dashboard"
-              className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-[#E5E7E3] bg-transparent text-[#557083] transition hover:bg-black/5"
-            >
-              <IoIosArrowBack className="h-4 w-4" />
-            </Link>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#557083]">
-              Dashboard / Links
-            </p>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#123F5B] sm:text-4xl">
-            Share clean resume links fast.
-            <span
-              className={`${displayFont.className} mt-1 block text-base font-medium italic text-[#557083] sm:text-lg`}
-            >
-              Full links, one-click copy, no trimming.
-            </span>
-          </h1>
-        </div>
-      </header>
-
-      <section className="space-y-3">
-        <div className="mb-5 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#557083]">
-              Permanent public links
-            </p>
-            <h2 className="mt-1 text-xl font-semibold text-[#123F5B]">
-              Resume links
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={loadResumes}
-            disabled={loading}
-            className="rounded-xl border border-[#E5E7E3] bg-white/85 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#557083] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? "Refreshing" : "Refresh"}
-          </button>
-        </div>
-
-        {message ? (
-          <Alert
-            variant="destructive"
-            className="mb-4 rounded-xl border-rose-900/20 bg-rose-50 text-rose-700"
-          >
-            <AlertDescription>{message}</AlertDescription>
-          </Alert>
-        ) : null}
-
+      <AnimatePresence mode="wait">
         {loading ? (
-          <div className="flex min-h-[220px] items-center justify-center">
-            <div className="flex items-center gap-3 rounded-full border border-[#E5E7E3] bg-[#FFFFFF] px-5 py-3 text-sm font-medium text-[#557083] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.5)]">
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="flex min-h-[60vh] items-center justify-center"
+          >
+            <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
               Loading links...
             </div>
-          </div>
-        ) : publicLinks.length === 0 ? (
-          <div className="mx-auto max-w-2xl rounded-2xl border border-[#E5E7E3] bg-white/75 p-6 text-center text-sm text-[#557083]">
-            No resumes found. Upload one from the Resumes tab.
-          </div>
+          </motion.div>
         ) : (
-          <div className="space-y-2.5">
-            {publicLinks.map((link) => {
-              const copyState = copiedSlug === (link.slug || "default");
-              return (
-                <div
-                  key={link.id}
-                  className="rounded-xl border border-[#E5E7E3] bg-white/75 px-3 py-3"
+          <motion.div
+            key="content"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="space-y-6"
+          >
+            <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-8">
+              <div className="max-w-3xl relative z-10">
+                <motion.h1
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
                 >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-[#123F5B]">
-                        {link.title}
-                      </p>
-                      <p className="mt-0.5 text-xs text-[#557083]">
-                        /{user.username}/{link.slug}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(link.href, link.slug)}
-                      className="rounded-lg border border-[#E5E7E3] bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#557083] transition hover:bg-black/5"
-                    >
-                      {copyState ? "Copied" : "Copy Link"}
-                    </button>
-                  </div>
+                  Share your links
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+                >
+                  Clean, permanent URLs for all your workspaces.
+                </motion.p>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex w-full gap-3 sm:w-auto relative z-10"
+              >
+                <button
+                  type="button"
+                  onClick={loadResumes}
+                  disabled={loading}
+                  className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
+                >
+                  Refresh Links
+                </button>
+              </motion.div>
+            </section>
 
-                  <div className="mt-2 rounded-lg border border-[#E5E7E3] bg-white/80 px-3 py-2">
-                    <p className="break-all font-mono text-xs text-[#123F5B]">
-                      {link.href}
-                    </p>
-                  </div>
+            <section className="relative z-10 space-y-4">
+              {message ? (
+                <Alert
+                  variant="destructive"
+                  className="mb-4 rounded-2xl border-rose-200 bg-rose-50/80 backdrop-blur-md text-rose-800 shadow-sm"
+                >
+                  <AlertDescription className="font-medium text-[15px]">{message}</AlertDescription>
+                </Alert>
+              ) : null}
+
+              {publicLinks.length === 0 ? (
+                <div className="flex min-h-[200px] w-full flex-col items-center justify-center rounded-2xl border border-[#0A2540]/[0.08] bg-white p-8 text-center">
+                  <p className="max-w-sm text-[13.5px] font-medium text-[#6B7280]">
+                    No resumes found. Create a workspace first to get a shareable link.
+                  </p>
                 </div>
-              );
-            })}
-          </div>
+              ) : (
+                <div className="space-y-3">
+                  {publicLinks.map((link) => {
+                    const copyState = copiedSlug === (link.slug || "default");
+                    return (
+                      <div
+                        key={link.id}
+                        className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-4 transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01]"
+                      >
+                        <div className="flex items-center gap-4 min-w-0">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] text-[#0A2540] border border-[#0A2540]/[0.08]">
+                            <LinkIcon className="h-4 w-4" />
+                          </div>
+
+                          <div className="min-w-0">
+                            <h2 className="truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
+                              {link.title}
+                            </h2>
+                            <div className="flex items-center gap-1.5 truncate mt-0.5">
+                              <span className="truncate text-[13px] font-medium text-[#4B5E76]">
+                                /{user.username}/{link.slug}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                          <div className="rounded-lg border border-[#0A2540]/[0.06] bg-[#0A2540]/[0.02] px-3 py-2 w-full sm:max-w-[200px] md:max-w-[300px] overflow-hidden">
+                            <p className="truncate font-mono text-[11px] text-[#4B5E76]">
+                              {link.href}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(link.href, link.slug)}
+                            className={`flex shrink-0 h-9 items-center justify-center rounded-lg px-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-all w-full sm:w-auto ${copyState
+                                ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
+                                : "border border-[#0A2540]/[0.12] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540]"
+                              }`}
+                          >
+                            {copyState ? "Copied" : "Copy"}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          </motion.div>
         )}
-      </section>
+      </AnimatePresence>
     </div>
   );
 }
