@@ -34,20 +34,13 @@ function CallbackContent() {
   }, [searchParams, exchangeOAuthCode, router]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="p-8 bg-white shadow rounded-lg max-w-sm w-full text-center">
-        {error ? (
-          <div>
-            <div className="text-red-500 mb-4">{error}</div>
-            <p className="text-sm text-gray-500">Redirecting to login...</p>
-          </div>
-        ) : (
-          <div>
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Completing authentication...</p>
-          </div>
-        )}
-      </div>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      {error && (
+        <div className="text-red-500 text-center">
+          <p>{error}</p>
+          <p className="text-sm mt-2 text-gray-500">Redirecting to login...</p>
+        </div>
+      )}
     </div>
   );
 }
