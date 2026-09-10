@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 
@@ -9,6 +9,7 @@ function CallbackContent() {
   const searchParams = useSearchParams();
   const { exchangeOAuthCode } = useAuth();
   const [error, setError] = useState("");
+  const hasExchanged = useRef(false);
 
   useEffect(() => {
     const code = searchParams.get("code");
@@ -18,6 +19,9 @@ function CallbackContent() {
       setTimeout(() => router.push("/login"), 3000);
       return;
     }
+
+    if (hasExchanged.current) return;
+    hasExchanged.current = true;
 
     const exchangeCode = async () => {
       try {
