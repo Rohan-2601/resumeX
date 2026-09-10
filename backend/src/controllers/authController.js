@@ -24,6 +24,7 @@ const serializeUser = (user) => ({
   email: user.email,
   username: user.username,
   authProvider: user.authProvider,
+  avatar: user.avatar,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
 });
@@ -195,6 +196,8 @@ export const githubCallback = async (req, res) => {
     // 3. Create or find user in DB
     let user = await User.findOne({ email });
 
+    const avatar = githubUser.avatar_url || "/default.webp";
+
     if (!user) {
       const username = await getUniqueUsername(
         githubUser.login || email.split("@")[0]
@@ -204,10 +207,21 @@ export const githubCallback = async (req, res) => {
         name: githubUser.name || username,
         username,
         authProvider: "github",
+        avatar,
       });
-    } else if (user.authProvider === "local") {
-      user.authProvider = "both";
-      await user.save();
+    } else {
+      let needsSave = false;
+      if (user.authProvider === "local") {
+        user.authProvider = "both";
+        needsSave = true;
+      }
+      if (!user.avatar || user.avatar === "/default.webp") {
+        user.avatar = avatar;
+        needsSave = true;
+      }
+      if (needsSave) {
+        await user.save();
+      }
     }
 
     // 4. Generate secure one-time code for frontend token handoff

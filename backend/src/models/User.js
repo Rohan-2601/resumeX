@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
       enum: ["local", "github", "both"],
       default: "github",
     },
+    avatar: {
+      type: String,
+      default: "/default.webp",
+    },
   },
   { timestamps: true },
 );
