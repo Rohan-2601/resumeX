@@ -11,6 +11,20 @@ const resumeVersionSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    // New Cloudinary Metadata
+    publicId: {
+      type: String,
+    },
+    resourceType: {
+      type: String,
+      default: "image",
+    },
+    format: {
+      type: String,
+    },
+    bytes: {
+      type: Number,
+    },
     versionNumber: {
       type: Number,
       required: true
@@ -21,5 +35,8 @@ const resumeVersionSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+resumeVersionSchema.index({ resumeId: 1, versionNumber: 1 }, { unique: true });
+resumeVersionSchema.index({ resumeId: 1, versionNumber: -1 });
 
 export default mongoose.model("ResumeVersion", resumeVersionSchema);

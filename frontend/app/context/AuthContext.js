@@ -47,16 +47,6 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    // Check for token in URL parameters first
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenFromUrl = urlParams.get("token");
-
-    if (tokenFromUrl) {
-      localStorage.setItem(TOKEN_KEY, tokenFromUrl);
-      // Clean up the URL by removing the token
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
     const token = getStoredToken();
     const cachedUser = getStoredUser();
 
@@ -145,6 +135,25 @@ export const AuthProvider = ({ children }) => {
     return loggedInUser;
   };
 
+  const exchangeOAuthCode = async (code) => {
+    const response = await axios.post(`${backendUrl}/api/auth/exchange`, {
+      code,
+    });
+
+    const token = response.data?.token;
+    const loggedInUser = response.data?.user;
+
+    if (!token || !loggedInUser) {
+      throw new Error("Exchange response missing token or user");
+    }
+
+    localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(USER_KEY, JSON.stringify(loggedInUser));
+    setUser(loggedInUser);
+
+    return loggedInUser;
+  };
+
   const registerWithCredentials = async ({ username, password }) => {
     const response = await axios.post(`${backendUrl}/api/auth/register`, {
       username,
@@ -180,6 +189,7 @@ export const AuthProvider = ({ children }) => {
         loginWithGithub,
         loginWithCredentials,
         registerWithCredentials,
+        exchangeOAuthCode,
         logout,
       }}
     >

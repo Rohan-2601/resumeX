@@ -399,10 +399,6 @@ export default function ResumesPage() {
 
       {loading ? (
         <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
-            Loading your workspaces...
-          </div>
         </div>
       ) : (
         <motion.div
@@ -486,7 +482,7 @@ export default function ResumesPage() {
             className="flex min-h-[360px] w-full flex-col items-center justify-center rounded-2xl border border-[#0A2540]/[0.08] bg-white p-8 text-center"
           >
             <div className="mb-6 flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[#0A2540]/[0.03] border border-[#0A2540]/[0.08]">
-              <FileTextIcon className="h-6 w-6 text-[#0A2540]/60" />
+              <FileText className="h-6 w-6 text-[#0A2540]/60" />
             </div>
             <h3 className="mb-1.5 text-lg font-semibold tracking-tight text-[#0A2540]">
               No resumes yet
@@ -512,12 +508,11 @@ export default function ResumesPage() {
             {sortedResumes.map((resume) => {
               const publicPath = `/${user.username}/${resume.slug}`;
               return (
-                <motion.button
+                <motion.div
                   variants={itemVariants}
-                  type="button"
                   key={resume._id}
                   onClick={() => openWorkspace(resume._id)}
-                  className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 text-left transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01]"
+                  className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 text-left transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01] cursor-pointer"
                 >
                   <div className="relative z-10 w-full flex flex-col h-full justify-between">
                     <div className="mb-5 flex items-start justify-between w-full">
@@ -558,7 +553,7 @@ export default function ResumesPage() {
                       <ArrowRight className="h-4 w-4 text-[#0A2540] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
                     </div>
                   </div>
-                </motion.button>
+                </motion.div>
               );
             })}
           </motion.div>
@@ -698,14 +693,7 @@ export default function ResumesPage() {
                     disabled={uploading || !uploadFile || !newResumeSlug.trim()}
                     className="group flex min-w-[140px] items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {uploading ? (
-                      <>
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-                        Uploading
-                      </>
-                    ) : (
-                      "Upload Resume"
-                    )}
+                    {uploading ? "Uploading..." : "Upload Resume"}
                   </button>
                 </div>
               </div>

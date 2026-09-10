@@ -211,10 +211,6 @@ export default function AnalyticsPage() {
     >
       {loading ? (
         <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
-            Loading analytics...
-          </div>
         </div>
       ) : (
           <motion.div

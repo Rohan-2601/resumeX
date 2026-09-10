@@ -1,4 +1,6 @@
-import PublicResumeClient from "./PublicResumeClient";
+import { notFound } from "next/navigation";
+import { headers } from "next/headers";
+import ViewTracker from "../../components/ViewTracker";
 
 const FALLBACK_OG_IMAGE = "/hero.webp";
 
@@ -28,20 +30,33 @@ function buildOgImageUrlFromPdf(fileUrl) {
   }
 }
 
-async function getResumeMeta(username, slug) {
+async function getResumeData(username, slug) {
   const backendUrl =
     process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
-  const url = `${backendUrl}/api/public/${username}/${slug}/meta`;
+  const url = `${backendUrl}/api/public/${username}/${slug}`;
 
   try {
-    const response = await fetch(url, { cache: "no-store" });
+    const headersList = await headers();
+    const userAgent = headersList.get("user-agent") || "";
+    const xForwardedFor = headersList.get("x-forwarded-for") || "";
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+      headers: {
+        "user-agent": userAgent,
+        "x-forwarded-for": xForwardedFor,
+      },
+    });
+
     if (!response.ok) {
-      return null;
+      if (response.status === 404) return null;
+      throw new Error(`Failed to fetch resume data: ${response.status}`);
     }
 
     return response.json();
-  } catch {
-    return null;
+  } catch (error) {
+    console.error("Error fetching resume data:", error);
+    return undefined;
   }
 }
 
@@ -59,11 +74,19 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const meta = await getResumeMeta(username, slug);
-  const fullName = meta?.user?.name || username;
+  const resumeData = await getResumeData(username, slug);
+  
+  if (!resumeData) {
+    return {
+      title: "Resume Not Found | resumeX",
+      description: "The requested resume could not be found.",
+    };
+  }
+
+  const fullName = resumeData?.user?.name || username;
   const title = `${fullName} | Resume`;
   const description = `View ${fullName}'s resume shared on resumeX.`;
-  const ogImage = buildOgImageUrlFromPdf(meta?.fileUrl) || FALLBACK_OG_IMAGE;
+  const ogImage = buildOgImageUrlFromPdf(resumeData?.fileUrl) || FALLBACK_OG_IMAGE;
   const canonicalPath = `/${username}/${slug}`;
 
   return {
@@ -95,10 +118,38 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function PublicResumePage({ params }) {
+export default async function ResumeSlugPage({ params }) {
   const resolvedParams = await params;
   const username = resolvedParams?.username;
   const slug = resolvedParams?.slug;
 
-  return <PublicResumeClient username={username} slug={slug} />;
+  if (!username || !slug) {
+    notFound();
+  }
+
+  const resumeData = await getResumeData(username, slug);
+
+  if (resumeData === null) {
+    notFound();
+  }
+  
+  if (resumeData === undefined) {
+    throw new Error("Unable to load this resume.");
+  }
+
+  return (
+    <div style={{ margin: 0, padding: 0, overflow: "hidden", height: "100vh" }}>
+      <ViewTracker username={username} slug={slug} />
+      <iframe
+        src={resumeData.fileUrl}
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          display: "block",
+        }}
+        title={`${resumeData.user.name}'s Resume`}
+      />
+    </div>
+  );
 }

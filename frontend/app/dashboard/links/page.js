@@ -6,7 +6,7 @@ import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { IoIosArrowBack } from "react-icons/io";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link as LinkIcon } from "lucide-react";
 
@@ -131,10 +131,6 @@ export default function LinksPage() {
     <div className={`${sansFont.className} relative pb-8 text-[#123F5B]`}>
       {loading ? (
         <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="flex items-center gap-4 rounded-full border border-white/40 bg-white/60 backdrop-blur-xl px-8 py-5 text-sm font-bold text-[#4B5E76] shadow-lg">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#123F5B]" />
-            Loading links...
-          </div>
         </div>
       ) : (
         <motion.div

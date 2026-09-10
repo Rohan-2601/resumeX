@@ -3,6 +3,7 @@
 import { useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 import Hero from "./components/hero/Hero";
 import PremiumFeatures from "./components/premium-features/PremiumFeatures";
@@ -27,7 +28,10 @@ export default function LandingPage() {
     <>
       {(loading || user) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg-app)]">
-          <div className="w-6 h-6 rounded-full border-3 border-[var(--border)] border-t-[var(--primary)] animate-spin" />
+          <div className="flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--bg-surface)] px-5 py-3 text-sm font-medium text-[var(--text-main)] shadow-lg">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--border)] border-t-black" />
+            Loading...
+          </div>
         </div>
       )}
       <div className={`min-h-[100dvh] flex flex-col bg-[var(--bg-app)] overflow-x-hidden ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}>

@@ -152,19 +152,29 @@ export default function ResumeWorkspacePage() {
   }, [resumeId, user]);
 
   const uploadToCloudinary = async (pdfFile) => {
+    const token = getToken();
+    
+    // 1. Get signature from backend
+    const signatureRes = await axios.get(`${backendUrl}/api/resume/${resumeId}/upload-signature`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    const { timestamp, signature, cloudName, apiKey, folder } = signatureRes.data;
+
+    // 2. Upload to Cloudinary with signature
     const formData = new FormData();
     formData.append("file", pdfFile);
-    formData.append(
-      "upload_preset",
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
-    );
+    formData.append("api_key", apiKey);
+    formData.append("timestamp", timestamp);
+    formData.append("signature", signature);
+    formData.append("folder", folder);
 
     const uploadRes = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+      `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
       formData,
     );
 
-    return uploadRes.data.secure_url;
+    return uploadRes.data;
   };
 
   const handleUploadVersion = async () => {
@@ -178,14 +188,28 @@ export default function ResumeWorkspacePage() {
       return false;
     }
 
+    if (uploadFile.size > 5242880) { // 5MB limit
+      showAlert("File exceeds 5MB limit.", "error");
+      return false;
+    }
+
     setUploading(true);
 
     try {
       const token = getToken();
-      const fileUrl = await uploadToCloudinary(uploadFile);
+      const cloudinaryData = await uploadToCloudinary(uploadFile);
+      
+      const payload = {
+        fileUrl: cloudinaryData.secure_url,
+        publicId: cloudinaryData.public_id,
+        resourceType: cloudinaryData.resource_type,
+        format: cloudinaryData.format,
+        bytes: cloudinaryData.bytes
+      };
+
       await axios.post(
         `${backendUrl}/api/resume/${resumeId}/version`,
-        { fileUrl },
+        payload,
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
@@ -196,7 +220,7 @@ export default function ResumeWorkspacePage() {
       return true;
     } catch (error) {
       console.error(error);
-      showAlert("Upload failed. Please try again.", "error");
+      showAlert(error.response?.data?.message || "Upload failed. Please try again.", "error");
       return false;
     } finally {
       setUploading(false);
@@ -400,10 +424,6 @@ export default function ResumeWorkspacePage() {
             <div className="flex flex-col gap-3">
               {loading ? (
                 <div className="flex min-h-[180px] items-center justify-center p-4">
-                  <div className="flex items-center gap-3 rounded-2xl border border-[#0A2540]/[0.08] bg-white px-5 py-4 text-sm font-medium text-[#4B5E76] shadow-sm">
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
-                    Loading versions...
-                  </div>
                 </div>
               ) : versions.length === 0 ? (
                 <div className="p-8 text-center text-[13.5px] font-medium text-[#6B7280]">

@@ -8,21 +8,27 @@ import {
   uploadVersion,
   getAllVersions,
   rollbackVersion,
-  getResumeByUsername,
+  getUploadSignature,
 } from "../controllers/resumeController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { validate } from "../middleware/validate.js";
+import {
+  createResumeSchema,
+  updateResumeTitleSchema,
+  resumeIdParamSchema,
+  versionIdParamSchema,
+} from "../utils/validationSchemas.js";
 
 const router = express.Router();
 
-router.post("/", protect, createResume);
+router.post("/", protect, validate(createResumeSchema), createResume);
 router.get("/me", protect, getMyResumes);
-router.delete("/:resumeId", protect, deleteResume);
-router.patch("/:resumeId/title", protect, updateResumeTitle);
-router.post("/:resumeId/version", protect, uploadVersion);
-router.delete("/:resumeId/version/:versionId", protect, deleteVersion);
-router.get("/:resumeId/versions", protect, getAllVersions);
-router.post("/:resumeId/rollback/:versionId", protect, rollbackVersion);
-router.get("/:username/:slug", getResumeByUsername);
-router.get("/:username", getResumeByUsername);
+router.delete("/:resumeId", protect, validate(resumeIdParamSchema), deleteResume);
+router.patch("/:resumeId/title", protect, validate(updateResumeTitleSchema), updateResumeTitle);
+router.get("/:resumeId/upload-signature", protect, validate(resumeIdParamSchema), getUploadSignature);
+router.post("/:resumeId/version", protect, validate(resumeIdParamSchema), uploadVersion);
+router.delete("/:resumeId/version/:versionId", protect, validate(versionIdParamSchema), deleteVersion);
+router.get("/:resumeId/versions", protect, validate(resumeIdParamSchema), getAllVersions);
+router.post("/:resumeId/rollback/:versionId", protect, validate(versionIdParamSchema), rollbackVersion);
 
 export default router;

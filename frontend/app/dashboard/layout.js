@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
   ActivityIcon,
@@ -11,6 +11,7 @@ import {
   LogOutIcon,
 } from "../components/icons/Icons";
 import { Playfair_Display, Sora } from "next/font/google";
+
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -29,32 +30,28 @@ export default function DashboardLayout({ children }) {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const isWorkspace = pathname?.includes("/dashboard/resumes/") && pathname.split("/").length > 3;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const hasToken =
     typeof window !== "undefined" &&
     Boolean((localStorage.getItem("token") || "").trim());
 
   useEffect(() => {
-    if (!loading && !user && !hasToken) {
+    if (mounted && !loading && !user && !hasToken) {
       router.replace("/");
     }
-  }, [loading, user, hasToken, router]);
+  }, [loading, user, hasToken, router, mounted]);
 
-  if (!user && (loading || hasToken))
+  if (!mounted || (!user && (loading || hasToken)))
     return (
       <div
         className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#f4f7f6] text-[#0A2540]`}
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="flex items-center gap-4 rounded-2xl border border-white/40 bg-white/60 px-8 py-5 text-sm font-medium text-[#4B5E76] shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl"
-        >
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#E5E7E3] border-t-[#0A2540]" />
-          {loading ? "Loading" : "Restoring your session..."}
-        </motion.div>
       </div>
     );
 

@@ -1,13 +1,22 @@
+import crypto from "crypto";
 import axios from "axios";
-import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import OAuthCode from "../models/OAuthCode.js";
+import { buildToken } from "../utils/auth.js";
+import AppError from "../utils/AppError.js";
 
 const usernameRegex = /^[a-zA-Z0-9_-]{3,30}$/;
-
-const getJwtSecret = () => process.env.JWT_SECRET || "fallback_secret";
-
-const buildToken = (userId) =>
-  jwt.sign({ userId }, getJwtSecret(), { expiresIn: "7d" });
+const RESERVED_USERNAMES = [
+  "admin",
+  "api",
+  "login",
+  "dashboard",
+  "public",
+  "auth",
+  "register",
+  "null",
+  "undefined",
+];
 
 const serializeUser = (user) => ({
   _id: user._id,
@@ -29,7 +38,10 @@ const getUniqueUsername = async (baseValue) => {
   let candidate = base;
   let suffix = 1;
 
-  while (await User.exists({ username: candidate })) {
+  while (
+    (await User.exists({ username: candidate })) ||
+    RESERVED_USERNAMES.includes(candidate)
+  ) {
     candidate = `${base}${suffix}`;
     suffix += 1;
   }
@@ -38,102 +50,77 @@ const getUniqueUsername = async (baseValue) => {
 };
 
 export const register = async (req, res) => {
-  try {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
+  const normalizedUsername = username.trim().toLowerCase();
 
-    if (!username || !password) {
-      return res.status(400).json({
-        message: "username and password are required",
-      });
-    }
-
-    const normalizedUsername = username.trim().toLowerCase();
-
-    if (!usernameRegex.test(normalizedUsername)) {
-      return res.status(400).json({
-        message:
-          "Username must be 3-30 characters and can only contain letters, numbers, _ and -",
-      });
-    }
-
-    if (String(password).length < 6) {
-      return res.status(400).json({
-        message: "Password must be at least 6 characters",
-      });
-    }
-
-    const existingByUsername = await User.findOne({
-      username: normalizedUsername,
-    });
-    if (existingByUsername) {
-      return res.status(409).json({ message: "Username is already taken" });
-    }
-
-    const user = await User.create({
-      name: normalizedUsername,
-      email: `${normalizedUsername}@local.resumex`,
-      username: normalizedUsername,
-      password,
-      authProvider: "local",
-    });
-
-    const token = buildToken(user._id);
-
-    res.status(201).json({
-      message: "Registered successfully",
-      token,
-      user: serializeUser(user),
-    });
-  } catch (error) {
-    console.error("Register Error:", error.message);
-    if (error.code === 11000) {
-      return res.status(409).json({ message: "Username already exists" });
-    }
-    res.status(500).json({ message: "Server Error" });
+  if (RESERVED_USERNAMES.includes(normalizedUsername)) {
+    throw new AppError("Username is unavailable", 409);
   }
+
+  const existingByUsername = await User.findOne({
+    username: normalizedUsername,
+  });
+  
+  if (existingByUsername) {
+    throw new AppError("Username is already taken", 409);
+  }
+
+  const user = await User.create({
+    name: normalizedUsername,
+    email: `${normalizedUsername}@local.resumex`,
+    username: normalizedUsername,
+    password,
+    authProvider: "local",
+  });
+
+  const token = buildToken(user._id);
+
+  res.status(201).json({
+    message: "Registered successfully",
+    token,
+    user: serializeUser(user),
+  });
 };
 
 export const login = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const normalizedUsername = (username || "").trim().toLowerCase();
+  const { username, password } = req.body;
+  const normalizedUsername = (username || "").trim().toLowerCase();
 
-    if (!normalizedUsername || !password) {
-      return res.status(400).json({
-        message: "username and password are required",
-      });
-    }
+  const user = await User.findOne({ username: normalizedUsername }).select(
+    "+password",
+  );
 
-    const user = await User.findOne({ username: normalizedUsername }).select(
-      "+password",
-    );
-
-    if (!user) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
-
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
-
-    const token = buildToken(user._id);
-
-    res.json({
-      message: "Login successful",
-      token,
-      user: serializeUser(user),
-    });
-  } catch (error) {
-    console.error("Login Error:", error.message);
-    res.status(500).json({ message: "Server Error" });
+  if (!user) {
+    throw new AppError("Invalid username or password", 401);
   }
+
+  const isMatch = await user.matchPassword(password);
+  if (!isMatch) {
+    throw new AppError("Invalid username or password", 401);
+  }
+
+  const token = buildToken(user._id);
+
+  res.json({
+    message: "Login successful",
+    token,
+    user: serializeUser(user),
+  });
 };
 
 export const githubLogin = (req, res) => {
   const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
   const redirectUri = `${process.env.BACKEND_URL || "http://localhost:5000"}/api/auth/github/callback`;
-  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${redirectUri}&scope=read:user,user:email`;
+
+  const state = crypto.randomBytes(16).toString("hex");
+  res.cookie("oauth_state", state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 10 * 60 * 1000, // 10 minutes
+  });
+
+  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${redirectUri}&scope=read:user,user:email&state=${state}`;
   res.redirect(githubAuthUrl);
 };
 
@@ -141,11 +128,18 @@ export const githubCallback = async (req, res) => {
   const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
   const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-  const { code } = req.query;
+  const { code, state } = req.query;
   const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 
+  const savedState = req.cookies?.oauth_state;
+  res.clearCookie("oauth_state");
+
+  if (!state || !savedState || state !== savedState) {
+    return res.redirect(`${frontendUrl}/login?error=InvalidState`);
+  }
+
   if (!code) {
-    return res.redirect(`${frontendUrl}?error=NoCodeProvided`);
+    return res.redirect(`${frontendUrl}/login?error=NoCodeProvided`);
   }
 
   try {
@@ -161,13 +155,13 @@ export const githubCallback = async (req, res) => {
         headers: {
           Accept: "application/json",
         },
-      },
+      }
     );
 
     const accessToken = tokenResponse.data.access_token;
 
     if (!accessToken) {
-      return res.redirect(`${frontendUrl}?error=TokenExchangeFailed`);
+      return res.redirect(`${frontendUrl}/login?error=TokenExchangeFailed`);
     }
 
     // 2. Fetch user profile from GitHub
@@ -184,24 +178,26 @@ export const githubCallback = async (req, res) => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      },
+      }
     );
 
     const githubUser = userResponse.data;
-    const primaryEmailObj =
-      emailResponse.data.find((e) => e.primary) || emailResponse.data[0];
-    const email = primaryEmailObj?.email;
+    const verifiedEmails = emailResponse.data.filter((e) => e.verified);
 
-    if (!email) {
-      return res.redirect(`${frontendUrl}?error=NoEmailFound`);
+    if (verifiedEmails.length === 0) {
+      return res.redirect(`${frontendUrl}/login?error=NoVerifiedEmailFound`);
     }
+
+    const primaryEmailObj =
+      verifiedEmails.find((e) => e.primary) || verifiedEmails[0];
+    const email = primaryEmailObj.email;
 
     // 3. Create or find user in DB
     let user = await User.findOne({ email });
 
     if (!user) {
       const username = await getUniqueUsername(
-        githubUser.login || email.split("@")[0],
+        githubUser.login || email.split("@")[0]
       );
       user = await User.create({
         email,
@@ -214,31 +210,61 @@ export const githubCallback = async (req, res) => {
       await user.save();
     }
 
-    // 4. Generate JWT
-    const token = buildToken(user._id);
+    // 4. Generate secure one-time code for frontend token handoff
+    const exchangeCode = crypto.randomBytes(32).toString("hex");
+    const codeHash = crypto.createHash("sha256").update(exchangeCode).digest("hex");
 
-    // 5. Redirect back to frontend with token
-    res.redirect(`${frontendUrl}?token=${token}`);
+    await OAuthCode.create({
+      codeHash,
+      userId: user._id,
+    });
+
+    // 5. Redirect back to frontend auth callback
+    res.redirect(`${frontendUrl}/auth/callback?code=${exchangeCode}`);
   } catch (error) {
     console.error("GitHub Auth Error:", error.message);
-    res.redirect(`${frontendUrl}?error=AuthenticationFailed`);
+    res.redirect(`${frontendUrl}/login?error=AuthenticationFailed`);
   }
 };
 
-export const getMe = async (req, res) => {
-  try {
-    // req.user should be populated by authMiddleware
-    if (!req.user) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
+export const exchangeOAuthCode = async (req, res) => {
+  const { code } = req.body;
+  
+  const codeHash = crypto.createHash("sha256").update(code).digest("hex");
+  const oauthCode = await OAuthCode.findOne({ codeHash });
 
-    const user = await User.findById(req.user.userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json({ user: serializeUser(user) });
-  } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+  if (!oauthCode) {
+    throw new AppError("Invalid or expired code", 401);
   }
+
+  const user = await User.findById(oauthCode.userId);
+
+  // Invalidate the code so it cannot be replayed
+  await OAuthCode.deleteOne({ _id: oauthCode._id });
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  const token = buildToken(user._id);
+
+  res.json({
+    message: "Exchange successful",
+    token,
+    user: serializeUser(user),
+  });
+};
+
+export const getMe = async (req, res) => {
+  // req.user should be populated by authMiddleware
+  if (!req.user) {
+    throw new AppError("Not authenticated", 401);
+  }
+
+  const user = await User.findById(req.user.userId);
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  res.json({ user: serializeUser(user) });
 };
