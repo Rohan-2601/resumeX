@@ -96,13 +96,9 @@ export default function DashboardLayout({ children }) {
             >
               <span className="flex items-end text-[1.8rem] font-bold tracking-tight leading-none text-[#0A2540]">
                 resume
-                <motion.span
-                  initial={{ rotate: 0 }}
-                  whileHover={{ rotate: 15, scale: 1.1 }}
-                  className={`${displayFont.className} italic text-[#0A2540] drop-shadow-sm ml-0.5`}
-                >
+                <span className={`${displayFont.className} italic text-[#0A2540] drop-shadow-sm ml-0.5`}>
                   X
-                </motion.span>
+                </span>
               </span>
             </Link>
 
