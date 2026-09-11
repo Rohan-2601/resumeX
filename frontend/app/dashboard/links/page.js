@@ -197,8 +197,14 @@ export default function LinksPage() {
             ) : null}
 
             {publicLinks.length === 0 ? (
-              <div className="flex min-h-[200px] w-full flex-col items-center justify-center rounded-2xl border border-[#0A2540]/[0.08] bg-white p-8 text-center">
-                <p className="max-w-sm text-[13.5px] font-medium text-[#6B7280]">
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 bg-white/50 px-6 py-12 text-center min-h-[200px] w-full">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 text-[#0A2540]">
+                  <LinkIcon className="h-5 w-5" />
+                </div>
+                <h3 className="text-base font-semibold text-[#0A2540]">
+                  No links available
+                </h3>
+                <p className="mt-2 text-sm text-[#4B5E76] max-w-sm">
                   No resumes found. Create a workspace first to get a shareable link.
                 </p>
               </div>

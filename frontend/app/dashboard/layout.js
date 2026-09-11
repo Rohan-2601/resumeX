@@ -27,7 +27,7 @@ const sansFont = Sora({
 });
 
 export default function DashboardLayout({ children }) {
-  const { user, loading, logout } = useAuth();
+  const { user, isInitializing, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -37,25 +37,23 @@ export default function DashboardLayout({ children }) {
     setMounted(true);
   }, []);
 
-  const hasToken =
-    typeof window !== "undefined" &&
-    Boolean((localStorage.getItem("token") || "").trim());
-
   useEffect(() => {
-    if (mounted && !loading && !user && !hasToken) {
-      router.replace("/");
+    if (mounted && !isInitializing && !user) {
+      router.replace("/login");
     }
-  }, [loading, user, hasToken, router, mounted]);
+  }, [isInitializing, user, router, mounted]);
 
-  if (!mounted || (!user && (loading || hasToken)))
+  // To prevent hydration mismatch, just return empty during SSR
+  if (!mounted) {
     return (
-      <div
-        className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#f4f7f6] text-[#0A2540]`}
-      >
-      </div>
+      <div className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#fafafa]`} />
     );
+  }
 
-  if (!user) return null;
+  // If we are done initializing and there's no user, we are redirecting. Don't render the shell.
+  if (!isInitializing && !user) {
+    return null;
+  }
 
   const navItems = [
     { label: "Resumes", href: "/dashboard/resumes", icon: <FileTextIcon /> },
@@ -150,22 +148,35 @@ export default function DashboardLayout({ children }) {
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0A2540]/10 to-transparent" />
               <div className="mb-4 flex items-center gap-3 px-2 rounded-xl py-2 transition-colors hover:bg-black/5">
                 <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-sm">
-                  <Image
-                    src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
-                    alt="Avatar"
-                    width={44}
-                    height={44}
-                    unoptimized
-                    className="object-cover"
-                  />
+                  {user ? (
+                    <Image
+                      src={user.avatar || "/default.webp"}
+                      alt="Avatar"
+                      width={44}
+                      height={44}
+                      unoptimized
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-gray-200 animate-pulse" />
+                  )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-bold text-[#0A2540]">
-                    {user.name}
-                  </div>
-                  <div className="truncate text-[11px] font-medium text-[#6B7280]">
-                    @{user.username}
-                  </div>
+                  {user ? (
+                    <>
+                      <div className="truncate text-sm font-bold text-[#0A2540]">
+                        {user.name}
+                      </div>
+                      <div className="truncate text-[11px] font-medium text-[#6B7280]">
+                        @{user.username}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="h-3.5 w-20 rounded-md bg-gray-200 animate-pulse" />
+                      <div className="h-2.5 w-14 rounded-md bg-gray-100 animate-pulse" />
+                    </div>
+                  )}
                 </div>
               </div>
               <button
@@ -202,13 +213,18 @@ export default function DashboardLayout({ children }) {
                   </span>
                 </Link>
                 <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-sm">
-                  <Image
-                    src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`}
-                    alt="Avatar"
-                    width={36}
-                    height={36}
-                    unoptimized
-                  />
+                  {user ? (
+                    <Image
+                      src={user.avatar || "/default.webp"}
+                      alt="Avatar"
+                      width={36}
+                      height={36}
+                      unoptimized
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-gray-200 animate-pulse" />
+                  )}
                 </div>
               </div>
               <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none]">
@@ -255,7 +271,18 @@ export default function DashboardLayout({ children }) {
               transition={{ duration: 0.25, ease: "easeOut" }}
               className={isWorkspace ? "mx-auto max-w-[1400px]" : "mx-auto max-w-[1000px]"}
             >
-              {children}
+              {isInitializing ? (
+                <div className="space-y-6">
+                  <div className="h-10 w-48 rounded-xl bg-black/5 animate-pulse" />
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="h-[220px] rounded-2xl border border-black/5 bg-white/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 bg-white/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 bg-white/50 animate-pulse shadow-sm" />
+                  </div>
+                </div>
+              ) : (
+                children
+              )}
             </motion.div>
           </div>
         </main>

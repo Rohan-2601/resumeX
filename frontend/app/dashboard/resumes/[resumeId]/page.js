@@ -37,7 +37,7 @@ export default function ResumeWorkspacePage() {
   const [selectedVersionId, setSelectedVersionId] = useState("");
 
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
+  const [uploadState, setUploadState] = useState("idle");
   const [rollingBackId, setRollingBackId] = useState("");
   const [deletingVersionId, setDeletingVersionId] = useState("");
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -193,11 +193,13 @@ export default function ResumeWorkspacePage() {
       return false;
     }
 
-    setUploading(true);
+    setUploadState("uploading");
 
     try {
       const token = getToken();
       const cloudinaryData = await uploadToCloudinary(uploadFile);
+      
+      setUploadState("saving");
       
       const payload = {
         fileUrl: cloudinaryData.secure_url,
@@ -213,17 +215,23 @@ export default function ResumeWorkspacePage() {
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      setUploadFile(null);
-      setUploadPreviewUrl("");
+      setUploadState("success");
       await loadWorkspace();
-      showAlert("New version uploaded successfully.");
+
+      setTimeout(() => {
+        setUploadFile(null);
+        setUploadPreviewUrl("");
+        setIsUploadModalOpen(false);
+        setUploadState("idle");
+        showAlert("New version uploaded successfully.");
+      }, 400);
+
       return true;
     } catch (error) {
       console.error(error);
+      setUploadState("error");
       showAlert(error.response?.data?.message || "Upload failed. Please try again.", "error");
       return false;
-    } finally {
-      setUploading(false);
     }
   };
 
@@ -579,12 +587,13 @@ export default function ResumeWorkspacePage() {
                 </div>
                 <button
                   type="button"
+                  disabled={uploadState !== "idle" && uploadState !== "error"}
                   onClick={() => {
                     setIsUploadModalOpen(false);
                     setUploadFile(null);
                     setUploadPreviewUrl("");
                   }}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-white text-[#4B5E76] transition hover:bg-[#0A2540]/[0.03]"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] bg-white text-[#4B5E76] transition hover:bg-[#0A2540]/[0.03] disabled:opacity-50"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -642,27 +651,35 @@ export default function ResumeWorkspacePage() {
               <div className="mt-6 flex gap-3">
                 <button
                   type="button"
+                  disabled={uploadState !== "idle" && uploadState !== "error"}
                   onClick={() => {
                     setIsUploadModalOpen(false);
                     setUploadFile(null);
                     setUploadPreviewUrl("");
                   }}
-                  className="flex-1 rounded-xl border border-[#0A2540]/[0.12] bg-white px-4 py-2.5 text-sm font-semibold text-[#4B5E76] shadow-sm transition hover:bg-[#0A2540]/[0.02]"
+                  className="flex-1 rounded-xl border border-[#0A2540]/[0.12] bg-white px-4 py-2.5 text-sm font-semibold text-[#4B5E76] shadow-sm transition hover:bg-[#0A2540]/[0.02] disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={async () => {
-                    const uploaded = await handleUploadVersion();
-                    if (uploaded) {
-                      setIsUploadModalOpen(false);
-                    }
+                    await handleUploadVersion();
                   }}
-                  disabled={uploading || !uploadFile}
+                  disabled={(uploadState !== "idle" && uploadState !== "error") || !uploadFile}
                   className="flex-1 rounded-xl bg-[#0A2540] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#113155] disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {uploading ? "Uploading..." : "Upload Version"}
+                  {uploadState === "uploading" ? (
+                    "Uploading PDF..."
+                  ) : uploadState === "saving" ? (
+                    "Saving version..."
+                  ) : uploadState === "success" ? (
+                    <span className="flex items-center justify-center gap-1.5 text-emerald-400">
+                      Uploaded successfully
+                    </span>
+                  ) : (
+                    "Upload Version"
+                  )}
                 </button>
               </div>
             </div>

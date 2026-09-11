@@ -5,7 +5,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
+import { useToast } from "../../context/ToastContext";
 import { UploadIcon } from "../../components/icons/Icons";
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { CheckCircle2Icon, InfoIcon, RotateCwIcon, FileText, Plus, ArrowRight, Link as LinkIcon, Trash2 } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -49,7 +51,7 @@ export default function ResumesPage() {
   const [uploadSuccessToast, setUploadSuccessToast] = useState("");
 
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [uploadState, setUploadState] = useState("idle");
   const [uploadNotice, setUploadNotice] = useState("");
   const [uploadFile, setUploadFile] = useState(null);
   const [uploadPreviewUrl, setUploadPreviewUrl] = useState("");
@@ -57,6 +59,11 @@ export default function ResumesPage() {
 
   const [newResumeTitle, setNewResumeTitle] = useState("My Resume");
   const [newResumeSlug, setNewResumeSlug] = useState("");
+
+  const toast = useToast();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [workspaceToDelete, setWorkspaceToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const isErrorMessage = /failed|unable|error|not found|required|invalid/i.test(
     message,
@@ -260,13 +267,7 @@ export default function ResumesPage() {
       { headers: { Authorization: `Bearer ${token}` } },
     );
 
-    const resume = createRes.data.resume;
-    setResumes((prev) => {
-      const deduped = prev.filter((item) => item._id !== resume._id);
-      return [resume, ...deduped];
-    });
-
-    return resume;
+    return createRes.data.resume;
   };
 
   const handleUpload = async () => {
@@ -280,22 +281,26 @@ export default function ResumesPage() {
       return;
     }
 
-    setUploading(true);
+    setUploadState("uploading");
     setUploadNotice("");
 
     try {
+      const fileUrl = await uploadToCloudinary(uploadFile);
+      
+      setUploadState("saving");
+      
       const createdResume = await createResume();
       if (!createdResume) {
+        setUploadState("error");
         return;
       }
 
       const resumeId = createdResume._id;
-
-      const fileUrl = await uploadToCloudinary(uploadFile);
       const token = getValidToken();
 
       if (!token) {
         handleUnauthorized(setUploadNotice);
+        setUploadState("error");
         return;
       }
 
@@ -305,13 +310,19 @@ export default function ResumesPage() {
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      setIsUploadModalOpen(false);
-      setUploadFile(null);
-      setUploadPreviewUrl("");
+      setUploadState("success");
       await loadResumes();
-      showUploadSuccessToast("New resume uploaded successfully.");
+
+      setTimeout(() => {
+        setIsUploadModalOpen(false);
+        setUploadFile(null);
+        setUploadPreviewUrl("");
+        setUploadState("idle");
+        showUploadSuccessToast("New resume uploaded successfully.");
+      }, 400);
     } catch (error) {
       console.error(error);
+      setUploadState("error");
       if (
         error.response?.status === 401 &&
         error.config?.url?.includes(backendUrl)
@@ -322,31 +333,35 @@ export default function ResumesPage() {
       
       const errorMessage = error.response?.data?.error?.message || error.response?.data?.message || "Upload failed. Please try again.";
       setUploadNotice(errorMessage);
-    } finally {
-      setUploading(false);
     }
   };
 
-  const handleDeleteResume = async (e, resumeId) => {
+  const handleDeleteResume = (e, resumeId) => {
     e.stopPropagation();
-    
-    if (!window.confirm("Are you sure you want to delete this workspace? This action cannot be undone.")) {
-      return;
-    }
+    setWorkspaceToDelete(resumeId);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteWorkspace = async () => {
+    if (!workspaceToDelete) return;
+    setIsDeleting(true);
 
     try {
       const token = getValidToken();
       if (!token) {
         handleUnauthorized(setMessage);
+        setIsDeleting(false);
         return;
       }
 
-      await axios.delete(`${backendUrl}/api/resume/${resumeId}`, {
+      await axios.delete(`${backendUrl}/api/resume/${workspaceToDelete}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setResumes((prev) => prev.filter((r) => r._id !== resumeId));
-      showUploadSuccessToast("Workspace deleted successfully.");
+      setResumes((prev) => prev.filter((r) => r._id !== workspaceToDelete));
+      toast.success("Workspace deleted successfully.");
+      setIsDeleteDialogOpen(false);
+      setWorkspaceToDelete(null);
     } catch (error) {
       console.error(error);
       if (
@@ -354,9 +369,12 @@ export default function ResumesPage() {
         error.config?.url?.includes(backendUrl)
       ) {
         handleUnauthorized(setMessage);
-        return;
+      } else {
+        toast.error("Failed to delete workspace. Please try again.");
       }
-      alert("Failed to delete workspace. Please try again.");
+      setIsDeleteDialogOpen(false);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -477,17 +495,19 @@ export default function ResumesPage() {
 
             <section className="relative z-10">
               {sortedResumes.length === 0 ? (
-          <motion.div 
-            variants={itemVariants}
-            className="flex min-h-[360px] w-full flex-col items-center justify-center rounded-2xl border border-[#0A2540]/[0.08] bg-white p-8 text-center"
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 bg-white/50 px-6 py-12 text-center min-h-[360px] w-full"
           >
-            <div className="mb-6 flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[#0A2540]/[0.03] border border-[#0A2540]/[0.08]">
-              <FileText className="h-6 w-6 text-[#0A2540]/60" />
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 text-[#0A2540]">
+              <FileText className="h-6 w-6" />
             </div>
-            <h3 className="mb-1.5 text-lg font-semibold tracking-tight text-[#0A2540]">
+            <h3 className="text-base font-semibold text-[#0A2540]">
               No resumes yet
             </h3>
-            <p className="mb-8 max-w-sm text-[13.5px] font-medium text-[#6B7280]">
+            <p className="mt-2 mb-8 max-w-sm text-sm text-[#4B5E76]">
               Create your first workspace to start building your professional resume.
             </p>
             <button
@@ -569,7 +589,7 @@ export default function ResumesPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-[#0A2540]/40 backdrop-blur-sm"
-              onClick={() => !uploading && setIsUploadModalOpen(false)}
+              onClick={() => (uploadState === "idle" || uploadState === "error") && setIsUploadModalOpen(false)}
             />
             
               <motion.div
@@ -579,6 +599,25 @@ export default function ResumesPage() {
                 transition={{ type: "spring", stiffness: 350, damping: 30 }}
                 className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)]"
               >
+              <button
+                type="button"
+                onClick={() => (uploadState === "idle" || uploadState === "error") && setIsUploadModalOpen(false)}
+                disabled={uploadState !== "idle" && uploadState !== "error"}
+                className="absolute right-4 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-lg border border-transparent bg-transparent text-[#4B5E76] transition-colors hover:bg-[#0A2540]/[0.03] hover:border-[#0A2540]/[0.08] disabled:opacity-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  className="h-4 w-4"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+
               {/* Minimal header */}
               <div className="relative z-10 overflow-y-auto px-6 pb-6 pt-8">
                 <div className="mb-6 text-center">
@@ -682,7 +721,7 @@ export default function ResumesPage() {
                   <button
                     type="button"
                     onClick={() => setIsUploadModalOpen(false)}
-                    disabled={uploading}
+                    disabled={uploadState !== "idle" && uploadState !== "error"}
                     className="flex-1 rounded-xl border border-[#0A2540]/[0.08] bg-white px-5 py-2.5 text-[14px] font-medium text-[#4B5E76] transition-all hover:bg-[#0A2540]/[0.02] active:scale-[0.98] disabled:opacity-50"
                   >
                     Cancel
@@ -690,10 +729,25 @@ export default function ResumesPage() {
                   <button
                     type="button"
                     onClick={handleUpload}
-                    disabled={uploading || !uploadFile || !newResumeSlug.trim()}
+                    disabled={
+                      (uploadState !== "idle" && uploadState !== "error") ||
+                      !uploadFile ||
+                      !newResumeSlug.trim()
+                    }
                     className="group flex min-w-[140px] items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {uploading ? "Uploading..." : "Upload Resume"}
+                    {uploadState === "uploading" ? (
+                      "Uploading PDF..."
+                    ) : uploadState === "saving" ? (
+                      "Saving resume..."
+                    ) : uploadState === "success" ? (
+                      <span className="flex items-center gap-1.5 text-emerald-600">
+                        <CheckCircle2Icon className="h-4 w-4" />
+                        Uploaded successfully
+                      </span>
+                    ) : (
+                      "Upload Resume"
+                    )}
                   </button>
                 </div>
               </div>
@@ -701,6 +755,20 @@ export default function ResumesPage() {
           </div>
         )}
       </AnimatePresence>
+
+      <ConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setWorkspaceToDelete(null);
+        }}
+        onConfirm={confirmDeleteWorkspace}
+        title="Delete Workspace"
+        description="Are you sure you want to delete this workspace? This action cannot be undone."
+        confirmLabel="Delete"
+        isDestructive={true}
+        loading={isDeleting}
+      />
     </div>
   );
 }

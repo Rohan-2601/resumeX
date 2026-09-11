@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 
 export default function ResumeHistory() {
   const { user } = useAuth();
+  const toast = useToast();
   const [versions, setVersions] = useState([]);
   const [resumeData, setResumeData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,9 +76,10 @@ export default function ResumeHistory() {
       );
 
       await fetchVersions();
+      toast.success("Rolled back successfully");
     } catch (err) {
       console.error(err);
-      alert("Failed to rollback");
+      toast.error("Failed to rollback");
     } finally {
       setRollingBack(false);
     }

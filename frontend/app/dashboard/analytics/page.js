@@ -261,14 +261,24 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              {errorMessage ? (
-          <Alert
-            variant="destructive"
-            className="rounded-xl border-rose-900/20 bg-rose-50 text-rose-700"
-          >
-            <AlertDescription>{errorMessage}</AlertDescription>
-          </Alert>
-        ) : analytics ? (
+              {errorMessage === "No analytics available yet. Upload a resume first." || errorMessage === "Sign in to view analytics." ? (
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 bg-white/50 px-6 py-12 text-center">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 text-[#0A2540]">
+                    <ActivityIcon />
+                  </div>
+                  <h3 className="text-base font-semibold text-[#0A2540]">{errorMessage}</h3>
+                  <p className="mt-2 text-sm text-[#4B5E76] max-w-sm">
+                    Once your link is active and starts receiving visits, your performance metrics will appear here.
+                  </p>
+                </div>
+              ) : errorMessage ? (
+                <Alert
+                  variant="destructive"
+                  className="rounded-xl border-rose-900/20 bg-rose-50 text-rose-700"
+                >
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+              ) : analytics ? (
           <>
             <div className="grid grid-cols-1 gap-2.5 md:grid-cols-3">
               <div className="rounded-xl border border-[#E5E7E3] bg-white/72 px-4 py-3">
