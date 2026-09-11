@@ -286,9 +286,9 @@ export default function ResumesPage() {
 
     try {
       const fileUrl = await uploadToCloudinary(uploadFile);
-      
+
       setUploadState("saving");
-      
+
       const createdResume = await createResume();
       if (!createdResume) {
         setUploadState("error");
@@ -330,7 +330,7 @@ export default function ResumesPage() {
         handleUnauthorized(setUploadNotice);
         return;
       }
-      
+
       const errorMessage = error.response?.data?.error?.message || error.response?.data?.message || "Upload failed. Please try again.";
       setUploadNotice(errorMessage);
     }
@@ -426,161 +426,161 @@ export default function ResumesPage() {
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="space-y-8"
         >
-            <div className="mb-2 hidden items-end justify-between md:flex">
-              <div>
-                <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
-                  <span className="h-px w-6 bg-[#0A2540]/10"></span>
-                  Overview
-                </div>
-                <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
-                  Resumes
-                </h1>
+          <div className="mb-2 hidden items-end justify-between md:flex">
+            <div>
+              <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
+                <span className="h-px w-6 bg-[#0A2540]/10"></span>
+                Overview
               </div>
+              <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
+                Resumes
+              </h1>
             </div>
-            {message && (
-              <Alert
-                variant={isErrorMessage ? "destructive" : "default"}
-                className={
-                  isErrorMessage
-                    ? "rounded-2xl border-rose-200 bg-rose-50/80 backdrop-blur-md text-rose-800 shadow-sm"
-                    : "rounded-2xl border-emerald-200 bg-emerald-50/80 backdrop-blur-md text-emerald-800 shadow-sm"
-                }
+          </div>
+          {message && (
+            <Alert
+              variant={isErrorMessage ? "destructive" : "default"}
+              className={
+                isErrorMessage
+                  ? "rounded-2xl border-rose-200 bg-rose-50/80 backdrop-blur-md text-rose-800 shadow-sm"
+                  : "rounded-2xl border-emerald-200 bg-emerald-50/80 backdrop-blur-md text-emerald-800 shadow-sm"
+              }
+            >
+              <AlertDescription className="flex items-center gap-3 py-1">
+                {isErrorMessage ? (
+                  <InfoIcon className="h-5 w-5 shrink-0 text-rose-500" />
+                ) : (
+                  <CheckCircle2Icon className="h-5 w-5 shrink-0 text-emerald-500" />
+                )}
+                <span className="font-medium text-[15px]">{message}</span>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-3xl relative z-10">
+              <motion.h1
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
               >
-                <AlertDescription className="flex items-center gap-3 py-1">
-                  {isErrorMessage ? (
-                    <InfoIcon className="h-5 w-5 shrink-0 text-rose-500" />
-                  ) : (
-                    <CheckCircle2Icon className="h-5 w-5 shrink-0 text-emerald-500" />
-                  )}
-                  <span className="font-medium text-[15px]">{message}</span>
-                </AlertDescription>
-              </Alert>
-            )}
+                Your resumes
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+                className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+              >
+                Manage and edit your professional profiles in one place.
+              </motion.p>
+            </div>
 
-            <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div className="max-w-3xl relative z-10">
-                <motion.h1 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
-                >
-                  Your resumes
-                </motion.h1>
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.1 }}
-                  className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
-                >
-                  Manage and edit your professional profiles in one place.
-                </motion.p>
-              </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex w-full gap-3 sm:w-auto relative z-10"
+            >
+              <button
+                type="button"
+                onClick={openNewResumeModal}
+                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
+              >
+                <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
+                Upload New Resume
+              </button>
+            </motion.div>
+          </section>
 
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
+          <section className="relative z-10">
+            {sortedResumes.length === 0 ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="flex w-full gap-3 sm:w-auto relative z-10"
+                className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 bg-white/50 px-6 py-12 text-center min-h-[360px] w-full"
               >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 text-[#0A2540]">
+                  <FileText className="h-6 w-6" />
+                </div>
+                <h3 className="text-base font-semibold text-[#0A2540]">
+                  No resumes yet
+                </h3>
+                <p className="mt-2 mb-8 max-w-sm text-sm text-[#4B5E76]">
+                  Create your first workspace to start building your professional resume.
+                </p>
                 <button
-                  type="button"
                   onClick={openNewResumeModal}
-                  className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
+                  className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98]"
                 >
-                  <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
-                  Upload New Resume
+                  <UploadIcon className="h-4 w-4" />
+                  Upload your first resume
                 </button>
               </motion.div>
-            </section>
+            ) : (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              >
+                {sortedResumes.map((resume) => {
+                  const publicPath = `/${user.username}/${resume.slug}`;
+                  return (
+                    <motion.div
+                      variants={itemVariants}
+                      key={resume._id}
+                      onClick={() => openWorkspace(resume._id)}
+                      className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 text-left transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01] cursor-pointer"
+                    >
+                      <div className="relative z-10 w-full flex flex-col h-full justify-between">
+                        <div className="mb-5 flex items-start justify-between w-full">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] text-[#0A2540] border border-[#0A2540]/[0.08]">
+                            <FileText className="h-4 w-4" />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] font-medium text-[#6B7280]">
+                              {timeAgo(resume.updatedAt)}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={(e) => handleDeleteResume(e, resume._id)}
+                              className="flex h-10 w-10 items-center justify-center rounded-xl text-[#6B7280]/60 transition-colors hover:bg-rose-50 hover:text-rose-500"
+                              title="Delete Workspace"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
 
-            <section className="relative z-10">
-              {sortedResumes.length === 0 ? (
-          <motion.div
-            key="empty"
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 bg-white/50 px-6 py-12 text-center min-h-[360px] w-full"
-          >
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 text-[#0A2540]">
-              <FileText className="h-6 w-6" />
-            </div>
-            <h3 className="text-base font-semibold text-[#0A2540]">
-              No resumes yet
-            </h3>
-            <p className="mt-2 mb-8 max-w-sm text-sm text-[#4B5E76]">
-              Create your first workspace to start building your professional resume.
-            </p>
-            <button
-              onClick={openNewResumeModal}
-              className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98]"
-            >
-              <UploadIcon className="h-4 w-4" />
-              Upload your first resume
-            </button>
-          </motion.div>
-        ) : (
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {sortedResumes.map((resume) => {
-              const publicPath = `/${user.username}/${resume.slug}`;
-              return (
-                <motion.div
-                  variants={itemVariants}
-                  key={resume._id}
-                  onClick={() => openWorkspace(resume._id)}
-                  className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 text-left transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01] cursor-pointer"
-                >
-                  <div className="relative z-10 w-full flex flex-col h-full justify-between">
-                    <div className="mb-5 flex items-start justify-between w-full">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] text-[#0A2540] border border-[#0A2540]/[0.08]">
-                        <FileText className="h-4 w-4" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-medium text-[#6B7280]">
-                          {timeAgo(resume.updatedAt)}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDeleteResume(e, resume._id)}
-                          className="flex h-10 w-10 items-center justify-center rounded-xl text-[#6B7280]/60 transition-colors hover:bg-rose-50 hover:text-rose-500"
-                          title="Delete Workspace"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
+                        <div className="min-w-0 w-full mb-6">
+                          <h2 className="mb-1.5 truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
+                            {resume.title || "My Resume"}
+                          </h2>
+                          <div className="flex items-center gap-1.5 truncate">
+                            <LinkIcon className="shrink-0 h-3 w-3 text-[#4B5E76] opacity-70 translate-y-[-1px]" />
+                            <span className="truncate text-[13px] font-medium text-[#4B5E76]">
+                              {publicPath}
+                            </span>
+                          </div>
+                        </div>
 
-                    <div className="min-w-0 w-full mb-6">
-                      <h2 className="mb-1.5 truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
-                        {resume.title || "My Resume"}
-                      </h2>
-                      <div className="flex items-center gap-1.5 truncate">
-                        <LinkIcon className="shrink-0 h-3 w-3 text-[#4B5E76] opacity-70 translate-y-[-1px]" />
-                        <span className="truncate text-[13px] font-medium text-[#4B5E76]">
-                          {publicPath}
-                        </span>
+                        <div className="flex w-full items-center justify-between border-t border-[#0A2540]/[0.06] pt-4 mt-auto">
+                          <span className="text-[13px] font-medium text-[#0A2540]/60 transition-colors group-hover:text-[#0A2540]">
+                            Open Workspace
+                          </span>
+                          <ArrowRight className="h-4 w-4 text-[#0A2540] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="flex w-full items-center justify-between border-t border-[#0A2540]/[0.06] pt-4 mt-auto">
-                      <span className="text-[13px] font-medium text-[#0A2540]/60 transition-colors group-hover:text-[#0A2540]">
-                        Open Workspace
-                      </span>
-                      <ArrowRight className="h-4 w-4 text-[#0A2540] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-              )}
-            </section>
-          </motion.div>
-        )}
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </section>
+        </motion.div>
+      )}
       <AnimatePresence>
         {isUploadModalOpen && (
           <div className="fixed inset-0 z-[120] flex items-center justify-center px-4 py-6 sm:px-6">
@@ -591,14 +591,14 @@ export default function ResumesPage() {
               className="absolute inset-0 bg-[#0A2540]/40 backdrop-blur-sm"
               onClick={() => (uploadState === "idle" || uploadState === "error") && setIsUploadModalOpen(false)}
             />
-            
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)]"
-              >
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", stiffness: 350, damping: 30 }}
+              className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)]"
+            >
               <button
                 type="button"
                 onClick={() => (uploadState === "idle" || uploadState === "error") && setIsUploadModalOpen(false)}
@@ -686,7 +686,7 @@ export default function ResumesPage() {
                   </div>
 
                   {uploadPreviewUrl && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       className="overflow-hidden rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.02]"

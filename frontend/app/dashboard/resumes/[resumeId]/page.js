@@ -153,12 +153,12 @@ export default function ResumeWorkspacePage() {
 
   const uploadToCloudinary = async (pdfFile) => {
     const token = getToken();
-    
+
     // 1. Get signature from backend
     const signatureRes = await axios.get(`${backendUrl}/api/resume/${resumeId}/upload-signature`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    
+
     const { timestamp, signature, cloudName, apiKey, folder } = signatureRes.data;
 
     // 2. Upload to Cloudinary with signature
@@ -198,9 +198,9 @@ export default function ResumeWorkspacePage() {
     try {
       const token = getToken();
       const cloudinaryData = await uploadToCloudinary(uploadFile);
-      
+
       setUploadState("saving");
-      
+
       const payload = {
         fileUrl: cloudinaryData.secure_url,
         publicId: cloudinaryData.public_id,
@@ -314,11 +314,10 @@ export default function ResumeWorkspacePage() {
         {alertState ? (
           <Alert
             variant={alertState.type === "error" ? "destructive" : "default"}
-            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-2xl border shadow-lg ${
-              alertState.type === "error"
+            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-2xl border shadow-lg ${alertState.type === "error"
                 ? "border-rose-200 bg-rose-50/90 backdrop-blur-md text-rose-800"
                 : "border-emerald-200 bg-emerald-50/90 backdrop-blur-md text-emerald-800"
-            }`}
+              }`}
           >
             <AlertDescription className="flex items-center gap-2 font-medium">
               {alertState.type === "error" ? (
@@ -345,15 +344,15 @@ export default function ResumeWorkspacePage() {
                 Resume Workspace
               </p>
             </div>
-            
-            <motion.h1 
+
+            <motion.h1
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
             >
               {resume?.title || "Resume"}
             </motion.h1>
-            
+
             <div className="mt-3 flex items-center gap-2">
               <div className="rounded-lg border border-[#0A2540]/[0.06] bg-[#0A2540]/[0.02] px-3 py-1.5">
                 <p className="truncate font-mono text-[11px] text-[#4B5E76]">
@@ -365,11 +364,10 @@ export default function ResumeWorkspacePage() {
                 onClick={handleCopyLink}
                 title={copiedLink ? "Copied to clipboard!" : "Copy public link"}
                 aria-label={copiedLink ? "Copied" : "Copy link"}
-                className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200 active:scale-95 ${
-                  copiedLink
+                className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200 active:scale-95 ${copiedLink
                     ? "border-emerald-500/40 bg-emerald-50/90 text-emerald-600 shadow-sm"
                     : "border-[#0A2540]/[0.08] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.04] hover:text-[#0A2540]"
-                }`}
+                  }`}
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {copiedLink ? (
@@ -399,8 +397,8 @@ export default function ResumeWorkspacePage() {
               </button>
             </div>
           </div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -454,22 +452,20 @@ export default function ResumeWorkspacePage() {
                           setSelectedVersionId(version._id);
                         }
                       }}
-                      className={`group flex flex-col items-start rounded-xl border p-4 text-left transition-colors cursor-pointer ${
-                        isSelected
+                      className={`group flex flex-col items-start rounded-xl border p-4 text-left transition-colors cursor-pointer ${isSelected
                           ? "bg-white border-[#0A2540] shadow-[0_2px_12px_rgba(10,37,64,0.08)]"
                           : "bg-white border-[#0A2540]/[0.08] shadow-[0_1px_3px_rgba(10,37,64,0.02)] hover:border-[#0A2540]/30 hover:shadow-md"
-                      }`}
+                        }`}
                     >
                       <div className="flex w-full items-center justify-between gap-2">
                         <p className={`text-[1.05rem] font-semibold ${isSelected ? "text-[#0A2540]" : "text-[#4B5E76] group-hover:text-[#0A2540]"}`}>
                           v{version.versionNumber}
                         </p>
                         <span
-                          className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
-                            isActive
+                          className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${isActive
                               ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
                               : "bg-[#0A2540]/[0.03] text-[#6B7280] border border-[#0A2540]/[0.06]"
-                          }`}
+                            }`}
                         >
                           {isActive ? "ACTIVE" : "idle"}
                         </span>
@@ -549,7 +545,7 @@ export default function ResumeWorkspacePage() {
                   </div>
                 ) : null}
               </div>
-              
+
               {activeVersion && selectedVersion && activeVersion._id !== selectedVersion._id ? (
                 <div className="rounded-xl border border-rose-200 bg-rose-50/95 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-rose-700 shadow-sm backdrop-blur-md pointer-events-auto">
                   Not Public

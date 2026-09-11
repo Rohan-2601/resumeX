@@ -244,8 +244,8 @@ export default function LinksPage() {
                           type="button"
                           onClick={() => handleCopy(link.href, link.slug)}
                           className={`flex shrink-0 h-9 items-center justify-center rounded-lg px-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-all w-full sm:w-auto ${copyState
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
-                              : "border border-[#0A2540]/[0.12] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540]"
+                            ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
+                            : "border border-[#0A2540]/[0.12] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540]"
                             }`}
                         >
                           {copyState ? "Copied" : "Copy"}

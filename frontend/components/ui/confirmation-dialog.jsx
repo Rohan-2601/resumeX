@@ -80,11 +80,10 @@ export const ConfirmationDialog = ({
                 type="button"
                 onClick={onConfirm}
                 disabled={loading}
-                className={`inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 ${
-                  isDestructive
+                className={`inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 ${isDestructive
                     ? "bg-rose-50 text-rose-600 hover:bg-rose-100 focus:ring-rose-200 border border-rose-100"
                     : "bg-[#0A2540] text-white hover:bg-[#0A2540]/90 focus:ring-[#0A2540]/30"
-                }`}
+                  }`}
               >
                 {loading ? (
                   <>

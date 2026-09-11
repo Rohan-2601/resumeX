@@ -88,7 +88,7 @@ export default function DashboardLayout({ children }) {
         >
           {/* Glass background for sidebar */}
           <div className="absolute inset-0 bg-white/70 backdrop-blur-2xl border-r border-white/60 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-0" />
-          
+
           <div className="relative z-10 flex h-full flex-col px-6 py-8">
             <Link
               href="/dashboard"
@@ -118,11 +118,10 @@ export default function DashboardLayout({ children }) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${
-                      isActive
+                    className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
                         ? "text-[#0A2540] hover:text-[#0A2540]"
                         : "text-[#4B5E76] hover:bg-black/5 hover:text-[#111827]"
-                    }`}
+                      }`}
                   >
                     {isActive && (
                       <motion.div
@@ -237,11 +236,10 @@ export default function DashboardLayout({ children }) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`relative flex min-w-[100px] flex-none items-center justify-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-all ${
-                        isActive
+                      className={`relative flex min-w-[100px] flex-none items-center justify-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-all ${isActive
                           ? "text-[#0A2540] hover:text-[#0A2540]"
                           : "border border-white/60 bg-white/50 text-[#4B5E76] hover:text-[#111827]"
-                      }`}
+                        }`}
                     >
                       {isActive && (
                         <motion.div
@@ -264,7 +262,7 @@ export default function DashboardLayout({ children }) {
           </motion.header>
 
           <div className="px-5 py-8 sm:px-8 md:px-12 md:py-10 lg:px-16 min-h-full">
-            <motion.div 
+            <motion.div
               key={pathname}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
