@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
@@ -34,6 +35,7 @@ function timeAgo(dateString) {
 
 export default function ResumesPage() {
   const { user } = useAuth();
+  const router = useRouter();
 
   const [resumes, setResumes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -204,11 +206,7 @@ export default function ResumesPage() {
   }, [user?._id]);
 
   const openWorkspace = (resumeId) => {
-    window.open(
-      `/dashboard/resumes/${resumeId}`,
-      "_blank",
-      "noopener,noreferrer",
-    );
+    router.push(`/dashboard/resumes/${resumeId}`);
   };
 
   const openNewResumeModal = () => {
@@ -583,11 +581,11 @@ export default function ResumesPage() {
             />
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: "spring", stiffness: 350, damping: 30 }}
-              className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#18181b] shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)] dark:shadow-none"
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#16171b] shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)] dark:shadow-none"
+              onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"

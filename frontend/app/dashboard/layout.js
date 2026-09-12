@@ -69,11 +69,11 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div
-      className="h-[100dvh] overflow-hidden bg-[#fafafa] dark:bg-[#09090b] text-[#0A2540] dark:text-[#f8fafc] selection:bg-[#0A2540] dark:selection:bg-[#f8fafc] selection:text-white dark:selection:text-[#09090b] relative transition-colors duration-300"
+      className="h-[100dvh] overflow-hidden bg-[#fafafa] dark:bg-[#0f0f14] text-[#0A2540] dark:text-[#f8fafc] selection:bg-[#0A2540] dark:selection:bg-[#f8fafc] selection:text-white dark:selection:text-[#0f0f14] relative transition-colors duration-300"
     >
       {/* Background glowing orbs */}
-      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-blue-100/40 dark:bg-blue-900/20 blur-[100px] pointer-events-none transition-colors duration-500" />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-indigo-100/40 dark:bg-indigo-900/20 blur-[100px] pointer-events-none transition-colors duration-500" />
+      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-blue-100/40 dark:hidden blur-[100px] pointer-events-none transition-colors duration-500" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-indigo-100/40 dark:hidden blur-[100px] pointer-events-none transition-colors duration-500" />
 
       <div className="flex h-[100dvh] relative z-10">
         {/* Sidebar */}
@@ -84,7 +84,7 @@ export default function DashboardLayout({ children }) {
           className="relative hidden h-full w-[280px] shrink-0 md:flex md:flex-col"
         >
           {/* Glass background for sidebar */}
-          <div className="absolute inset-0 bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-2xl border-r border-white/60 dark:border-white/5 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none z-0 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-white/70 dark:bg-[#16171b]/70 backdrop-blur-2xl border-r border-white/60 dark:border-white/5 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none z-0 transition-colors duration-300" />
 
           <div className="relative z-10 flex h-full flex-col px-6 py-8">
             <Link
@@ -203,7 +203,7 @@ export default function DashboardLayout({ children }) {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="sticky top-0 z-30 border-b border-white/60 dark:border-white/5 bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-xl md:hidden shadow-sm transition-colors duration-300"
+            className="sticky top-0 z-30 border-b border-white/60 dark:border-white/5 bg-white/70 dark:bg-[#16171b]/70 backdrop-blur-xl md:hidden shadow-sm transition-colors duration-300"
           >
             <div className="px-5 pb-3 pt-5">
               <div className="mb-4 flex items-center justify-between gap-3">
@@ -224,7 +224,7 @@ export default function DashboardLayout({ children }) {
                   >
                     {theme === "dark" ? <SunIcon /> : <MoonIcon />}
                   </button>
-                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#18181b] shadow-sm">
+                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#16171b] shadow-sm">
                     {user ? (
                       <Image
                         src={user.avatar || "/default.webp"}
@@ -287,9 +287,9 @@ export default function DashboardLayout({ children }) {
                 <div className="space-y-6">
                   <div className="h-10 w-48 rounded-xl bg-black/5 dark:bg-white/5 animate-pulse" />
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#18181b]/50 animate-pulse shadow-sm" />
-                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#18181b]/50 animate-pulse shadow-sm" />
-                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#18181b]/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm" />
                   </div>
                 </div>
               ) : (

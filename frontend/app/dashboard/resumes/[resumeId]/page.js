@@ -446,7 +446,7 @@ export default function ResumeWorkspacePage() {
                         }
                       }}
                       className={`group flex flex-col items-start rounded-xl border p-4 text-left transition-colors cursor-pointer ${isSelected
-                          ? "bg-white dark:bg-[#18181b] border-[#0A2540] dark:border-white/50 shadow-[0_2px_12px_rgba(10,37,64,0.08)] dark:shadow-none"
+                          ? "bg-white dark:bg-[#16171b] border-[#0A2540] dark:border-white/50 shadow-[0_2px_12px_rgba(10,37,64,0.08)] dark:shadow-none"
                           : "bg-white dark:bg-white/5 border-[#0A2540]/[0.08] dark:border-white/10 shadow-[0_1px_3px_rgba(10,37,64,0.02)] dark:shadow-none hover:border-[#0A2540]/30 dark:hover:border-white/20 hover:shadow-md dark:hover:shadow-none"
                         }`}
                     >
@@ -530,7 +530,7 @@ export default function ResumeWorkspacePage() {
             <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-start justify-between gap-3 pointer-events-none">
               <div className="flex items-center gap-2 pointer-events-auto">
                 {selectedVersion ? (
-                  <div className="flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white/90 dark:bg-[#18181b]/90 px-3 py-1.5 shadow-sm backdrop-blur-md">
+                  <div className="flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white/90 dark:bg-[#16171b]/90 px-3 py-1.5 shadow-sm backdrop-blur-md">
                     <div className={`h-2 w-2 rounded-full ${activeVersion && activeVersion._id === selectedVersion._id ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"}`} />
                     <span className="text-[12px] font-bold text-[#0A2540] dark:text-[#f8fafc]">
                       Previewing v{selectedVersion.versionNumber}
@@ -564,7 +564,7 @@ export default function ResumeWorkspacePage() {
 
         {isUploadModalOpen ? (
           <div className="fixed inset-0 z-[120] flex items-end justify-center bg-[#0A2540]/40 dark:bg-[#000]/60 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
-            <div className="w-full max-w-xl rounded-2xl border border-[#0A2540]/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-6 shadow-2xl">
+            <div className="w-full max-w-xl rounded-2xl border border-[#0A2540]/10 dark:border-white/10 bg-white dark:bg-[#16171b] p-6 shadow-2xl">
               <div className="flex items-center justify-between gap-3 border-b border-[#0A2540]/[0.06] dark:border-white/10 pb-4 mb-4">
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">

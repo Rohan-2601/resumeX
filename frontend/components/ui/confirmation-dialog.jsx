@@ -56,7 +56,7 @@ export const ConfirmationDialog = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#18181b] p-6 shadow-2xl dark:shadow-none"
+            className="relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#16171b] p-6 shadow-2xl dark:shadow-none"
           >
             <h2 id="dialog-title" className="text-lg font-semibold text-[#0A2540] dark:text-[#f8fafc]">
               {title}
