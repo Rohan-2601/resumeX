@@ -37,7 +37,7 @@ export default function SharePreview() {
           href={sampleLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="group mx-auto mt-10 block w-full max-w-[820px] overflow-hidden rounded-[1.8rem] border border-black/10 bg-[#fdfdfd] p-1 shadow-[0_24px_70px_-36px_rgba(0,0,0,0.62)] transition hover:border-black/20 sm:mt-12"
+          className="group mx-auto mt-10 block w-full max-w-[640px] overflow-hidden rounded-[1.8rem] border border-black/10 bg-[#fdfdfd] p-1 shadow-[0_24px_70px_-36px_rgba(0,0,0,0.62)] transition hover:border-black/20 sm:mt-12"
         >
           <div className="w-full overflow-hidden rounded-[1.35rem] border border-black/10 bg-white/90">
             <Image
@@ -46,7 +46,7 @@ export default function SharePreview() {
               width={1200}
               height={630}
               className="h-auto w-full transition duration-500 group-hover:scale-[1.01]"
-              sizes="(max-width: 1024px) 100vw, 820px"
+              sizes="(max-width: 1024px) 100vw, 640px"
               priority={false}
             />
           </div>
