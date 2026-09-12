@@ -109,16 +109,16 @@ export default function Hero() {
         </header>
 
         {/* Hero Content */}
-        <div className="relative mx-auto mt-10 md:mt-16 flex max-w-3xl flex-1 flex-col items-center text-center px-4">
+        <div className="relative mx-auto mt-2 md:mt-6 flex max-w-3xl flex-1 flex-col items-center text-center px-4">
 
           {/* Main Heading */}
-          <h1 className={`${headingFont.className} text-balance text-5xl md:text-6xl lg:text-[4rem] font-bold leading-[1.05] tracking-tighter text-[#15415C]`}>
+          <h1 className={`${headingFont.className} text-balance text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-[1.15] tracking-tighter text-[#15415C]`}>
             The Ultimate Resume Link Generator. Your Resume Deserves a Better Link.
           </h1>
 
           {/* Subheading */}
           <p className="mt-4 md:mt-5 max-w-lg text-balance text-[15px] md:text-base leading-relaxed text-[#4F6C7D] font-medium">
-            Create a permanent resume URL that stays the same. The easiest way to share your resume online and track exactly who views it.
+            Create a permanent resume URL that stays the same. The easiest way to share your resume online and track when it gets viewed.
           </p>
 
           {/* Primary CTA */}
