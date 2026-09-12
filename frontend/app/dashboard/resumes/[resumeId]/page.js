@@ -302,14 +302,14 @@ export default function ResumeWorkspacePage() {
   };
 
   return (
-    <div className="flex flex-col text-[#0A2540] dark:text-[#f8fafc]">
+    <div className="flex flex-col text-[#0A2540]/90 dark:text-[#f8fafc]/90">
       <div className="flex flex-col mx-auto w-full">
         {alertState ? (
           <Alert
             variant={alertState.type === "error" ? "destructive" : "default"}
-            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-2xl border shadow-lg ${alertState.type === "error"
-                ? "border-rose-200 dark:border-rose-900/20 bg-rose-50/90 dark:bg-rose-950/20 backdrop-blur-md text-rose-800 dark:text-rose-400"
-                : "border-emerald-200 dark:border-emerald-900/20 bg-emerald-50/90 dark:bg-emerald-950/20 backdrop-blur-md text-emerald-800 dark:text-emerald-400"
+            className={`fixed bottom-4 right-4 z-[160] w-[min(92vw,360px)] rounded-2xl border shadow-lg dark:shadow-none ${alertState.type === "error"
+                ? "border-rose-200 dark:border-rose-900/20 bg-rose-50/90 dark:bg-rose-950/20 backdrop-blur-md dark:backdrop-blur-none text-rose-800 dark:text-rose-400"
+                : "border-emerald-200 dark:border-emerald-900/20 bg-emerald-50/90 dark:bg-emerald-950/20 backdrop-blur-md dark:backdrop-blur-none text-emerald-800 dark:text-emerald-400"
               }`}
           >
             <AlertDescription className="flex items-center gap-2 font-medium">
@@ -329,11 +329,11 @@ export default function ResumeWorkspacePage() {
               <Link
                 href="/dashboard/resumes"
                 aria-label="Back to resumes"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.03)] dark:shadow-none transition-all duration-150 hover:bg-[#0A2540]/[0.04] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc] hover:border-[#0A2540]/20 dark:hover:border-white/20 active:scale-95"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.03)] dark:shadow-none dark:shadow-none transition-all duration-150 hover:bg-[#0A2540]/[0.04] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc] hover:border-[#0A2540]/20 dark:hover:border-white/20 active:scale-95"
               >
                 <IoIosArrowBack className="h-4 w-4 text-inherit" />
               </Link>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
                 Resume Workspace
               </p>
             </div>
@@ -341,7 +341,7 @@ export default function ResumeWorkspacePage() {
             <motion.h1
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl font-extrabold tracking-tight text-[#0A2540] dark:text-[#f8fafc] sm:text-[2.5rem] leading-tight"
+              className="text-3xl font-extrabold tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 sm:text-[2.5rem] leading-tight"
             >
               {resume?.title || "Resume"}
             </motion.h1>
@@ -358,8 +358,8 @@ export default function ResumeWorkspacePage() {
                 title={copiedLink ? "Copied to clipboard!" : "Copy public link"}
                 aria-label={copiedLink ? "Copied" : "Copy link"}
                 className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border transition-all duration-200 active:scale-95 ${copiedLink
-                    ? "border-emerald-500/40 bg-emerald-50/90 text-emerald-600 shadow-sm dark:bg-emerald-500/10 dark:text-emerald-400"
-                    : "border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none hover:border-[#0A2540]/20 dark:hover:border-white/20 hover:bg-[#0A2540]/[0.04] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc]"
+                    ? "border-emerald-500/40 bg-emerald-50/90 text-emerald-600 shadow-sm dark:shadow-none dark:bg-emerald-500/10 dark:text-emerald-400"
+                    : "border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none dark:shadow-none hover:border-[#0A2540]/20 dark:hover:border-white/20 hover:bg-[#0A2540]/[0.04] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc]"
                   }`}
               >
                 <AnimatePresence mode="wait" initial={false}>
@@ -400,11 +400,11 @@ export default function ResumeWorkspacePage() {
             <button
               type="button"
               onClick={() => setIsUploadModalOpen(true)}
-              className="group relative flex flex-1 items-center justify-center gap-2 rounded-xl px-6 py-2.5 text-[13.5px] font-bold tracking-wide text-white shadow-[0_4px_14px_0_rgba(10,37,64,0.25)] transition-all duration-300 hover:shadow-[0_6px_20px_rgba(10,37,64,0.15)] active:scale-[0.97] sm:w-auto sm:flex-none overflow-hidden border border-white/10"
+              className="group relative flex flex-1 items-center justify-center gap-2 rounded-xl px-6 py-2.5 text-[13.5px] font-semibold tracking-wide text-white shadow-[0_4px_14px_0_rgba(10,37,64,0.25)] dark:shadow-none transition-all duration-300 hover:shadow-[0_6px_20px_rgba(10,37,64,0.15)] dark:shadow-none active:scale-[0.97] sm:w-auto sm:flex-none overflow-hidden border border-white/10"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-[#0A2540] to-[#1a3857] dark:from-[#f8fafc]/10 dark:to-[#f8fafc]/5" />
               <div className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-[radial-gradient(circle_at_top,white_0%,transparent_70%)] transition-opacity duration-500" />
-              <div className="relative flex items-center gap-2 drop-shadow-sm">
+              <div className="relative flex items-center gap-2 drop-shadow-sm dark:drop-shadow-none dark:shadow-none">
                 <UploadIcon className="h-4 w-4" />
                 <span>Upload New Version</span>
               </div>
@@ -415,7 +415,7 @@ export default function ResumeWorkspacePage() {
         <section className="flex flex-col lg:flex-row gap-8">
           <aside className="w-full lg:w-[320px] xl:w-[360px] flex flex-col shrink-0">
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#0A2540]/[0.08] dark:border-white/10">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
                 Version history
               </p>
             </div>
@@ -446,16 +446,16 @@ export default function ResumeWorkspacePage() {
                         }
                       }}
                       className={`group flex flex-col items-start rounded-xl border p-4 text-left transition-colors cursor-pointer ${isSelected
-                          ? "bg-white dark:bg-[#16171b] border-[#0A2540] dark:border-white/50 shadow-[0_2px_12px_rgba(10,37,64,0.08)] dark:shadow-none"
-                          : "bg-white dark:bg-white/5 border-[#0A2540]/[0.08] dark:border-white/10 shadow-[0_1px_3px_rgba(10,37,64,0.02)] dark:shadow-none hover:border-[#0A2540]/30 dark:hover:border-white/20 hover:shadow-md dark:hover:shadow-none"
+                          ? "bg-white dark:bg-[#16171b] border-[#0A2540] dark:border-white/50 shadow-[0_2px_12px_rgba(10,37,64,0.08)] dark:shadow-none dark:shadow-none"
+                          : "bg-white dark:bg-white/5 border-[#0A2540]/[0.08] dark:border-white/10 shadow-[0_1px_3px_rgba(10,37,64,0.02)] dark:shadow-none dark:shadow-none hover:border-[#0A2540]/30 dark:hover:border-white/20 hover:shadow-md dark:shadow-none dark:hover:shadow-none dark:shadow-none"
                         }`}
                     >
                       <div className="flex w-full items-center justify-between gap-2">
-                        <p className={`text-[1.05rem] font-semibold ${isSelected ? "text-[#0A2540] dark:text-[#f8fafc]" : "text-[#4B5E76] dark:text-[#a1a1aa] group-hover:text-[#0A2540] dark:group-hover:text-[#f8fafc]"}`}>
+                        <p className={`text-[1.05rem] font-medium ${isSelected ? "text-[#0A2540]/90 dark:text-[#f8fafc]/90" : "text-[#4B5E76] dark:text-[#a1a1aa] group-hover:text-[#0A2540] dark:group-hover:text-[#f8fafc]"}`}>
                           v{version.versionNumber}
                         </p>
                         <span
-                          className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${isActive
+                          className={`px-2.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider ${isActive
                               ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20"
                               : "bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#6B7280] dark:text-[#a1a1aa] border border-[#0A2540]/[0.06] dark:border-white/10"
                             }`}
@@ -477,14 +477,14 @@ export default function ResumeWorkspacePage() {
                               handleSetActive(version._id);
                             }}
                             disabled={rollingBackId === version._id}
-                            className="flex-1 rounded-lg border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none transition hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc] disabled:opacity-60"
+                            className="flex-1 rounded-lg border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none dark:shadow-none transition hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc] disabled:opacity-60"
                           >
                             {rollingBackId === version._id
                               ? "Switching..."
                               : "Set Active"}
                           </button>
                         ) : (
-                          <span className="flex-1 rounded-lg border border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 text-center text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+                          <span className="flex-1 rounded-lg border border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 text-center text-[11px] font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
                             Serving public link
                           </span>
                         )}
@@ -526,13 +526,13 @@ export default function ResumeWorkspacePage() {
             </div>
           </aside>
 
-          <div className="relative flex-1 h-[1150px] rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.02] dark:bg-white/5 overflow-hidden shadow-sm">
+          <div className="relative flex-1 h-[1150px] rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.02] dark:bg-white/5 overflow-hidden shadow-sm dark:shadow-none">
             <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-start justify-between gap-3 pointer-events-none">
               <div className="flex items-center gap-2 pointer-events-auto">
                 {selectedVersion ? (
-                  <div className="flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white/90 dark:bg-[#16171b]/90 px-3 py-1.5 shadow-sm backdrop-blur-md">
-                    <div className={`h-2 w-2 rounded-full ${activeVersion && activeVersion._id === selectedVersion._id ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"}`} />
-                    <span className="text-[12px] font-bold text-[#0A2540] dark:text-[#f8fafc]">
+                  <div className="flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white/90 dark:bg-[#16171b]/90 px-3 py-1.5 shadow-sm dark:shadow-none backdrop-blur-md dark:backdrop-blur-none">
+                    <div className={`h-2 w-2 rounded-full ${activeVersion && activeVersion._id === selectedVersion._id ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] dark:shadow-none" : "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)] dark:shadow-none"}`} />
+                    <span className="text-[12px] font-semibold text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                       Previewing v{selectedVersion.versionNumber}
                     </span>
                   </div>
@@ -540,7 +540,7 @@ export default function ResumeWorkspacePage() {
               </div>
 
               {activeVersion && selectedVersion && activeVersion._id !== selectedVersion._id ? (
-                <div className="rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50/95 dark:bg-rose-950/95 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400 shadow-sm backdrop-blur-md pointer-events-auto">
+                <div className="rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50/95 dark:bg-rose-950/95 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-rose-700 dark:text-rose-400 shadow-sm dark:shadow-none backdrop-blur-md dark:backdrop-blur-none pointer-events-auto">
                   Not Public
                 </div>
               ) : null}
@@ -563,14 +563,14 @@ export default function ResumeWorkspacePage() {
         </section>
 
         {isUploadModalOpen ? (
-          <div className="fixed inset-0 z-[120] flex items-end justify-center bg-[#0A2540]/40 dark:bg-[#000]/60 px-0 py-0 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
-            <div className="w-full max-w-xl rounded-2xl border border-[#0A2540]/10 dark:border-white/10 bg-white dark:bg-[#16171b] p-6 shadow-2xl">
+          <div className="fixed inset-0 z-[120] flex items-end justify-center bg-[#0A2540]/40 dark:bg-[#000]/60 px-0 py-0 backdrop-blur-sm dark:backdrop-blur-none sm:items-center sm:px-4 sm:py-6">
+            <div className="w-full max-w-xl rounded-2xl border border-[#0A2540]/10 dark:border-white/10 bg-white dark:bg-[#16171b] p-6 shadow-2xl dark:shadow-none">
               <div className="flex items-center justify-between gap-3 border-b border-[#0A2540]/[0.06] dark:border-white/10 pb-4 mb-4">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
                     Upload New Version
                   </p>
-                  <h3 className="mt-1 text-lg font-semibold text-[#0A2540] dark:text-[#f8fafc]">
+                  <h3 className="mt-1 text-lg font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                     {resume?.title || "Resume"}
                   </h3>
                 </div>
@@ -608,11 +608,11 @@ export default function ResumeWorkspacePage() {
                   }}
                 />
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/[0.05] dark:bg-white/10 mb-3">
-                  <UploadIcon className="h-5 w-5 text-[#0A2540] dark:text-[#f8fafc]" />
+                  <UploadIcon className="h-5 w-5 text-[#0A2540]/90 dark:text-[#f8fafc]/90" />
                 </div>
                 {uploadFile ? (
                   <>
-                    <span className="font-semibold text-[#0A2540] dark:text-[#f8fafc]">
+                    <span className="font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                       {uploadFile.name}
                     </span>
                     <span className="mt-1 text-[13px] font-medium text-[#6B7280] dark:text-[#a1a1aa]">
@@ -621,7 +621,7 @@ export default function ResumeWorkspacePage() {
                   </>
                 ) : (
                   <>
-                    <span className="font-semibold text-[#0A2540] dark:text-[#f8fafc]">Click to select PDF</span>
+                    <span className="font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">Click to select PDF</span>
                     <span className="mt-1 text-[13px] font-medium text-[#6B7280] dark:text-[#a1a1aa]">or drag and drop here</span>
                   </>
                 )}
@@ -646,7 +646,7 @@ export default function ResumeWorkspacePage() {
                     setUploadFile(null);
                     setUploadPreviewUrl("");
                   }}
-                  className="flex-1 rounded-xl border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-white/5 px-4 py-2.5 text-sm font-semibold text-[#4B5E76] dark:text-[#a1a1aa] shadow-sm transition hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 disabled:opacity-50"
+                  className="flex-1 rounded-xl border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-white/5 px-4 py-2.5 text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa] shadow-sm dark:shadow-none transition hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -656,7 +656,7 @@ export default function ResumeWorkspacePage() {
                     await handleUploadVersion();
                   }}
                   disabled={(uploadState !== "idle" && uploadState !== "error") || !uploadFile}
-                  className="flex-1 rounded-xl bg-[#0A2540] dark:bg-[#f8fafc]/10 px-4 py-2.5 text-sm font-semibold text-white dark:text-[#f8fafc] shadow-sm transition hover:bg-[#113155] dark:hover:bg-[#f8fafc]/20 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex-1 rounded-xl bg-[#0A2540] dark:bg-[#f8fafc]/10 px-4 py-2.5 text-sm font-medium text-white dark:text-[#f8fafc] shadow-sm dark:shadow-none transition hover:bg-[#113155] dark:hover:bg-[#f8fafc]/20 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {uploadState === "uploading" ? (
                     "Uploading PDF..."

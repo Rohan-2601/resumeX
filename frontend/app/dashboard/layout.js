@@ -69,7 +69,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div
-      className="h-[100dvh] overflow-hidden bg-[#fafafa] dark:bg-[#0f0f14] text-[#0A2540] dark:text-[#f8fafc] selection:bg-[#0A2540] dark:selection:bg-[#f8fafc] selection:text-white dark:selection:text-[#0f0f14] relative transition-colors duration-300"
+      className="h-[100dvh] overflow-hidden bg-[#fafafa] dark:bg-[#0f0f14] text-[#0A2540]/90 dark:text-[#f8fafc]/90 selection:bg-[#0A2540] dark:selection:bg-[#f8fafc] selection:text-white dark:selection:text-[#0f0f14] relative transition-colors duration-300"
     >
       {/* Background glowing orbs */}
       <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-blue-100/40 dark:hidden blur-[100px] pointer-events-none transition-colors duration-500" />
@@ -84,27 +84,22 @@ export default function DashboardLayout({ children }) {
           className="relative hidden h-full w-[280px] shrink-0 md:flex md:flex-col"
         >
           {/* Glass background for sidebar */}
-          <div className="absolute inset-0 bg-white/70 dark:bg-[#16171b]/70 backdrop-blur-2xl border-r border-white/60 dark:border-white/5 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none z-0 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-white/70 dark:bg-[#16171b] backdrop-blur-2xl dark:backdrop-blur-none border-r border-white/60 dark:border-white/5 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none z-0 transition-colors duration-300" />
 
           <div className="relative z-10 flex h-full flex-col px-6 py-8">
             <Link
               href="/dashboard"
-              className="group mb-10 flex items-center rounded-xl px-1 py-1 no-underline transition-transform active:scale-95"
+              className="group mb-6 flex items-center rounded-xl px-1 py-1 no-underline transition-transform active:scale-95"
             >
-              <span className="flex items-end text-[1.8rem] font-bold tracking-tight leading-none text-[#0A2540] dark:text-[#f8fafc]">
+              <span className="flex items-end text-[1.8rem] font-semibold tracking-tight leading-none text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                 resume
-                <span className="text-[#0A2540] dark:text-[#f8fafc] drop-shadow-sm ml-0.5">
+                <span className="text-[#0A2540]/90 dark:text-[#f8fafc]/90 drop-shadow-sm dark:drop-shadow-none dark:shadow-none ml-0.5">
                   X
                 </span>
               </span>
             </Link>
 
             <nav className="flex flex-1 flex-col gap-2">
-              <div className="px-2 pb-3 flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#6B7280] dark:text-[#a1a1aa]">
-                  Main Menu
-                </span>
-              </div>
               {navItems.map((item) => {
                 const isActive =
                   pathname === item.href || pathname?.startsWith(`${item.href}/`);
@@ -114,7 +109,7 @@ export default function DashboardLayout({ children }) {
                     key={item.href}
                     href={item.href}
                     className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
-                      ? "text-[#0A2540] dark:text-[#f8fafc] hover:text-[#0A2540] dark:hover:text-white"
+                      ? "text-[#0A2540]/90 dark:text-[#f8fafc]/90 hover:text-[#0A2540] dark:hover:text-white"
                       : "text-[#4B5E76] dark:text-[#a1a1aa] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#111827] dark:hover:text-[#f8fafc]"
                       }`}
                   >
@@ -152,7 +147,7 @@ export default function DashboardLayout({ children }) {
               </button>
 
               <div className="mb-4 flex items-center gap-3 px-2 rounded-xl py-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#18181b] shadow-sm">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#18181b] shadow-sm dark:shadow-none">
                   {user ? (
                     <Image
                       src={user.avatar || "/default.webp"}
@@ -169,7 +164,7 @@ export default function DashboardLayout({ children }) {
                 <div className="min-w-0 flex-1">
                   {user ? (
                     <>
-                      <div className="truncate text-sm font-bold text-[#0A2540] dark:text-[#f8fafc]">
+                      <div className="truncate text-sm font-semibold text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                         {user.name}
                       </div>
                       <div className="truncate text-[11px] font-medium text-[#6B7280] dark:text-[#a1a1aa]">
@@ -203,15 +198,15 @@ export default function DashboardLayout({ children }) {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="sticky top-0 z-30 border-b border-white/60 dark:border-white/5 bg-white/70 dark:bg-[#16171b]/70 backdrop-blur-xl md:hidden shadow-sm transition-colors duration-300"
+            className="sticky top-0 z-30 border-b border-white/60 dark:border-white/5 bg-white/70 dark:bg-[#16171b] backdrop-blur-xl dark:backdrop-blur-none md:hidden shadow-sm dark:shadow-none transition-colors duration-300"
           >
             <div className="px-5 pb-3 pt-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <Link href="/dashboard" className="no-underline">
-                  <span className="flex items-end text-2xl font-bold tracking-tight leading-none text-[#0A2540] dark:text-[#f8fafc]">
+                  <span className="flex items-end text-2xl font-semibold tracking-tight leading-none text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                     resume
                     <span
-                      className="text-[#0A2540] dark:text-[#f8fafc] ml-0.5"
+                      className="text-[#0A2540]/90 dark:text-[#f8fafc]/90 ml-0.5"
                     >
                       X
                     </span>
@@ -220,11 +215,11 @@ export default function DashboardLayout({ children }) {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={toggleTheme}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] border border-white/60 dark:border-white/5 shadow-sm"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] border border-white/60 dark:border-white/5 shadow-sm dark:shadow-none"
                   >
                     {theme === "dark" ? <SunIcon /> : <MoonIcon />}
                   </button>
-                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#16171b] shadow-sm">
+                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#16171b] shadow-sm dark:shadow-none">
                     {user ? (
                       <Image
                         src={user.avatar || "/default.webp"}
@@ -251,7 +246,7 @@ export default function DashboardLayout({ children }) {
                       key={item.href}
                       href={item.href}
                       className={`relative flex min-w-[100px] flex-none items-center justify-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-all ${isActive
-                        ? "text-[#0A2540] dark:text-[#f8fafc] hover:text-[#0A2540] dark:hover:text-white"
+                        ? "text-[#0A2540]/90 dark:text-[#f8fafc]/90 hover:text-[#0A2540] dark:hover:text-white"
                         : "border border-white/60 dark:border-white/5 bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] hover:text-[#111827] dark:hover:text-[#f8fafc]"
                         }`}
                     >
@@ -287,9 +282,9 @@ export default function DashboardLayout({ children }) {
                 <div className="space-y-6">
                   <div className="h-10 w-48 rounded-xl bg-black/5 dark:bg-white/5 animate-pulse" />
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm" />
-                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm" />
-                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm dark:shadow-none" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm dark:shadow-none" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#16171b]/50 animate-pulse shadow-sm dark:shadow-none" />
                   </div>
                 </div>
               ) : (

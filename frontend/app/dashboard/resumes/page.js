@@ -384,7 +384,7 @@ export default function ResumesPage() {
   };
 
   return (
-    <div className="relative space-y-8 pb-8 text-[#0A2540] dark:text-[#f8fafc]">
+    <div className="relative space-y-8 pb-8 text-[#0A2540]/90 dark:text-[#f8fafc]/90">
       <AnimatePresence>
         {uploadSuccessToast && (
           <motion.div
@@ -393,7 +393,7 @@ export default function ResumesPage() {
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
             className="fixed bottom-6 right-6 z-[160]"
           >
-            <Alert className="w-[min(92vw,360px)] rounded-2xl border-emerald-500/30 dark:border-emerald-500/10 bg-[#064E3B]/95 dark:bg-[#064E3B]/95 backdrop-blur-md text-emerald-50 shadow-[0_20px_50px_-15px_rgba(6,78,59,0.5)]">
+            <Alert className="w-[min(92vw,360px)] rounded-2xl border-emerald-500/30 dark:border-emerald-500/10 bg-[#064E3B]/95 dark:bg-[#064E3B]/95 backdrop-blur-md dark:backdrop-blur-none text-emerald-50 shadow-[0_20px_50px_-15px_rgba(6,78,59,0.5)] dark:shadow-none">
               <AlertDescription className="flex items-center gap-3 py-1">
                 <CheckCircle2Icon className="h-5 w-5 shrink-0 text-emerald-400" />
                 <span className="font-medium text-[15px]">{uploadSuccessToast}</span>
@@ -420,7 +420,7 @@ export default function ResumesPage() {
                 <span className="h-px w-6 bg-[#0A2540]/10 dark:bg-white/10"></span>
                 Overview
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] flex items-center gap-3">
+              <h1 className="text-3xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 flex items-center gap-3">
                 Resumes
               </h1>
             </div>
@@ -430,8 +430,8 @@ export default function ResumesPage() {
               variant={isErrorMessage ? "destructive" : "default"}
               className={
                 isErrorMessage
-                  ? "rounded-2xl border-rose-200 dark:border-rose-900/20 bg-rose-50/80 dark:bg-rose-950/20 backdrop-blur-md text-rose-800 dark:text-rose-400 shadow-sm"
-                  : "rounded-2xl border-emerald-200 dark:border-emerald-900/20 bg-emerald-50/80 dark:bg-emerald-950/20 backdrop-blur-md text-emerald-800 dark:text-emerald-400 shadow-sm"
+                  ? "rounded-2xl border-rose-200 dark:border-rose-900/20 bg-rose-50/80 dark:bg-rose-950/20 backdrop-blur-md dark:backdrop-blur-none text-rose-800 dark:text-rose-400 shadow-sm dark:shadow-none"
+                  : "rounded-2xl border-emerald-200 dark:border-emerald-900/20 bg-emerald-50/80 dark:bg-emerald-950/20 backdrop-blur-md dark:backdrop-blur-none text-emerald-800 dark:text-emerald-400 shadow-sm dark:shadow-none"
               }
             >
               <AlertDescription className="flex items-center gap-3 py-1">
@@ -450,7 +450,7 @@ export default function ResumesPage() {
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] sm:text-[2.5rem] leading-tight"
+                className="text-3xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 sm:text-[2.5rem] leading-tight"
               >
                 Your resumes
               </motion.h1>
@@ -473,7 +473,7 @@ export default function ResumesPage() {
               <button
                 type="button"
                 onClick={openNewResumeModal}
-                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540] dark:text-[#f8fafc] transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98] sm:w-auto sm:flex-none"
+                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98] sm:w-auto sm:flex-none"
               >
                 <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
                 Upload New Resume
@@ -489,10 +489,10 @@ export default function ResumesPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 dark:border-white/20 bg-white/50 dark:bg-white/5 px-6 py-12 text-center min-h-[360px] w-full"
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc]">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                   <FileText className="h-6 w-6" />
                 </div>
-                <h3 className="text-base font-semibold text-[#0A2540] dark:text-[#f8fafc]">
+                <h3 className="text-base font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                   No resumes yet
                 </h3>
                 <p className="mt-2 mb-8 max-w-sm text-[14px] font-normal text-[#4B5E76] dark:text-[#a1a1aa]">
@@ -500,7 +500,7 @@ export default function ResumesPage() {
                 </p>
                 <button
                   onClick={openNewResumeModal}
-                  className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540] dark:text-[#f8fafc] transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98]"
                 >
                   <UploadIcon className="h-4 w-4" />
                   Upload your first resume
@@ -524,7 +524,7 @@ export default function ResumesPage() {
                     >
                       <div className="relative z-10 w-full flex flex-col h-full justify-between">
                         <div className="mb-5 flex items-start justify-between w-full">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc] border border-[#0A2540]/[0.08] dark:border-white/10">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90 border border-[#0A2540]/[0.08] dark:border-white/10">
                             <FileText className="h-4 w-4" />
                           </div>
                           <div className="flex items-center gap-2">
@@ -543,7 +543,7 @@ export default function ResumesPage() {
                         </div>
 
                         <div className="min-w-0 w-full mb-6">
-                          <h2 className="mb-1.5 truncate text-[15px] font-medium text-[#0A2540] dark:text-[#f8fafc]">
+                          <h2 className="mb-1.5 truncate text-[15px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                             {resume.title || "My Resume"}
                           </h2>
                           <div className="flex items-center gap-1.5 truncate">
@@ -558,7 +558,7 @@ export default function ResumesPage() {
                           <span className="text-[13px] font-medium text-[#0A2540]/60 dark:text-[#f8fafc]/60 transition-colors group-hover:text-[#0A2540] dark:group-hover:text-[#f8fafc]">
                             Open Workspace
                           </span>
-                          <ArrowRight className="h-4 w-4 text-[#0A2540] dark:text-[#f8fafc] opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
+                          <ArrowRight className="h-4 w-4 text-[#0A2540]/90 dark:text-[#f8fafc]/90 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" />
                         </div>
                       </div>
                     </motion.div>
@@ -576,7 +576,7 @@ export default function ResumesPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-[#0A2540]/40 dark:bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#0A2540]/40 dark:bg-black/60 backdrop-blur-sm dark:backdrop-blur-none"
               onClick={() => (uploadState === "idle" || uploadState === "error") && setIsUploadModalOpen(false)}
             />
 
@@ -584,7 +584,7 @@ export default function ResumesPage() {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#16171b] shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)] dark:shadow-none"
+              className="relative flex max-h-[90vh] w-full max-w-[500px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#16171b] shadow-[0_20px_40px_-10px_rgba(10,37,64,0.08)] dark:shadow-none dark:shadow-none"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -610,9 +610,9 @@ export default function ResumesPage() {
               <div className="relative z-10 overflow-y-auto px-6 pb-6 pt-8">
                 <div className="mb-6 text-center">
                   <div className="mx-auto mb-4 flex h-[48px] w-[48px] items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 border border-[#0A2540]/[0.08] dark:border-white/10">
-                    <UploadIcon className="h-5 w-5 text-[#0A2540] dark:text-[#f8fafc]" />
+                    <UploadIcon className="h-5 w-5 text-[#0A2540]/90 dark:text-[#f8fafc]/90" />
                   </div>
-                  <h3 className="text-xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc]">Upload New Resume</h3>
+                  <h3 className="text-xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90">Upload New Resume</h3>
                   <p className="mt-1.5 text-[13.5px] font-medium text-[#6B7280] dark:text-[#a1a1aa]">
                     Add a PDF to create a new editable workspace.
                   </p>
@@ -626,7 +626,7 @@ export default function ResumesPage() {
                     <input
                       value={newResumeTitle}
                       onChange={(event) => setNewResumeTitle(event.target.value)}
-                      className="w-full rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.02] dark:bg-white/5 px-4 py-3 text-[14px] font-medium text-[#0A2540] dark:text-[#f8fafc] outline-none transition-all placeholder:text-[#9CA3AF] dark:placeholder:text-[#71717a] focus:border-[#0A2540]/20 dark:focus:border-white/20 focus:bg-[#0A2540]/[0.04] dark:focus:bg-white/10 focus:ring-0"
+                      className="w-full rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.02] dark:bg-white/5 px-4 py-3 text-[14px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90 outline-none transition-all placeholder:text-[#9CA3AF] dark:placeholder:text-[#71717a] focus:border-[#0A2540]/20 dark:focus:border-white/20 focus:bg-[#0A2540]/[0.04] dark:focus:bg-white/10 focus:ring-0"
                       placeholder="e.g. Software Engineer Role"
                     />
                   </div>
@@ -643,7 +643,7 @@ export default function ResumesPage() {
                         value={newResumeSlug}
                         onChange={(event) => setNewResumeSlug(event.target.value)}
                         placeholder="frontend"
-                        className="min-w-0 flex-1 bg-transparent text-[14px] font-medium text-[#0A2540] dark:text-[#f8fafc] outline-none placeholder:text-[#9CA3AF] dark:placeholder:text-[#71717a]"
+                        className="min-w-0 flex-1 bg-transparent text-[14px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90 outline-none placeholder:text-[#9CA3AF] dark:placeholder:text-[#71717a]"
                       />
                     </div>
                   </div>
@@ -663,7 +663,7 @@ export default function ResumesPage() {
                         className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                       />
                       <div className="flex w-full min-w-0 items-center px-4 py-2.5">
-                        <div className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#0A2540]/[0.12] dark:border-white/20 bg-white dark:bg-white/10 px-3 py-1.5 text-[12px] font-semibold text-[#0A2540] dark:text-[#f8fafc] shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none transition-all">
+                        <div className="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-[#0A2540]/[0.12] dark:border-white/20 bg-white dark:bg-white/10 px-3 py-1.5 text-[12px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90 shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none dark:shadow-none transition-all">
                           Choose File
                         </div>
                         <span className="ml-3 truncate text-[13px] font-medium text-[#6B7280] dark:text-[#a1a1aa]">
@@ -679,7 +679,7 @@ export default function ResumesPage() {
                       animate={{ opacity: 1, height: "auto" }}
                       className="overflow-hidden rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.02] dark:bg-white/5"
                     >
-                      <div className="border-b border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.01] dark:bg-white/5 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#6B7280] dark:text-[#a1a1aa]">
+                      <div className="border-b border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.01] dark:bg-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#6B7280] dark:text-[#a1a1aa]">
                         Preview
                       </div>
                       <div className="h-56 w-full">
@@ -722,7 +722,7 @@ export default function ResumesPage() {
                       !uploadFile ||
                       !newResumeSlug.trim()
                     }
-                    className="group flex min-w-[140px] items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/10 px-5 py-2.5 text-[14px] font-medium tracking-wide text-[#0A2540] dark:text-[#f8fafc] transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/20 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="group flex min-w-[140px] items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/10 px-5 py-2.5 text-[14px] font-medium tracking-wide text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/20 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {uploadState === "uploading" ? (
                       "Uploading PDF..."

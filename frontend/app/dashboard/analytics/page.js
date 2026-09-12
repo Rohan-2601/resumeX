@@ -219,7 +219,7 @@ export default function AnalyticsPage() {
                 <span className="h-px w-6 bg-[#0A2540]/10 dark:bg-white/10"></span>
                 Overview
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] flex items-center gap-3">
+              <h1 className="text-3xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 flex items-center gap-3">
                 Analytics
               </h1>
             </div>
@@ -229,7 +229,7 @@ export default function AnalyticsPage() {
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] sm:text-[2.5rem] leading-tight"
+                className="text-3xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 sm:text-[2.5rem] leading-tight"
               >
                 Resume performance
               </motion.h1>
@@ -246,7 +246,7 @@ export default function AnalyticsPage() {
 
           <section className="relative z-10 space-y-8">
             <div className="flex flex-wrap items-end justify-between gap-3">
-              <h2 className="text-xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc]">
+              <h2 className="text-xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                 Where views are coming from
               </h2>
               <div className="text-[13px] font-medium text-[#4B5E76] dark:text-[#a1a1aa]">
@@ -256,10 +256,10 @@ export default function AnalyticsPage() {
 
             {errorMessage === "No analytics available yet. Upload a resume first." || errorMessage === "Sign in to view analytics." ? (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 dark:border-white/10 bg-white/50 dark:bg-white/5 px-6 py-12 text-center transition-colors">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc] transition-colors">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-colors">
                   <ActivityIcon />
                 </div>
-                <h3 className="text-base font-semibold text-[#0A2540] dark:text-[#f8fafc]">{errorMessage}</h3>
+                <h3 className="text-base font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">{errorMessage}</h3>
                 <p className="mt-2 text-[14px] font-normal text-[#4B5E76] dark:text-[#a1a1aa] max-w-sm">
                   Once your link is active and starts receiving visits, your performance metrics will appear here.
                 </p>
@@ -276,36 +276,36 @@ export default function AnalyticsPage() {
                 <div className="grid grid-cols-1 gap-2.5 md:grid-cols-3">
                   <div className="rounded-xl border border-[#E5E7E3] dark:border-white/10 bg-white/72 dark:bg-white/5 px-4 py-3 transition-colors">
                     <div className="flex items-center justify-between text-[#557083] dark:text-[#a1a1aa]">
-                      <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+                      <span className="text-xs font-medium uppercase tracking-[0.12em]">
                         LinkedIn
                       </span>
                       <Link2Icon />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#123F5B] dark:text-[#f8fafc]">
+                    <p className="mt-2 text-2xl font-medium text-[#123F5B] dark:text-[#f8fafc]">
                       {sourceMap("LinkedIn")}
                     </p>
                   </div>
 
                   <div className="rounded-xl border border-[#E5E7E3] dark:border-white/10 bg-white/72 dark:bg-white/5 px-4 py-3 transition-colors">
                     <div className="flex items-center justify-between text-[#557083] dark:text-[#a1a1aa]">
-                      <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+                      <span className="text-xs font-medium uppercase tracking-[0.12em]">
                         GitHub
                       </span>
                       <HistoryIcon />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#123F5B] dark:text-[#f8fafc]">
+                    <p className="mt-2 text-2xl font-medium text-[#123F5B] dark:text-[#f8fafc]">
                       {sourceMap("GitHub")}
                     </p>
                   </div>
 
                   <div className="rounded-xl border border-[#E5E7E3] dark:border-white/10 bg-white/72 dark:bg-white/5 px-4 py-3 transition-colors">
                     <div className="flex items-center justify-between text-[#557083] dark:text-[#a1a1aa]">
-                      <span className="text-xs font-semibold uppercase tracking-[0.12em]">
+                      <span className="text-xs font-medium uppercase tracking-[0.12em]">
                         Direct
                       </span>
                       <ActivityIcon />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold text-[#123F5B] dark:text-[#f8fafc]">
+                    <p className="mt-2 text-2xl font-medium text-[#123F5B] dark:text-[#f8fafc]">
                       {sourceMap("Direct")}
                     </p>
                   </div>
@@ -313,7 +313,7 @@ export default function AnalyticsPage() {
 
                 <div className="mt-2 overflow-hidden rounded-xl border border-[#E5E7E3] dark:border-white/10 bg-white/70 dark:bg-white/5 transition-colors">
                   <div className="border-b border-[#E5E7E3] dark:border-white/10 px-5 py-4 transition-colors">
-                    <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[#557083] dark:text-[#a1a1aa]">
+                    <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-[#557083] dark:text-[#a1a1aa]">
                       Recent Activity
                     </h3>
                   </div>
@@ -339,7 +339,7 @@ export default function AnalyticsPage() {
                                 <td>
                                   <div className="flex items-center gap-3">
                                     <div className="h-2 w-2 rounded-full bg-[#D4E5B2] dark:bg-green-500" />
-                                    <span className="font-semibold text-[#123F5B] dark:text-[#f8fafc]">
+                                    <span className="font-medium text-[#123F5B] dark:text-[#f8fafc]">
                                       Resume Viewed
                                     </span>
                                   </div>

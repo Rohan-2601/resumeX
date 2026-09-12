@@ -49,7 +49,7 @@ export const ToastProvider = ({ children }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className={`pointer-events-auto flex items-center gap-3 rounded-xl border bg-white dark:bg-[#16171b] px-4 py-3 shadow-lg dark:shadow-none min-w-[280px] max-w-[400px] ${
+              className={`pointer-events-auto flex items-center gap-3 rounded-xl border bg-white dark:bg-[#16171b] px-4 py-3 shadow-lg dark:shadow-none dark:shadow-none min-w-[280px] max-w-[400px] ${
                 t.type === "error"
                   ? "border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/50"
                   : "border-[#E5E7E3] dark:border-white/10"
@@ -70,7 +70,7 @@ export const ToastProvider = ({ children }) => {
               </div>
               <p
                 className={`text-sm font-medium flex-1 ${
-                  t.type === "error" ? "text-rose-800 dark:text-rose-300" : "text-[#0A2540] dark:text-[#f8fafc]"
+                  t.type === "error" ? "text-rose-800 dark:text-rose-300" : "text-[#0A2540]/90 dark:text-[#f8fafc]/90"
                 }`}
               >
                 {t.message}

@@ -136,7 +136,7 @@ export default function LinksPage() {
                 <span className="h-px w-6 bg-[#0A2540]/10 dark:bg-white/10"></span>
                 Overview
               </div>
-              <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] flex items-center gap-3">
+              <h1 className="text-[1.8rem] font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 flex items-center gap-3">
                 Links
               </h1>
             </div>
@@ -146,7 +146,7 @@ export default function LinksPage() {
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] sm:text-[2.5rem] leading-tight"
+                className="text-3xl font-medium tracking-tight text-[#0A2540]/90 dark:text-[#f8fafc]/90 sm:text-[2.5rem] leading-tight"
               >
                 Share your links
               </motion.h1>
@@ -169,7 +169,7 @@ export default function LinksPage() {
                 type="button"
                 onClick={() => loadResumes(true)}
                 disabled={loading}
-                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540] dark:text-[#f8fafc] transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
+                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
               >
                 Refresh Links
               </button>
@@ -180,7 +180,7 @@ export default function LinksPage() {
             {message ? (
               <Alert
                 variant="destructive"
-                className="mb-4 rounded-2xl border-rose-200 dark:border-rose-900/20 bg-rose-50/80 dark:bg-rose-950/20 backdrop-blur-md text-rose-800 dark:text-rose-400 shadow-sm"
+                className="mb-4 rounded-2xl border-rose-200 dark:border-rose-900/20 bg-rose-50/80 dark:bg-rose-950/20 backdrop-blur-md dark:backdrop-blur-none text-rose-800 dark:text-rose-400 shadow-sm dark:shadow-none"
               >
                 <AlertDescription className="font-medium text-[15px]">{message}</AlertDescription>
               </Alert>
@@ -188,10 +188,10 @@ export default function LinksPage() {
 
             {publicLinks.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 dark:border-white/10 bg-white/50 dark:bg-white/5 px-6 py-12 text-center min-h-[200px] w-full transition-colors">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc] transition-colors">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-colors">
                   <LinkIcon className="h-5 w-5" />
                 </div>
-                <h3 className="text-base font-semibold text-[#0A2540] dark:text-[#f8fafc]">
+                <h3 className="text-base font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                   No links available
                 </h3>
                 <p className="mt-2 text-[14px] font-normal text-[#4B5E76] dark:text-[#a1a1aa] max-w-sm">
@@ -208,12 +208,12 @@ export default function LinksPage() {
                       className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 p-4 transition-all duration-300 hover:border-[#0A2540]/20 dark:hover:border-white/20 hover:bg-[#0A2540]/[0.01] dark:hover:bg-white/10"
                     >
                       <div className="flex items-center gap-4 min-w-0">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc] border border-[#0A2540]/[0.08] dark:border-white/10">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90 border border-[#0A2540]/[0.08] dark:border-white/10">
                           <LinkIcon className="h-4 w-4" />
                         </div>
 
                         <div className="min-w-0">
-                          <h2 className="truncate text-[15px] font-medium text-[#0A2540] dark:text-[#f8fafc]">
+                          <h2 className="truncate text-[15px] font-medium text-[#0A2540]/90 dark:text-[#f8fafc]/90">
                             {link.title}
                           </h2>
                           <div className="flex items-center gap-1.5 truncate mt-0.5">
@@ -233,9 +233,9 @@ export default function LinksPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy(link.href, link.slug)}
-                          className={`flex shrink-0 h-9 items-center justify-center rounded-lg px-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-all w-full sm:w-auto ${copyState
+                          className={`flex shrink-0 h-9 items-center justify-center rounded-lg px-4 text-[11px] font-semibold uppercase tracking-[0.1em] transition-all w-full sm:w-auto ${copyState
                             ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
-                            : "border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-transparent text-[#4B5E76] dark:text-[#a1a1aa] shadow-sm dark:shadow-none hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc]"
+                            : "border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-transparent text-[#4B5E76] dark:text-[#a1a1aa] shadow-sm dark:shadow-none dark:shadow-none hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc]"
                             }`}
                         >
                           {copyState ? "Copied" : "Copy"}
