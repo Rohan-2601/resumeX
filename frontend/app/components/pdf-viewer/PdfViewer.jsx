@@ -47,13 +47,10 @@ export default function PdfViewer({ fileUrl }) {
           download
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center justify-center gap-2 px-3 h-12 bg-gray-900 text-white rounded-full shadow-2xl hover:bg-gray-800 transition-all duration-300 hover:scale-105 active:scale-95"
+          className="flex items-center justify-center w-12 h-12 bg-gray-900 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
           title="Download PDF"
         >
-          <Download size={20} strokeWidth={2.5} className="shrink-0" />
-          <span className="text-sm font-semibold whitespace-nowrap overflow-hidden max-w-0 group-hover:max-w-[120px] group-hover:px-1 transition-all duration-300 ease-in-out">
-            Download PDF
-          </span>
+          <Download size={20} strokeWidth={2.5} />
         </a>
       </div>
 
