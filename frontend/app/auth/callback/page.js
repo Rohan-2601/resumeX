@@ -9,15 +9,13 @@ function CallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { exchangeOAuthCode } = useAuth();
-  const [error, setError] = useState("");
   const hasExchanged = useRef(false);
 
   useEffect(() => {
     const code = searchParams.get("code");
     
     if (!code) {
-      setError("No authorization code provided");
-      setTimeout(() => router.push("/login"), 3000);
+      router.replace("/login?error=No+authorization+code+provided");
       return;
     }
 
@@ -30,8 +28,7 @@ function CallbackContent() {
         router.push("/dashboard");
       } catch (err) {
         console.error("Token exchange failed:", err);
-        setError("Failed to authenticate. Please try again.");
-        setTimeout(() => router.push("/login"), 3000);
+        router.replace("/login?error=Failed+to+authenticate.+Please+try+again.");
       }
     };
 
@@ -54,18 +51,7 @@ function CallbackContent() {
           </span>
         </div>
 
-        {error ? (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 w-full rounded-2xl bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-50">
-              <svg className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-[#18181b] mb-2">{error}</h3>
-            <p className="text-sm text-[#71717a]">Redirecting back to login...</p>
-          </div>
-        ) : (
-          <div className="animate-in fade-in zoom-in-95 duration-500 w-full flex flex-col items-center justify-center p-8 text-center">
+        <div className="animate-in fade-in zoom-in-95 duration-500 w-full flex flex-col items-center justify-center p-8 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#71717a] mb-2">
               Signing you in
             </p>
@@ -79,7 +65,6 @@ function CallbackContent() {
               Securely completing authentication...
             </p>
           </div>
-        )}
       </div>
     </div>
   );
