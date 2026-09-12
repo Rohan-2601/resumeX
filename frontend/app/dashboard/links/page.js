@@ -3,23 +3,13 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { IoIosArrowBack } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link as LinkIcon } from "lucide-react";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
@@ -128,7 +118,7 @@ export default function LinksPage() {
   if (!user) return null;
 
   return (
-    <div className={`${sansFont.className} relative pb-8 text-[#123F5B]`}>
+    <div className="relative pb-8 text-[#123F5B]">
       {loading ? (
         <div className="flex min-h-[60vh] items-center justify-center">
         </div>
@@ -156,7 +146,7 @@ export default function LinksPage() {
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
+                className="text-3xl font-semibold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
               >
                 Share your links
               </motion.h1>
@@ -164,7 +154,7 @@ export default function LinksPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+                className="mt-2 text-[15px] font-normal text-[#4B5E76]"
               >
                 Clean, permanent URLs for all your workspaces.
               </motion.p>
@@ -179,7 +169,7 @@ export default function LinksPage() {
                 type="button"
                 onClick={() => loadResumes(true)}
                 disabled={loading}
-                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
+                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
               >
                 Refresh Links
               </button>
@@ -204,7 +194,7 @@ export default function LinksPage() {
                 <h3 className="text-base font-semibold text-[#0A2540]">
                   No links available
                 </h3>
-                <p className="mt-2 text-sm text-[#4B5E76] max-w-sm">
+                <p className="mt-2 text-[14px] font-normal text-[#4B5E76] max-w-sm">
                   No resumes found. Create a workspace first to get a shareable link.
                 </p>
               </div>
@@ -223,11 +213,11 @@ export default function LinksPage() {
                         </div>
 
                         <div className="min-w-0">
-                          <h2 className="truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
+                          <h2 className="truncate text-[15px] font-medium text-[#0A2540]">
                             {link.title}
                           </h2>
                           <div className="flex items-center gap-1.5 truncate mt-0.5">
-                            <span className="truncate text-[13px] font-medium text-[#4B5E76]">
+                            <span className="truncate text-[13px] font-normal text-[#4B5E76]">
                               /{user.username}/{link.slug}
                             </span>
                           </div>

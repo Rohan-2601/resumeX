@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Playfair_Display, Sora } from "next/font/google";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+
+
+
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -32,7 +25,7 @@ export default function Footer() {
 
   return (
     <footer
-      className={`${sansFont.className} relative isolate overflow-hidden border-t border-black/10 bg-[#fdfdfd] px-4 pb-8 pt-8 text-[#123F5B] sm:px-6 md:px-10 md:pt-10`}
+      className="relative isolate overflow-hidden border-t border-black/10 bg-[#fdfdfd] px-4 pb-8 pt-8 text-[#123F5B] sm:px-6 md:px-10 md:pt-10"
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_12%,rgba(255,255,255,0.4),transparent_28%),radial-gradient(circle_at_88%_18%,rgba(255,255,255,0.34),transparent_26%)]" />
@@ -135,7 +128,7 @@ export default function Footer() {
           <div className="select-none text-center text-[3.8rem] font-semibold leading-none tracking-tight text-[#123F5B] sm:text-[6rem] md:text-[9.5rem] lg:text-[11rem]">
             resume
             <span
-              className={`${displayFont.className} ml-2 italic text-[#123F5B]`}
+              className="ml-2 italic text-[#123F5B]"
             >
               X
             </span>

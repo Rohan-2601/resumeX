@@ -1,16 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Playfair_Display } from "next/font/google";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -75,7 +71,7 @@ export default function LoginPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#71717a]">
           Welcome Back
         </p>
-        <h2 className={`mt-2 text-3xl font-semibold tracking-tight text-[#18181b] ${displayFont.className} italic`}>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[#18181b]">
           Sign In
         </h2>
         <p className="mt-2 text-sm leading-6 text-[#71717a]">

@@ -10,21 +10,14 @@ import {
   LinkIcon,
   LogOutIcon,
 } from "../components/icons/Icons";
-import { Playfair_Display, Sora } from "next/font/google";
+
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+
+
 
 export default function DashboardLayout({ children }) {
   const { user, isInitializing, logout } = useAuth();
@@ -46,7 +39,7 @@ export default function DashboardLayout({ children }) {
   // To prevent hydration mismatch, just return empty during SSR
   if (!mounted) {
     return (
-      <div className={`${sansFont.className} flex min-h-[100dvh] items-center justify-center bg-[#fafafa]`} />
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#fafafa]" />
     );
   }
 
@@ -72,7 +65,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div
-      className={`${sansFont.className} h-[100dvh] overflow-hidden bg-[#fafafa] text-[#0A2540] selection:bg-[#0A2540] selection:text-white relative`}
+      className="h-[100dvh] overflow-hidden bg-[#fafafa] text-[#0A2540] selection:bg-[#0A2540] selection:text-white relative"
     >
       {/* Background glowing orbs */}
       <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-blue-100/40 blur-[100px] pointer-events-none" />
@@ -96,7 +89,7 @@ export default function DashboardLayout({ children }) {
             >
               <span className="flex items-end text-[1.8rem] font-bold tracking-tight leading-none text-[#0A2540]">
                 resume
-                <span className={`${displayFont.className} italic text-[#0A2540] drop-shadow-sm ml-0.5`}>
+                <span className="text-[#0A2540] drop-shadow-sm ml-0.5">
                   X
                 </span>
               </span>
@@ -115,8 +108,8 @@ export default function DashboardLayout({ children }) {
                     key={item.href}
                     href={item.href}
                     className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
-                        ? "text-[#0A2540] hover:text-[#0A2540]"
-                        : "text-[#4B5E76] hover:bg-black/5 hover:text-[#111827]"
+                      ? "text-[#0A2540] hover:text-[#0A2540]"
+                      : "text-[#4B5E76] hover:bg-black/5 hover:text-[#111827]"
                       }`}
                   >
                     {isActive && (
@@ -201,7 +194,7 @@ export default function DashboardLayout({ children }) {
                   <span className="flex items-end text-2xl font-bold tracking-tight leading-none text-[#0A2540]">
                     resume
                     <span
-                      className={`${displayFont.className} italic text-[#0A2540] ml-0.5`}
+                      className="text-[#0A2540] ml-0.5"
                     >
                       X
                     </span>
@@ -233,8 +226,8 @@ export default function DashboardLayout({ children }) {
                       key={item.href}
                       href={item.href}
                       className={`relative flex min-w-[100px] flex-none items-center justify-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-all ${isActive
-                          ? "text-[#0A2540] hover:text-[#0A2540]"
-                          : "border border-white/60 bg-white/50 text-[#4B5E76] hover:text-[#111827]"
+                        ? "text-[#0A2540] hover:text-[#0A2540]"
+                        : "border border-white/60 bg-white/50 text-[#4B5E76] hover:text-[#111827]"
                         }`}
                     >
                       {isActive && (

@@ -3,13 +3,7 @@
 import { useEffect, useState, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
-import { Playfair_Display } from "next/font/google";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600", "700"],
-});
 
 function CallbackContent() {
   const router = useRouter();
@@ -54,7 +48,7 @@ function CallbackContent() {
         <div className="mb-10">
           <span className="flex items-end text-4xl font-bold tracking-tight leading-none text-[#0A2540]">
             resume
-            <span className={`${displayFont.className} italic text-[#0A2540] drop-shadow-sm ml-0.5`}>
+            <span className="text-[#0A2540] drop-shadow-sm ml-0.5">
               X
             </span>
           </span>

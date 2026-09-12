@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
-import { Playfair_Display, Sora } from "next/font/google";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { UploadIcon } from "../../components/icons/Icons";
@@ -13,16 +12,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion, AnimatePresence } from "framer-motion";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
@@ -396,7 +386,7 @@ export default function ResumesPage() {
   };
 
   return (
-    <div className={`${sansFont.className} relative space-y-8 pb-8 text-[#0A2540]`}>
+    <div className="relative space-y-8 pb-8 text-[#0A2540]">
       <AnimatePresence>
         {uploadSuccessToast && (
           <motion.div
@@ -432,7 +422,7 @@ export default function ResumesPage() {
                 <span className="h-px w-6 bg-[#0A2540]/10"></span>
                 Overview
               </div>
-              <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
+              <h1 className="text-3xl font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
                 Resumes
               </h1>
             </div>
@@ -462,7 +452,7 @@ export default function ResumesPage() {
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
+                className="text-3xl font-semibold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
               >
                 Your resumes
               </motion.h1>
@@ -470,7 +460,7 @@ export default function ResumesPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className={`${displayFont.className} mt-2 text-lg italic text-[#4B5E76]`}
+                className="mt-2 text-[15px] font-normal text-[#4B5E76]"
               >
                 Manage and edit your professional profiles in one place.
               </motion.p>
@@ -485,7 +475,7 @@ export default function ResumesPage() {
               <button
                 type="button"
                 onClick={openNewResumeModal}
-                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium tracking-wide text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
+                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] sm:w-auto sm:flex-none"
               >
                 <Plus className="h-4 w-4 transition-transform group-hover:rotate-90" />
                 Upload New Resume
@@ -507,12 +497,12 @@ export default function ResumesPage() {
                 <h3 className="text-base font-semibold text-[#0A2540]">
                   No resumes yet
                 </h3>
-                <p className="mt-2 mb-8 max-w-sm text-sm text-[#4B5E76]">
+                <p className="mt-2 mb-8 max-w-sm text-[14px] font-normal text-[#4B5E76]">
                   Create your first workspace to start building your professional resume.
                 </p>
                 <button
                   onClick={openNewResumeModal}
-                  className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-sm font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98]"
                 >
                   <UploadIcon className="h-4 w-4" />
                   Upload your first resume
@@ -540,7 +530,7 @@ export default function ResumesPage() {
                             <FileText className="h-4 w-4" />
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-[11px] font-medium text-[#6B7280]">
+                            <span className="text-[12px] font-normal text-[#6B7280]">
                               {timeAgo(resume.updatedAt)}
                             </span>
                             <button
@@ -555,12 +545,12 @@ export default function ResumesPage() {
                         </div>
 
                         <div className="min-w-0 w-full mb-6">
-                          <h2 className="mb-1.5 truncate text-[1.05rem] font-semibold tracking-tight text-[#0A2540]">
+                          <h2 className="mb-1.5 truncate text-[15px] font-medium text-[#0A2540]">
                             {resume.title || "My Resume"}
                           </h2>
                           <div className="flex items-center gap-1.5 truncate">
                             <LinkIcon className="shrink-0 h-3 w-3 text-[#4B5E76] opacity-70 translate-y-[-1px]" />
-                            <span className="truncate text-[13px] font-medium text-[#4B5E76]">
+                            <span className="truncate text-[13px] font-normal text-[#4B5E76]">
                               {publicPath}
                             </span>
                           </div>

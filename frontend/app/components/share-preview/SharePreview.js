@@ -1,16 +1,9 @@
 import Image from "next/image";
-import { Playfair_Display, Sora } from "next/font/google";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+
+
+
 
 const sampleLink = "https://resumeX.rohann.tech/Rohan-2601/fullstack";
 
@@ -18,7 +11,7 @@ export default function SharePreview() {
   return (
     <section
       id="share-preview"
-      className={`${sansFont.className} relative overflow-hidden bg-[#fdfdfd] px-4 py-24 text-[#123F5B] sm:px-6 md:px-10 md:py-28`}
+      className="relative overflow-hidden bg-[#fdfdfd] px-4 py-24 text-[#123F5B] sm:px-6 md:px-10 md:py-28"
     >
       <div className="relative mx-auto w-full max-w-4xl">
         <div>
@@ -28,7 +21,7 @@ export default function SharePreview() {
           <h2 className="text-balance text-3xl font-medium leading-[1.03] tracking-tight text-[#123F5B] sm:text-5xl md:text-6xl">
             See Exactly What Recruiters
             <span
-              className={`${displayFont.className} ml-3 inline-block italic text-[#123F5B]`}
+              className="ml-3 inline-block italic text-[#123F5B]"
             >
               Open
             </span>

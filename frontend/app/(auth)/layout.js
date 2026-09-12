@@ -2,19 +2,12 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Playfair_Display, Sora } from "next/font/google";
+
 import { useAuth } from "../context/AuthContext";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+
+
 
 export default function AuthLayout({ children }) {
   const pathname = usePathname();
@@ -25,7 +18,7 @@ export default function AuthLayout({ children }) {
     <>
       {(loading || user) && (
         <div
-          className={`${sansFont.className} fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg-app)]`}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg-app)]"
         >
           <div className="flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--bg-surface)] px-5 py-3 text-sm font-medium text-[var(--text-main)] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.6)]">
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--border)] border-t-black" />
@@ -34,7 +27,7 @@ export default function AuthLayout({ children }) {
         </div>
       )}
       <div
-        className={`${sansFont.className} relative min-h-screen bg-[#f3f4f6] flex items-center justify-center p-1 sm:p-2 ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}
+        className={`relative min-h-screen bg-[#f3f4f6] flex items-center justify-center p-1 sm:p-2 ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}
       >
         <main className="relative flex w-full max-w-[2000px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl md:block md:h-[calc(100vh-1rem)]">
           
@@ -57,7 +50,7 @@ export default function AuthLayout({ children }) {
                 <p className="text-xs uppercase tracking-[0.3em] text-white/90">
                   {isLogin ? "resumeX Workspace" : "Start Your resumeX Journey"}
                 </p>
-                <h1 className={`${displayFont.className} mt-3 text-3xl font-medium italic leading-tight text-white`}>
+                <h1 className="mt-3 text-3xl font-medium italic leading-tight text-white">
                   {isLogin
                     ? "Log in and continue from exactly where you left off."
                     : "Create your account and start tracking your resume in minutes."}
@@ -101,7 +94,7 @@ export default function AuthLayout({ children }) {
                 <p className="text-xs uppercase tracking-[0.3em] text-white/90">
                   {isLogin ? "resumeX Workspace" : "Start Your resumeX Journey"}
                 </p>
-                <h1 className={`${displayFont.className} mt-3 text-3xl font-medium italic leading-tight text-white`}>
+                <h1 className="mt-3 text-3xl font-medium italic leading-tight text-white">
                   {isLogin
                     ? "Log in and continue from exactly where you left off."
                     : "Create your account and start tracking your resume in minutes."}

@@ -1,16 +1,9 @@
 import Link from "next/link";
-import { Playfair_Display, Sora } from "next/font/google";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+
+
+
 
 export const metadata = {
   title: "Terms of Use | resumeX",
@@ -21,7 +14,7 @@ export const metadata = {
 export default function TermsPage() {
   return (
     <main
-      className={`${sansFont.className} min-h-screen bg-[#fdfdfd] px-4 py-14 text-[#123F5B] sm:px-6 md:px-10`}
+      className="min-h-screen bg-[#fdfdfd] px-4 py-14 text-[#123F5B] sm:px-6 md:px-10"
     >
       <div className="mx-auto max-w-4xl">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#557083]">
@@ -30,7 +23,7 @@ export default function TermsPage() {
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[#123F5B] sm:text-5xl">
           Terms
           <span
-            className={`${displayFont.className} ml-3 italic text-[#123F5B]`}
+            className="ml-3 italic text-[#123F5B]"
           >
             of Use
           </span>

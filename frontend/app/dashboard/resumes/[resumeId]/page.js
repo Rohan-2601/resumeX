@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
-import { Playfair_Display, Sora } from "next/font/google";
+
 import { useAuth } from "../../../context/AuthContext";
 import { UploadIcon } from "../../../components/icons/Icons";
 import { CheckCircle2Icon, InfoIcon, Check, Copy } from "lucide-react";
@@ -12,16 +12,9 @@ import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion, AnimatePresence } from "framer-motion";
 
-const displayFont = Playfair_Display({
-  subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-});
 
-const sansFont = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+
+
 
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
@@ -309,7 +302,7 @@ export default function ResumeWorkspacePage() {
   };
 
   return (
-    <div className={`${sansFont.className} flex flex-col text-[#0A2540]`}>
+    <div className="flex flex-col text-[#0A2540]">
       <div className="flex flex-col mx-auto w-full">
         {alertState ? (
           <Alert
