@@ -5,7 +5,7 @@ import Image from "next/image";
 
 
 
-const sampleLink = "https://resumeX.rohann.tech/Rohan-2601/fullstack";
+const sampleLink = "https://www.resumex.tech/Rohan-2601/fullstack";
 
 export default function SharePreview() {
   return (
