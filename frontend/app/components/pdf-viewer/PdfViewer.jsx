@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Download } from "lucide-react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
@@ -40,20 +39,6 @@ export default function PdfViewer({ fileUrl }) {
 
   return (
     <div className="relative min-h-screen bg-[#f9fafb] font-sans pb-24">
-      {/* Sleek Floating Download Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <a
-          href={fileUrl}
-          download
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-12 h-12 bg-[#123F5B] text-white rounded-full shadow-lg hover:bg-opacity-90 transition-all hover:scale-105"
-          title="Download PDF"
-        >
-          <Download size={20} />
-        </a>
-      </div>
-
       <div className="flex flex-col items-center w-full max-w-4xl mx-auto pt-6 px-2 sm:px-4">
         {isLoading && !error && (
           <div className="flex flex-col items-center justify-center w-full mt-32">
