@@ -73,6 +73,10 @@ export default function PdfViewer({ fileUrl }) {
                 <Page
                   pageNumber={index + 1}
                   width={containerWidth ? containerWidth : undefined}
+                  devicePixelRatio={Math.max(
+                    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+                    3
+                  )}
                   renderTextLayer={true}
                   renderAnnotationLayer={true}
                   loading={
