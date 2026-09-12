@@ -47,10 +47,13 @@ export default function PdfViewer({ fileUrl }) {
           download
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center w-12 h-12 bg-gray-900 text-white rounded-full shadow-2xl hover:bg-gray-800 transition-all duration-300 hover:scale-110 active:scale-95"
+          className="group flex items-center justify-center gap-2 px-3 h-12 bg-gray-900 text-white rounded-full shadow-2xl hover:bg-gray-800 transition-all duration-300 hover:scale-105 active:scale-95"
           title="Download PDF"
         >
-          <Download size={20} strokeWidth={2.5} />
+          <Download size={20} strokeWidth={2.5} className="shrink-0" />
+          <span className="text-sm font-semibold whitespace-nowrap overflow-hidden max-w-0 group-hover:max-w-[120px] group-hover:px-1 transition-all duration-300 ease-in-out">
+            Download PDF
+          </span>
         </a>
       </div>
 
@@ -88,10 +91,12 @@ export default function PdfViewer({ fileUrl }) {
                 <Page
                   pageNumber={index + 1}
                   width={containerWidth ? containerWidth : undefined}
-                  devicePixelRatio={4}
-                  renderTextLayer={false}
+                  devicePixelRatio={Math.max(
+                    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+                    2
+                  )}
+                  renderTextLayer={true}
                   renderAnnotationLayer={true}
-                  className="[&_.react-pdf__Page__canvas]:!w-full [&_.react-pdf__Page__canvas]:!h-auto"
                   loading={
                     <div className="w-full aspect-[1/1.4] flex items-center justify-center bg-transparent" />
                   }
