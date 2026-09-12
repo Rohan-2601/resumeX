@@ -113,12 +113,12 @@ export default function Hero() {
 
           {/* Main Heading */}
           <h1 className={`${headingFont.className} text-balance text-5xl md:text-6xl lg:text-[4rem] font-bold leading-[1.05] tracking-tighter text-[#15415C]`}>
-            Your Resume Deserves a Better Link.
+            The Ultimate Resume Link Generator. Your Resume Deserves a Better Link.
           </h1>
 
           {/* Subheading */}
           <p className="mt-4 md:mt-5 max-w-lg text-balance text-[15px] md:text-base leading-relaxed text-[#4F6C7D] font-medium">
-            Create a permanent resume URL that stays the same, even when your resume changes.
+            Create a permanent resume URL that stays the same. The easiest way to share your resume online and track exactly who views it.
           </p>
 
           {/* Primary CTA */}
