@@ -47,7 +47,7 @@ export default function PdfViewer({ fileUrl }) {
           download
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center w-12 h-12 bg-gray-900 text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+          className="flex items-center justify-center w-12 h-12 bg-gray-900 text-white hover:text-white rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
           title="Download PDF"
         >
           <Download size={20} strokeWidth={2.5} />
