@@ -480,7 +480,7 @@ export default function ResumeWorkspacePage() {
                             className="flex-1 rounded-lg border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#4B5E76] dark:text-[#a1a1aa] shadow-[0_1px_2px_rgba(10,37,64,0.04)] dark:shadow-none dark:shadow-none transition hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc] disabled:opacity-60"
                           >
                             {rollingBackId === version._id
-                              ? "Switching..."
+                              ? "Switching"
                               : "Set Active"}
                           </button>
                         ) : (
@@ -659,9 +659,9 @@ export default function ResumeWorkspacePage() {
                   className="flex-1 rounded-xl bg-[#0A2540] dark:bg-[#f8fafc]/10 px-4 py-2.5 text-sm font-medium text-white dark:text-[#f8fafc] shadow-sm dark:shadow-none transition hover:bg-[#113155] dark:hover:bg-[#f8fafc]/20 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {uploadState === "uploading" ? (
-                    "Uploading PDF..."
+                    "Uploading PDF"
                   ) : uploadState === "saving" ? (
-                    "Saving version..."
+                    "Saving version"
                   ) : uploadState === "success" ? (
                     <span className="flex items-center justify-center gap-1.5 text-emerald-400">
                       Uploaded successfully

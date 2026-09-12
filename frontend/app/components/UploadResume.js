@@ -129,7 +129,7 @@ export default function UploadResume() {
           className="btn btn-primary"
           style={{ padding: "0.5rem 1.5rem" }}
         >
-          {uploading ? "Uploading..." : "Upload Resume"}
+          {uploading ? "Uploading" : "Upload Resume"}
         </button>
       </div>
 

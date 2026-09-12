@@ -22,7 +22,7 @@ export default function AuthLayout({ children }) {
         >
           <div className="flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--bg-surface)] px-5 py-3 text-sm font-medium text-[var(--text-main)] shadow-[0_20px_60px_-40px_rgba(0,0,0,0.6)]">
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--border)] border-t-black" />
-            Loading...
+            Loading
           </div>
         </div>
       )}

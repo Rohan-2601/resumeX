@@ -725,9 +725,9 @@ export default function ResumesPage() {
                     className="group flex min-w-[140px] items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/10 px-5 py-2.5 text-[14px] font-medium tracking-wide text-[#0A2540]/90 dark:text-[#f8fafc]/90 transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/20 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {uploadState === "uploading" ? (
-                      "Uploading PDF..."
+                      "Uploading PDF"
                     ) : uploadState === "saving" ? (
-                      "Saving resume..."
+                      "Saving resume"
                     ) : uploadState === "success" ? (
                       <span className="flex items-center gap-1.5 text-emerald-600">
                         <CheckCircle2Icon className="h-4 w-4" />

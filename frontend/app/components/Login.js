@@ -17,7 +17,7 @@ export default function Login() {
       <div className="flex items-center gap-2 text-sm text-gray-700">
         <span className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-700" />
         <p>
-          {isRedirecting ? "Redirecting to GitHub..." : "Checking session..."}
+          {isRedirecting ? "Redirecting to GitHub" : "Checking session"}
         </p>
       </div>
     );
@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <button onClick={handleLogin} disabled={isRedirecting}>
-      {isRedirecting ? "Redirecting..." : "Login with GitHub"}
+      {isRedirecting ? "Redirecting" : "Login with GitHub"}
     </button>
   );
 }

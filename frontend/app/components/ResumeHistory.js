@@ -114,7 +114,7 @@ export default function ResumeHistory() {
         </button>
       </div>
 
-      {loading && <p>Loading versions...</p>}
+      {loading && <p>Loading versions</p>}
       {error && <p>{error}</p>}
 
       {!loading && !error && versions.length === 0 && <p>No versions found.</p>}

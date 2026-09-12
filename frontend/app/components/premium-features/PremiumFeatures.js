@@ -48,7 +48,7 @@ export default function PremiumFeatures() {
             A BETTER WAY TO SHOW UP.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg font-medium text-[#557083] sm:text-xl">
-            Built for the way you share your work today...
+            Built for the way you share your work today
           </p>
         </div>
 
