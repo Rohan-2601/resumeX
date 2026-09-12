@@ -1,11 +1,7 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
-import dynamic from "next/dynamic";
 import ViewTracker from "../../components/ViewTracker";
-
-const PdfViewer = dynamic(() => import("../../components/pdf-viewer/PdfViewer"), {
-  ssr: false,
-});
+import PdfViewerWrapper from "../../components/pdf-viewer/PdfViewerWrapper";
 
 const FALLBACK_OG_IMAGE = "/hero.webp";
 
@@ -145,7 +141,7 @@ export default async function ResumeSlugPage({ params }) {
   return (
     <div style={{ margin: 0, padding: 0, minHeight: "100vh", backgroundColor: "#f9fafb" }}>
       <ViewTracker username={username} slug={slug} />
-      <PdfViewer fileUrl={resumeData.fileUrl} />
+      <PdfViewerWrapper fileUrl={resumeData.fileUrl} />
     </div>
   );
 }
