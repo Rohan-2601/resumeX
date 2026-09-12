@@ -96,7 +96,7 @@ export default function Hero() {
             >
               Login
             </button>
-            
+
             <div
               className="absolute -bottom-0.5 h-[2px] bg-[#15415C] rounded-full transition-all duration-300 ease-out"
               style={{

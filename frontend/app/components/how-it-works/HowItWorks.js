@@ -19,19 +19,19 @@ function TiltCard({ children, className, isCenter = false }) {
   const [style, setStyle] = useState({
     transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translate3d(0, 0, 0)",
   });
-  
+
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // Disable on touch devices or small screens
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  
+
   useEffect(() => {
     const checkTouch = () => {
       return ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768);
     };
     setIsTouchDevice(checkTouch());
-    
+
     const handleResize = () => {
       setIsTouchDevice(checkTouch());
     };
@@ -41,7 +41,7 @@ function TiltCard({ children, className, isCenter = false }) {
 
   const handleMouseMove = (e) => {
     if (isTouchDevice || !cardRef.current) return;
-    
+
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -49,24 +49,24 @@ function TiltCard({ children, className, isCenter = false }) {
     const mouseY = e.clientY - rect.top;
 
     setMousePos({ x: mouseX, y: mouseY });
-    
+
     const centerX = width / 2;
     const centerY = height / 2;
-    
+
     // Normalize to -1 to 1
     const percentX = (mouseX - centerX) / centerX;
     const percentY = (mouseY - centerY) / centerY;
 
     // Keep it very subtle (max 3 degrees)
-    const maxRot = isCenter ? 3.5 : 2.5; 
+    const maxRot = isCenter ? 3.5 : 2.5;
     const maxTranslate = isCenter ? 4 : 2;
 
-    const rotateX = percentY * -maxRot; 
+    const rotateX = percentY * -maxRot;
     const rotateY = percentX * maxRot;
-    
+
     const translateX = percentX * maxTranslate;
     const translateY = percentY * maxTranslate;
-    
+
     const scale = isCenter ? 1.02 : 1.01;
 
     setStyle({
@@ -101,7 +101,7 @@ function TiltCard({ children, className, isCenter = false }) {
       className={`group ${className} relative`}
       style={style}
     >
-      <div 
+      <div
         className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-500"
         style={{
           opacity: isHovered ? 1 : 0,

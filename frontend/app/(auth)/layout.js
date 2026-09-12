@@ -30,7 +30,7 @@ export default function AuthLayout({ children }) {
         className={`relative min-h-screen bg-[#f3f4f6] flex items-center justify-center p-1 sm:p-2 ${(loading || user) ? 'opacity-0 pointer-events-none' : 'opacity-100'} transition-opacity duration-300`}
       >
         <main className="relative flex w-full max-w-[2000px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl md:block md:h-[calc(100vh-1rem)]">
-          
+
           {/* Mobile Layout (Visible only on < md) */}
           <div className="flex flex-col h-full md:hidden">
             <section className="relative h-[40vh] w-full shrink-0">
@@ -63,7 +63,7 @@ export default function AuthLayout({ children }) {
               </div>
             </section>
             <section className="flex w-full items-center justify-center bg-white p-6">
-               {children}
+              {children}
             </section>
           </div>
 
@@ -71,9 +71,8 @@ export default function AuthLayout({ children }) {
           <div className="hidden h-full w-full md:block relative bg-white">
             {/* Image Panel */}
             <section
-              className={`absolute top-0 bottom-0 w-1/2 overflow-hidden transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-                isLogin ? "translate-x-0" : "translate-x-full"
-              } z-0`}
+              className={`absolute top-0 bottom-0 w-1/2 overflow-hidden transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${isLogin ? "translate-x-0" : "translate-x-full"
+                } z-0`}
             >
               <Image
                 src="/signup.webp"
@@ -109,9 +108,8 @@ export default function AuthLayout({ children }) {
 
             {/* Form Panel */}
             <section
-              className={`absolute top-0 bottom-0 w-1/2 flex items-center justify-center bg-white overflow-y-auto p-10 transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-                isLogin ? "translate-x-full" : "translate-x-0"
-              } z-10 shadow-[0_0_40px_rgba(0,0,0,0.1)]`}
+              className={`absolute top-0 bottom-0 w-1/2 flex items-center justify-center bg-white overflow-y-auto p-10 transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${isLogin ? "translate-x-full" : "translate-x-0"
+                } z-10 shadow-[0_0_40px_rgba(0,0,0,0.1)]`}
             >
               <div key={pathname} className="w-full max-w-md animate-fade-in-up">
                 {children}
