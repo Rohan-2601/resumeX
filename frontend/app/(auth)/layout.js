@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { useAuth } from "../context/AuthContext";
-
+import signupImage from "@/public/signup.webp";
 
 
 
@@ -35,11 +35,11 @@ export default function AuthLayout({ children }) {
           <div className="flex flex-col h-full md:hidden">
             <section className="relative h-[40vh] w-full shrink-0">
               <Image
-                src="/signup.webp"
+                src={signupImage}
                 alt="resumeX visual"
                 fill
                 priority
-                unoptimized={true}
+                placeholder="blur"
                 className="object-cover object-bottom"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
@@ -75,11 +75,11 @@ export default function AuthLayout({ children }) {
                 } z-0`}
             >
               <Image
-                src="/signup.webp"
+                src={signupImage}
                 alt="resumeX visual"
                 fill
                 priority
-                unoptimized={true}
+                placeholder="blur"
                 className="object-cover object-bottom"
                 sizes="50vw"
               />
