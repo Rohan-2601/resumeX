@@ -41,6 +41,34 @@
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.dark {
+  --bg-app: #09090b;
+  --bg-surface: #18181b;
+  --bg-surface-hover: #27272a;
+  
+  --primary: #6366f1;
+  --primary-hover: #818cf8;
+  --primary-light: rgba(99, 102, 241, 0.15);
+  
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.15);
+  --success-text: #34d399;
+  
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.15);
+  --danger-text: #f87171;
+  
+  --text-main: #f8fafc;
+  --text-muted: #a1a1aa;
+  --text-light: #71717a;
+  
+  --border: #27272a;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow-DEFAULT: 0 1px 3px 0 rgb(0 0 0 / 0.5), 0 1px 2px -1px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -255,7 +283,7 @@ a:hover {
   overflow-x: auto;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  background: white;
+  background: var(--bg-surface);
 }
 table {
   width: 100%;
@@ -267,7 +295,7 @@ th, td {
   border-bottom: 1px solid var(--border);
 }
 th {
-  background-color: #f8fafc;
+  background-color: var(--bg-app);
   font-size: 0.75rem;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -275,4 +303,4 @@ th {
   letter-spacing: 0.05em;
 }
 tr:last-child td { border-bottom: none; }
-tr:hover td { background-color: #fcfcfd; }
+tr:hover td { background-color: var(--bg-surface-hover); }

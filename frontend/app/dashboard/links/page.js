@@ -118,7 +118,7 @@ export default function LinksPage() {
   if (!user) return null;
 
   return (
-    <div className="relative pb-8 text-[#123F5B]">
+    <div className="relative pb-8 text-[#123F5B] dark:text-[#f8fafc]">
       {loading ? (
         <div className="flex min-h-[60vh] items-center justify-center">
         </div>
@@ -132,11 +132,11 @@ export default function LinksPage() {
         >
           <div className="mb-2 hidden items-end justify-between md:flex">
             <div>
-              <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280]">
-                <span className="h-px w-6 bg-[#0A2540]/10"></span>
+              <div className="mb-2 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#6B7280] dark:text-[#a1a1aa]">
+                <span className="h-px w-6 bg-[#0A2540]/10 dark:bg-white/10"></span>
                 Overview
               </div>
-              <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] flex items-center gap-3">
+              <h1 className="text-[1.8rem] font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] flex items-center gap-3">
                 Links
               </h1>
             </div>
@@ -146,7 +146,7 @@ export default function LinksPage() {
               <motion.h1
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl font-semibold tracking-tight text-[#0A2540] sm:text-[2.5rem] leading-tight"
+                className="text-3xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] sm:text-[2.5rem] leading-tight"
               >
                 Share your links
               </motion.h1>
@@ -154,7 +154,7 @@ export default function LinksPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="mt-2 text-[15px] font-normal text-[#4B5E76]"
+                className="mt-2 text-[15px] font-normal text-[#4B5E76] dark:text-[#a1a1aa]"
               >
                 Clean, permanent URLs for all your workspaces.
               </motion.p>
@@ -169,7 +169,7 @@ export default function LinksPage() {
                 type="button"
                 onClick={() => loadResumes(true)}
                 disabled={loading}
-                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-5 py-2.5 text-[14px] font-medium text-[#0A2540] transition-all hover:bg-[#0A2540]/[0.06] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
+                className="group flex flex-1 items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-5 py-2.5 text-[14px] font-medium text-[#0A2540] dark:text-[#f8fafc] transition-all hover:bg-[#0A2540]/[0.06] dark:hover:bg-white/10 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:flex-none"
               >
                 Refresh Links
               </button>
@@ -180,21 +180,21 @@ export default function LinksPage() {
             {message ? (
               <Alert
                 variant="destructive"
-                className="mb-4 rounded-2xl border-rose-200 bg-rose-50/80 backdrop-blur-md text-rose-800 shadow-sm"
+                className="mb-4 rounded-2xl border-rose-200 dark:border-rose-900/20 bg-rose-50/80 dark:bg-rose-950/20 backdrop-blur-md text-rose-800 dark:text-rose-400 shadow-sm"
               >
                 <AlertDescription className="font-medium text-[15px]">{message}</AlertDescription>
               </Alert>
             ) : null}
 
             {publicLinks.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 bg-white/50 px-6 py-12 text-center min-h-[200px] w-full">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 text-[#0A2540]">
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#0A2540]/20 dark:border-white/10 bg-white/50 dark:bg-white/5 px-6 py-12 text-center min-h-[200px] w-full transition-colors">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#0A2540]/5 dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc] transition-colors">
                   <LinkIcon className="h-5 w-5" />
                 </div>
-                <h3 className="text-base font-semibold text-[#0A2540]">
+                <h3 className="text-base font-semibold text-[#0A2540] dark:text-[#f8fafc]">
                   No links available
                 </h3>
-                <p className="mt-2 text-[14px] font-normal text-[#4B5E76] max-w-sm">
+                <p className="mt-2 text-[14px] font-normal text-[#4B5E76] dark:text-[#a1a1aa] max-w-sm">
                   No resumes found. Create a workspace first to get a shareable link.
                 </p>
               </div>
@@ -205,19 +205,19 @@ export default function LinksPage() {
                   return (
                     <div
                       key={link.id}
-                      className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-4 transition-all duration-300 hover:border-[#0A2540]/20 hover:bg-[#0A2540]/[0.01]"
+                      className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 p-4 transition-all duration-300 hover:border-[#0A2540]/20 dark:hover:border-white/20 hover:bg-[#0A2540]/[0.01] dark:hover:bg-white/10"
                     >
                       <div className="flex items-center gap-4 min-w-0">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] text-[#0A2540] border border-[#0A2540]/[0.08]">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540] dark:text-[#f8fafc] border border-[#0A2540]/[0.08] dark:border-white/10">
                           <LinkIcon className="h-4 w-4" />
                         </div>
 
                         <div className="min-w-0">
-                          <h2 className="truncate text-[15px] font-medium text-[#0A2540]">
+                          <h2 className="truncate text-[15px] font-medium text-[#0A2540] dark:text-[#f8fafc]">
                             {link.title}
                           </h2>
                           <div className="flex items-center gap-1.5 truncate mt-0.5">
-                            <span className="truncate text-[13px] font-normal text-[#4B5E76]">
+                            <span className="truncate text-[13px] font-normal text-[#4B5E76] dark:text-[#a1a1aa]">
                               /{user.username}/{link.slug}
                             </span>
                           </div>
@@ -225,8 +225,8 @@ export default function LinksPage() {
                       </div>
 
                       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-                        <div className="rounded-lg border border-[#0A2540]/[0.06] bg-[#0A2540]/[0.02] px-3 py-2 w-full sm:max-w-[200px] md:max-w-[300px] overflow-hidden">
-                          <p className="truncate font-mono text-[11px] text-[#4B5E76]">
+                        <div className="rounded-lg border border-[#0A2540]/[0.06] dark:border-white/10 bg-[#0A2540]/[0.02] dark:bg-white/5 px-3 py-2 w-full sm:max-w-[200px] md:max-w-[300px] overflow-hidden">
+                          <p className="truncate font-mono text-[11px] text-[#4B5E76] dark:text-[#a1a1aa]">
                             {link.href}
                           </p>
                         </div>
@@ -234,8 +234,8 @@ export default function LinksPage() {
                           type="button"
                           onClick={() => handleCopy(link.href, link.slug)}
                           className={`flex shrink-0 h-9 items-center justify-center rounded-lg px-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-all w-full sm:w-auto ${copyState
-                            ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
-                            : "border border-[#0A2540]/[0.12] bg-white text-[#4B5E76] shadow-[0_1px_2px_rgba(10,37,64,0.04)] hover:bg-[#0A2540]/[0.02] hover:text-[#0A2540]"
+                            ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
+                            : "border border-[#0A2540]/[0.12] dark:border-white/10 bg-white dark:bg-transparent text-[#4B5E76] dark:text-[#a1a1aa] shadow-sm dark:shadow-none hover:bg-[#0A2540]/[0.02] dark:hover:bg-white/10 hover:text-[#0A2540] dark:hover:text-[#f8fafc]"
                             }`}
                         >
                           {copyState ? "Copied" : "Copy"}

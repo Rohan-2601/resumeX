@@ -136,11 +136,11 @@ export default function ResumeHistory() {
                 key={v._id}
                 style={{
                   padding: "1rem",
-                  borderBottom: "1px solid #eee",
+                  borderBottom: "1px solid var(--border)",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  backgroundColor: isCurrent ? "#f0f8ff" : "transparent",
+                  backgroundColor: isCurrent ? "var(--primary-light)" : "transparent",
                 }}
               >
                 <div>
@@ -149,7 +149,7 @@ export default function ResumeHistory() {
                     <span
                       style={{
                         marginLeft: "0.5rem",
-                        color: "blue",
+                        color: "var(--primary)",
                         fontSize: "0.8rem",
                         fontWeight: "bold",
                       }}
@@ -160,7 +160,7 @@ export default function ResumeHistory() {
                   <div
                     style={{
                       fontSize: "0.85rem",
-                      color: "#666",
+                      color: "var(--text-muted)",
                       marginTop: "0.25rem",
                     }}
                   >
@@ -171,7 +171,7 @@ export default function ResumeHistory() {
                       href={v.fileUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ color: "#0066cc", textDecoration: "none" }}
+                      style={{ color: "var(--primary)", textDecoration: "none" }}
                     >
                       View PDF
                     </a>

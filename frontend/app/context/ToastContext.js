@@ -49,10 +49,10 @@ export const ToastProvider = ({ children }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className={`pointer-events-auto flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-lg min-w-[280px] max-w-[400px] ${
+              className={`pointer-events-auto flex items-center gap-3 rounded-xl border bg-white dark:bg-[#18181b] px-4 py-3 shadow-lg dark:shadow-none min-w-[280px] max-w-[400px] ${
                 t.type === "error"
-                  ? "border-rose-200 bg-rose-50"
-                  : "border-[#E5E7E3]"
+                  ? "border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/50"
+                  : "border-[#E5E7E3] dark:border-white/10"
               }`}
             >
               <div className="flex-shrink-0">
@@ -60,17 +60,17 @@ export const ToastProvider = ({ children }) => {
                   <CheckCircle2Icon className="h-5 w-5 text-emerald-500" />
                 )}
                 {t.type === "error" && (
-                  <XCircleIcon className="h-5 w-5 text-rose-500" />
+                  <XCircleIcon className="h-5 w-5 text-rose-500 dark:text-rose-400" />
                 )}
                 {t.type === "info" && (
-                  <div className="h-5 w-5 rounded-full bg-[#0A2540]/10 flex items-center justify-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0A2540]" />
+                  <div className="h-5 w-5 rounded-full bg-[#0A2540]/10 dark:bg-white/10 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0A2540] dark:bg-white" />
                   </div>
                 )}
               </div>
               <p
                 className={`text-sm font-medium flex-1 ${
-                  t.type === "error" ? "text-rose-800" : "text-[#0A2540]"
+                  t.type === "error" ? "text-rose-800 dark:text-rose-300" : "text-[#0A2540] dark:text-[#f8fafc]"
                 }`}
               >
                 {t.message}
@@ -79,8 +79,8 @@ export const ToastProvider = ({ children }) => {
                 onClick={() => removeToast(t.id)}
                 className={`flex-shrink-0 ml-2 rounded-lg p-1 transition-colors ${
                   t.type === "error"
-                    ? "hover:bg-rose-100 text-rose-600"
-                    : "hover:bg-black/5 text-[#6B7280]"
+                    ? "hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400"
+                    : "hover:bg-black/5 dark:hover:bg-white/5 text-[#6B7280] dark:text-[#a1a1aa]"
                 }`}
               >
                 <XIcon className="h-4 w-4" />

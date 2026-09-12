@@ -4,11 +4,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import {
   ActivityIcon,
   FileTextIcon,
   LinkIcon,
   LogOutIcon,
+  MoonIcon,
+  SunIcon,
 } from "../components/icons/Icons";
 
 
@@ -21,6 +24,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardLayout({ children }) {
   const { user, isInitializing, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -39,7 +43,7 @@ export default function DashboardLayout({ children }) {
   // To prevent hydration mismatch, just return empty during SSR
   if (!mounted) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-[#fafafa]" />
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#fafafa] dark:bg-[#09090b]" />
     );
   }
 
@@ -65,11 +69,11 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div
-      className="h-[100dvh] overflow-hidden bg-[#fafafa] text-[#0A2540] selection:bg-[#0A2540] selection:text-white relative"
+      className="h-[100dvh] overflow-hidden bg-[#fafafa] dark:bg-[#09090b] text-[#0A2540] dark:text-[#f8fafc] selection:bg-[#0A2540] dark:selection:bg-[#f8fafc] selection:text-white dark:selection:text-[#09090b] relative transition-colors duration-300"
     >
       {/* Background glowing orbs */}
-      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-blue-100/40 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-indigo-100/40 blur-[100px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] rounded-full bg-blue-100/40 dark:bg-blue-900/20 blur-[100px] pointer-events-none transition-colors duration-500" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-indigo-100/40 dark:bg-indigo-900/20 blur-[100px] pointer-events-none transition-colors duration-500" />
 
       <div className="flex h-[100dvh] relative z-10">
         {/* Sidebar */}
@@ -80,24 +84,26 @@ export default function DashboardLayout({ children }) {
           className="relative hidden h-full w-[280px] shrink-0 md:flex md:flex-col"
         >
           {/* Glass background for sidebar */}
-          <div className="absolute inset-0 bg-white/70 backdrop-blur-2xl border-r border-white/60 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-0" />
+          <div className="absolute inset-0 bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-2xl border-r border-white/60 dark:border-white/5 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none z-0 transition-colors duration-300" />
 
           <div className="relative z-10 flex h-full flex-col px-6 py-8">
             <Link
               href="/dashboard"
               className="group mb-10 flex items-center rounded-xl px-1 py-1 no-underline transition-transform active:scale-95"
             >
-              <span className="flex items-end text-[1.8rem] font-bold tracking-tight leading-none text-[#0A2540]">
+              <span className="flex items-end text-[1.8rem] font-bold tracking-tight leading-none text-[#0A2540] dark:text-[#f8fafc]">
                 resume
-                <span className="text-[#0A2540] drop-shadow-sm ml-0.5">
+                <span className="text-[#0A2540] dark:text-[#f8fafc] drop-shadow-sm ml-0.5">
                   X
                 </span>
               </span>
             </Link>
 
             <nav className="flex flex-1 flex-col gap-2">
-              <div className="px-2 pb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-[#6B7280]">
-                Main Menu
+              <div className="px-2 pb-3 flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#6B7280] dark:text-[#a1a1aa]">
+                  Main Menu
+                </span>
               </div>
               {navItems.map((item) => {
                 const isActive =
@@ -108,14 +114,14 @@ export default function DashboardLayout({ children }) {
                     key={item.href}
                     href={item.href}
                     className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
-                      ? "text-[#0A2540] hover:text-[#0A2540]"
-                      : "text-[#4B5E76] hover:bg-black/5 hover:text-[#111827]"
+                      ? "text-[#0A2540] dark:text-[#f8fafc] hover:text-[#0A2540] dark:hover:text-white"
+                      : "text-[#4B5E76] dark:text-[#a1a1aa] hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#111827] dark:hover:text-[#f8fafc]"
                       }`}
                   >
                     {isActive && (
                       <motion.div
                         layoutId="activeNavIndicator"
-                        className="absolute inset-0 bg-[#0A2540]/[0.06] rounded-xl z-0"
+                        className="absolute inset-0 bg-[#0A2540]/[0.06] dark:bg-white/10 rounded-xl z-0"
                         transition={{
                           type: "spring",
                           stiffness: 350,
@@ -133,9 +139,20 @@ export default function DashboardLayout({ children }) {
             </nav>
 
             <div className="mt-6 pt-6 relative">
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0A2540]/10 to-transparent" />
-              <div className="mb-4 flex items-center gap-3 px-2 rounded-xl py-2 transition-colors hover:bg-black/5">
-                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-sm">
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0A2540]/10 dark:via-white/10 to-transparent" />
+              
+              <button
+                onClick={toggleTheme}
+                className="group w-full mb-4 flex items-center gap-3 px-3 rounded-xl py-2.5 text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa] transition-colors hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#111827] dark:hover:text-[#f8fafc]"
+              >
+                <span className="opacity-90 transition-transform duration-300 group-hover:scale-105">
+                  {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+                </span>
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </button>
+
+              <div className="mb-4 flex items-center gap-3 px-2 rounded-xl py-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#18181b] shadow-sm">
                   {user ? (
                     <Image
                       src={user.avatar || "/default.webp"}
@@ -146,30 +163,30 @@ export default function DashboardLayout({ children }) {
                       className="object-cover"
                     />
                   ) : (
-                    <div className="h-full w-full bg-gray-200 animate-pulse" />
+                    <div className="h-full w-full bg-gray-200 dark:bg-zinc-800 animate-pulse" />
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
                   {user ? (
                     <>
-                      <div className="truncate text-sm font-bold text-[#0A2540]">
+                      <div className="truncate text-sm font-bold text-[#0A2540] dark:text-[#f8fafc]">
                         {user.name}
                       </div>
-                      <div className="truncate text-[11px] font-medium text-[#6B7280]">
+                      <div className="truncate text-[11px] font-medium text-[#6B7280] dark:text-[#a1a1aa]">
                         @{user.username}
                       </div>
                     </>
                   ) : (
                     <div className="space-y-2">
-                      <div className="h-3.5 w-20 rounded-md bg-gray-200 animate-pulse" />
-                      <div className="h-2.5 w-14 rounded-md bg-gray-100 animate-pulse" />
+                      <div className="h-3.5 w-20 rounded-md bg-gray-200 dark:bg-zinc-800 animate-pulse" />
+                      <div className="h-2.5 w-14 rounded-md bg-gray-100 dark:bg-zinc-800 animate-pulse" />
                     </div>
                   )}
                 </div>
               </div>
               <button
                 onClick={logout}
-                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] bg-[#0A2540]/[0.03] px-3 py-2.5 text-sm font-medium text-[#4B5E76] transition-all hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100 active:scale-[0.98]"
+                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-[#0A2540]/[0.03] dark:bg-white/5 px-3 py-2.5 text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa] transition-all hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-100 dark:hover:border-rose-500/20 active:scale-[0.98]"
               >
                 <span className="transition-transform group-hover:-translate-x-1">
                   <LogOutIcon />
@@ -186,33 +203,41 @@ export default function DashboardLayout({ children }) {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="sticky top-0 z-30 border-b border-white/60 bg-white/70 backdrop-blur-xl md:hidden shadow-sm"
+            className="sticky top-0 z-30 border-b border-white/60 dark:border-white/5 bg-white/70 dark:bg-[#18181b]/70 backdrop-blur-xl md:hidden shadow-sm transition-colors duration-300"
           >
             <div className="px-5 pb-3 pt-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <Link href="/dashboard" className="no-underline">
-                  <span className="flex items-end text-2xl font-bold tracking-tight leading-none text-[#0A2540]">
+                  <span className="flex items-end text-2xl font-bold tracking-tight leading-none text-[#0A2540] dark:text-[#f8fafc]">
                     resume
                     <span
-                      className="text-[#0A2540] ml-0.5"
+                      className="text-[#0A2540] dark:text-[#f8fafc] ml-0.5"
                     >
                       X
                     </span>
                   </span>
                 </Link>
-                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-sm">
-                  {user ? (
-                    <Image
-                      src={user.avatar || "/default.webp"}
-                      alt="Avatar"
-                      width={36}
-                      height={36}
-                      unoptimized
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-gray-200 animate-pulse" />
-                  )}
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={toggleTheme}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] border border-white/60 dark:border-white/5 shadow-sm"
+                  >
+                    {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+                  </button>
+                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#18181b] shadow-sm">
+                    {user ? (
+                      <Image
+                        src={user.avatar || "/default.webp"}
+                        alt="Avatar"
+                        width={36}
+                        height={36}
+                        unoptimized
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-gray-200 dark:bg-zinc-800 animate-pulse" />
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none]">
@@ -226,14 +251,14 @@ export default function DashboardLayout({ children }) {
                       key={item.href}
                       href={item.href}
                       className={`relative flex min-w-[100px] flex-none items-center justify-center gap-2 rounded-xl px-3 py-2 text-[13px] font-medium whitespace-nowrap transition-all ${isActive
-                        ? "text-[#0A2540] hover:text-[#0A2540]"
-                        : "border border-white/60 bg-white/50 text-[#4B5E76] hover:text-[#111827]"
+                        ? "text-[#0A2540] dark:text-[#f8fafc] hover:text-[#0A2540] dark:hover:text-white"
+                        : "border border-white/60 dark:border-white/5 bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] hover:text-[#111827] dark:hover:text-[#f8fafc]"
                         }`}
                     >
                       {isActive && (
                         <motion.div
                           layoutId="mobileNavIndicator"
-                          className="absolute inset-0 rounded-xl bg-[#0A2540]/[0.06] z-0"
+                          className="absolute inset-0 rounded-xl bg-[#0A2540]/[0.06] dark:bg-white/10 z-0"
                           transition={{
                             type: "spring",
                             stiffness: 350,
@@ -260,11 +285,11 @@ export default function DashboardLayout({ children }) {
             >
               {isInitializing ? (
                 <div className="space-y-6">
-                  <div className="h-10 w-48 rounded-xl bg-black/5 animate-pulse" />
+                  <div className="h-10 w-48 rounded-xl bg-black/5 dark:bg-white/5 animate-pulse" />
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="h-[220px] rounded-2xl border border-black/5 bg-white/50 animate-pulse shadow-sm" />
-                    <div className="h-[220px] rounded-2xl border border-black/5 bg-white/50 animate-pulse shadow-sm" />
-                    <div className="h-[220px] rounded-2xl border border-black/5 bg-white/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#18181b]/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#18181b]/50 animate-pulse shadow-sm" />
+                    <div className="h-[220px] rounded-2xl border border-black/5 dark:border-white/5 bg-white/50 dark:bg-[#18181b]/50 animate-pulse shadow-sm" />
                   </div>
                 </div>
               ) : (

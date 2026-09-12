@@ -44,7 +44,7 @@ export const ConfirmationDialog = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="absolute inset-0 bg-[#0A2540]/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#0A2540]/40 dark:bg-black/60 backdrop-blur-sm"
             onClick={() => !loading && onClose()}
           />
           <motion.div
@@ -56,12 +56,12 @@ export const ConfirmationDialog = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] bg-white p-6 shadow-2xl"
+            className="relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-[#18181b] p-6 shadow-2xl dark:shadow-none"
           >
-            <h2 id="dialog-title" className="text-lg font-semibold text-[#0A2540]">
+            <h2 id="dialog-title" className="text-lg font-semibold text-[#0A2540] dark:text-[#f8fafc]">
               {title}
             </h2>
-            <p id="dialog-description" className="mt-2 text-[14px] text-[#4B5E76]">
+            <p id="dialog-description" className="mt-2 text-[14px] text-[#4B5E76] dark:text-[#a1a1aa]">
               {description}
             </p>
 
@@ -71,7 +71,7 @@ export const ConfirmationDialog = ({
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="inline-flex h-10 items-center justify-center rounded-xl border border-[#0A2540]/[0.08] bg-white px-4 text-sm font-medium text-[#4B5E76] transition-colors hover:bg-[#0A2540]/[0.03] focus:outline-none focus:ring-2 focus:ring-[#0A2540]/20 disabled:opacity-50"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 px-4 text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa] transition-colors hover:bg-[#0A2540]/[0.03] dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#0A2540]/20 disabled:opacity-50"
               >
                 {cancelLabel}
               </button>
@@ -81,8 +81,8 @@ export const ConfirmationDialog = ({
                 onClick={onConfirm}
                 disabled={loading}
                 className={`inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-medium transition-colors focus:outline-none focus:ring-2 disabled:opacity-50 ${isDestructive
-                    ? "bg-rose-50 text-rose-600 hover:bg-rose-100 focus:ring-rose-200 border border-rose-100"
-                    : "bg-[#0A2540] text-white hover:bg-[#0A2540]/90 focus:ring-[#0A2540]/30"
+                    ? "bg-rose-50 text-rose-600 hover:bg-rose-100 focus:ring-rose-200 border border-rose-100 dark:bg-rose-900/20 dark:text-rose-400 dark:border-rose-900/50 dark:hover:bg-rose-900/40"
+                    : "bg-[#0A2540] text-white hover:bg-[#0A2540]/90 focus:ring-[#0A2540]/30 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:border-white/10"
                   }`}
               >
                 {loading ? (
