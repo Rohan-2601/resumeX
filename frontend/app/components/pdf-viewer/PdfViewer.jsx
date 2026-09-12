@@ -38,19 +38,33 @@ export default function PdfViewer({ fileUrl }) {
   }, [updateWidth]);
 
   return (
-    <div className="relative min-h-screen bg-[#f9fafb] font-sans pb-24">
-      <div className="flex flex-col items-center w-full max-w-4xl mx-auto pt-6 px-2 sm:px-4">
+    <div className="relative flex flex-col items-center min-h-screen bg-[#f9fafb] font-sans pb-24">
+      {/* Sleek Minimal Floating Download Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <a
+          href={fileUrl}
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-11 h-11 bg-white text-gray-700 border border-black/5 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.16)] transition-all duration-300 hover:scale-105 active:scale-95"
+          title="Download PDF"
+        >
+          <Download size={18} strokeWidth={2} />
+        </a>
+      </div>
+
+      <div className="flex flex-col items-center w-full max-w-4xl mx-auto px-2 sm:px-4 sm:pt-6">
         {isLoading && !error && (
-          <div className="flex flex-col items-center justify-center w-full mt-32">
+          <div className="fixed inset-0 z-10 flex flex-col items-center justify-center w-full h-full pointer-events-none">
             <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-200 border-t-gray-800" />
-            <p className="mt-4 text-xs font-medium text-gray-500 tracking-wide uppercase">
-              Loading...
+            <p className="mt-4 text-[10px] font-semibold text-gray-400 tracking-widest uppercase">
+              Loading
             </p>
           </div>
         )}
 
         {error && (
-          <div className="flex flex-col items-center justify-center w-full mt-32 text-center">
+          <div className="fixed inset-0 z-10 flex flex-col items-center justify-center w-full h-full">
             <p className="text-sm font-medium text-red-600">
               Could not load document
             </p>
@@ -73,16 +87,12 @@ export default function PdfViewer({ fileUrl }) {
                 <Page
                   pageNumber={index + 1}
                   width={containerWidth ? containerWidth : undefined}
-                  devicePixelRatio={Math.max(
-                    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
-                    3
-                  )}
-                  renderTextLayer={true}
+                  devicePixelRatio={4}
+                  renderTextLayer={false}
                   renderAnnotationLayer={true}
+                  className="[&_.react-pdf__Page__canvas]:!w-full [&_.react-pdf__Page__canvas]:!h-auto"
                   loading={
-                    <div className="w-full aspect-[1/1.4] flex items-center justify-center bg-gray-50 animate-pulse">
-                      <span className="text-gray-300 text-xs">Loading page {index + 1}</span>
-                    </div>
+                    <div className="w-full aspect-[1/1.4] flex items-center justify-center bg-transparent" />
                   }
                 />
               </div>
