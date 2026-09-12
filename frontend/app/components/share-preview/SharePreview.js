@@ -39,7 +39,7 @@ export default function SharePreview() {
           rel="noopener noreferrer"
           className="group mx-auto mt-10 block w-full max-w-[820px] overflow-hidden rounded-[1.8rem] border border-black/10 bg-[#fdfdfd] p-1 shadow-[0_24px_70px_-36px_rgba(0,0,0,0.62)] transition hover:border-black/20 sm:mt-12"
         >
-          <div className="w-full overflow-hidden rounded-[1.35rem] border border-black/10 bg-white/90 flex flex-col">
+          <div className="w-full overflow-hidden rounded-[1.35rem] border border-black/10 bg-white/90">
             <Image
               src="/resume.webp"
               alt="Resume share preview"
@@ -49,14 +49,6 @@ export default function SharePreview() {
               sizes="(max-width: 1024px) 100vw, 820px"
               priority={false}
             />
-            <div className="flex flex-col justify-center border-t border-black/5 bg-[#F9FAFB] px-5 py-4 text-left">
-              <span className="text-[11px] font-semibold tracking-wider text-[#557083] uppercase mb-1">
-                resumex.tech
-              </span>
-              <span className="text-sm font-medium text-[#123F5B] truncate">
-                {sampleLink}
-              </span>
-            </div>
           </div>
         </a>
       </div>
