@@ -11,23 +11,33 @@ import errorMiddleware from "./middleware/errorMiddleware.js";
 
 const app = express();
 
-const allowedOrigins = (
+const rawOrigins = (
   process.env.FRONTEND_URL ||
   "http://localhost:3000,https://resume-x-frontend-kappa.vercel.app, http://localhost:3001"
 )
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
+
+const allowedOrigins = new Set(rawOrigins);
+rawOrigins.forEach(origin => {
+  if (origin.startsWith('https://www.')) {
+    allowedOrigins.add(origin.replace('https://www.', 'https://'));
+  } else if (origin.startsWith('https://') && !origin.startsWith('https://www.')) {
+    allowedOrigins.add(origin.replace('https://', 'https://www.'));
+  }
+});
 
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow same-origin/server-to-server calls that do not send Origin.
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    if (allowedOrigins.has(origin)) {
       return callback(null, true);
     }
-
+    
+    console.log(`[CORS Blocked] Origin: ${origin}`);
     return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

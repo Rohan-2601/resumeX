@@ -111,7 +111,7 @@ export const login = async (req, res) => {
 
 export const githubLogin = (req, res) => {
   const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-  const redirectUri = `${process.env.BACKEND_URL || "http://localhost:5000"}/api/auth/github/callback`;
+  const redirectUri = `${(process.env.BACKEND_URL || "http://localhost:5000").replace(/\/$/, "")}/api/auth/github/callback`;
 
   const state = crypto.randomBytes(16).toString("hex");
   res.cookie("oauth_state", state, {
@@ -130,7 +130,7 @@ export const githubCallback = async (req, res) => {
   const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
   const { code, state } = req.query;
-  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/$/, "");
 
   const savedState = req.cookies?.oauth_state;
   res.clearCookie("oauth_state");
