@@ -180,6 +180,7 @@ export default async function BlogPostPage({ params }) {
     .dark .article-body th { color: #f8fafc; border-color: rgba(255,255,255,0.1); }
     .article-body td { padding: 0.65rem 0.85rem; color: #374151; border-bottom: 1px solid rgba(10,37,64,0.06); }
     .dark .article-body td { color: #d1d5db; border-color: rgba(255,255,255,0.06); }
+    a.no-underline, a.no-underline:hover { text-decoration: none !important; color: inherit !important; }
   `;
 
   return (
@@ -192,9 +193,9 @@ export default async function BlogPostPage({ params }) {
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="mb-10 text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa]">
           <ol className="flex flex-wrap items-center gap-1">
-            <li><Link href="/" className="hover:text-[#0A2540] dark:hover:text-white transition-colors">Home</Link></li>
+            <li><Link href="/" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Home</Link></li>
             <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
-            <li><Link href="/blog" className="hover:text-[#0A2540] dark:hover:text-white transition-colors">Blog</Link></li>
+            <li><Link href="/blog" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Blog</Link></li>
             <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
             <li className="text-[#0A2540] dark:text-[#f8fafc] truncate max-w-[200px]" aria-current="page">{article.title}</li>
           </ol>
@@ -227,7 +228,7 @@ export default async function BlogPostPage({ params }) {
             <p className="text-[#4B5E76] dark:text-[#a1a1aa] mb-6 text-base">Create a professional resume link in seconds.</p>
             <Link
               href="/"
-              className="inline-block rounded-xl bg-[#0A2540] dark:bg-white text-white dark:text-[#0A2540] px-6 py-3 font-semibold transition-transform hover:scale-105 shadow-sm"
+              className="inline-block rounded-xl bg-[#0A2540] dark:bg-white text-white dark:text-[#0A2540] hover:text-white dark:hover:text-[#0A2540] no-underline px-6 py-3 font-semibold transition-transform hover:scale-105 shadow-sm"
             >
               Create Your Free Link
             </Link>
