@@ -1,5 +1,14 @@
+import { blogArticles } from '../data/blogData';
+
 export default function sitemap() {
   const baseUrl = "https://www.resumex.tech";
+
+  const blogRoutes = blogArticles.map((article) => ({
+    url: `${baseUrl}/blog/${article.slug}`,
+    lastModified: new Date(article.date),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
 
   return [
     {
@@ -20,5 +29,12 @@ export default function sitemap() {
       changeFrequency: 'monthly',
       priority: 0.5,
     },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...blogRoutes,
   ];
 }
