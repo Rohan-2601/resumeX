@@ -524,12 +524,8 @@ export default function ResumesPage() {
                     >
                       <div className="relative z-10 w-full flex flex-col h-full justify-between">
                         <div className="mb-5 flex items-start justify-between w-full">
-                          <div className="flex h-16 w-12 overflow-hidden items-center justify-center rounded-lg bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90 border border-[#0A2540]/[0.08] dark:border-white/10">
-                            {resume.currentVersionId?.previewUrl ? (
-                              <img src={resume.currentVersionId.previewUrl} alt="Preview" className="w-full h-full object-cover" />
-                            ) : (
-                              <FileText className="h-5 w-5" />
-                            )}
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0A2540]/[0.03] dark:bg-white/10 text-[#0A2540]/90 dark:text-[#f8fafc]/90 border border-[#0A2540]/[0.08] dark:border-white/10">
+                            <FileText className="h-4 w-4" />
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="text-[12px] font-normal text-[#6B7280] dark:text-[#a1a1aa]">
