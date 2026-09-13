@@ -100,6 +100,21 @@ a:hover {
   color: var(--primary-hover);
 }
 
+/* Blog CTA buttons — override global a:hover blue */
+.blog-btn {
+  color: white !important;
+  text-decoration: none !important;
+}
+.blog-btn:hover {
+  color: white !important;
+}
+.dark .blog-btn {
+  color: #0A2540 !important;
+}
+.dark .blog-btn:hover {
+  color: #0A2540 !important;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

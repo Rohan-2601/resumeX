@@ -41,13 +41,13 @@ export default function BlogIndex() {
               <div className="text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa] mb-3">
                 {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </div>
-              <h2 className="text-2xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] mb-3 group-hover:text-[#2563eb] dark:group-hover:text-[#60a5fa] transition-colors">
+              <h2 className="text-2xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] mb-3 group-hover:text-[#0A2540]/70 dark:group-hover:text-white/70 transition-colors">
                 {article.title}
               </h2>
               <p className="text-[#4B5E76] dark:text-[#a1a1aa] leading-relaxed">
                 {article.description}
               </p>
-              <div className="mt-6 font-medium text-[#2563eb] dark:text-[#60a5fa] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <div className="mt-6 font-medium text-[#0A2540]/60 dark:text-[#f8fafc]/60 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Read article <span aria-hidden="true">&rarr;</span>
               </div>
             </article>
@@ -55,7 +55,7 @@ export default function BlogIndex() {
         </div>
         
         <div className="mt-16 pt-8 border-t border-[#0A2540]/10 dark:border-white/10 text-center">
-          <Link href="/" className="inline-block rounded-xl bg-[#0A2540] dark:bg-white text-white dark:text-[#0A2540] px-6 py-3 font-medium transition-transform hover:scale-105">
+          <Link href="/" className="blog-btn inline-block rounded-xl bg-[#0A2540] dark:bg-white px-6 py-3 font-medium transition-transform hover:scale-105">
             Back to Homepage
           </Link>
         </div>

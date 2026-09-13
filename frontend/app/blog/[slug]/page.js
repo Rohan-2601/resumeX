@@ -228,7 +228,7 @@ export default async function BlogPostPage({ params }) {
             <p className="text-[#4B5E76] dark:text-[#a1a1aa] mb-6 text-base">Create a professional resume link in seconds.</p>
             <Link
               href="/"
-              className="inline-block rounded-xl bg-[#0A2540] dark:bg-white text-white dark:text-[#0A2540] hover:text-white dark:hover:text-[#0A2540] no-underline px-6 py-3 font-semibold transition-transform hover:scale-105 shadow-sm"
+              className="blog-btn inline-block rounded-xl bg-[#0A2540] dark:bg-white px-6 py-3 font-semibold transition-transform hover:scale-105 shadow-sm"
             >
               Create Your Free Link
             </Link>
