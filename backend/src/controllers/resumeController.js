@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import Resume from "../models/Resume.js";
 import ResumeVersion from "../models/ResumeVersion.js";
 import View from "../models/View.js";
-import { generateUploadSignature, deleteCloudinaryAsset } from "../config/cloudinary.js";
+import cloudinary, { generateUploadSignature, deleteCloudinaryAsset } from "../config/cloudinary.js";
 import AppError from "../utils/AppError.js";
 
 const normalizeSlug = (value) => value.trim().toLowerCase();
@@ -142,6 +142,30 @@ export const uploadVersion = async (req, res, next) => {
 
     const nextVersionNumber = resume.versionCounter;
 
+    let previewUrl = null;
+    if (publicId && (!resourceType || resourceType === "image")) {
+      try {
+        const eagerResult = await cloudinary.uploader.explicit(publicId, {
+          type: "upload",
+          resource_type: "image",
+          eager: [{ format: "jpg", width: 1200, crop: "scale", page: 1 }],
+        });
+        if (eagerResult?.eager?.[0]?.secure_url) {
+          previewUrl = eagerResult.eager[0].secure_url;
+        }
+      } catch (err) {
+        console.error("Failed to generate eager preview:", err);
+        previewUrl = cloudinary.url(publicId, {
+          resource_type: "image",
+          format: "jpg",
+          width: 1200,
+          crop: "scale",
+          page: 1,
+          secure: true,
+        });
+      }
+    }
+
     let newVersion;
     try {
       const createdVersions = await ResumeVersion.create([{
@@ -151,6 +175,7 @@ export const uploadVersion = async (req, res, next) => {
         resourceType: resourceType || "image",
         format,
         bytes,
+        previewUrl,
         versionNumber: nextVersionNumber,
         notes: notes || "",
       }], { session });

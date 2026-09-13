@@ -25,6 +25,9 @@ const resumeVersionSchema = new mongoose.Schema(
     bytes: {
       type: Number,
     },
+    previewUrl: {
+      type: String,
+    },
     versionNumber: {
       type: Number,
       required: true

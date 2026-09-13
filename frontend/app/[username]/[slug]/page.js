@@ -87,7 +87,7 @@ export async function generateMetadata({ params }) {
   const fullName = resumeData?.user?.name || username;
   const title = `${fullName} | Resume`;
   const description = `View ${fullName}'s resume shared on resumeX.`;
-  const ogImage = buildOgImageUrlFromPdf(resumeData?.fileUrl) || FALLBACK_OG_IMAGE;
+  const ogImage = resumeData?.previewUrl || buildOgImageUrlFromPdf(resumeData?.fileUrl) || FALLBACK_OG_IMAGE;
   const canonicalPath = `/${username}/${slug}`;
 
   return {

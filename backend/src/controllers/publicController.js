@@ -15,7 +15,7 @@ export const getPublicResumeMeta = async (req, res) => {
 
   const resume = await Resume.findOne({ userId: user._id, slug })
     .select('slug currentVersionId')
-    .populate({ path: 'currentVersionId', select: 'fileUrl' })
+    .populate({ path: 'currentVersionId', select: 'fileUrl previewUrl' })
     .lean();
     
   const version = resume?.currentVersionId;
@@ -26,6 +26,7 @@ export const getPublicResumeMeta = async (req, res) => {
 
   res.json({
     fileUrl: version.fileUrl,
+    previewUrl: version.previewUrl,
     slug: resume.slug,
     user: {
       name: user.name,
@@ -46,7 +47,7 @@ export const getPublicDefaultResumeMeta = async (req, res) => {
   const resume = await Resume.findOne({ userId: user._id })
     .sort({ updatedAt: -1, createdAt: -1 })
     .select('slug currentVersionId')
-    .populate({ path: 'currentVersionId', select: 'fileUrl' })
+    .populate({ path: 'currentVersionId', select: 'fileUrl previewUrl' })
     .lean();
     
   if (!resume || !resume.currentVersionId) {
@@ -55,6 +56,7 @@ export const getPublicDefaultResumeMeta = async (req, res) => {
 
   res.json({
     fileUrl: resume.currentVersionId.fileUrl,
+    previewUrl: resume.currentVersionId.previewUrl,
     slug: resume.slug,
     user: {
       name: user.name,
@@ -74,7 +76,7 @@ export const accessResumeViaLink = async (req, res) => {
 
   const resume = await Resume.findOne({ userId: user._id, slug })
     .select('currentVersionId slug')
-    .populate({ path: 'currentVersionId', select: 'fileUrl versionNumber' })
+    .populate({ path: 'currentVersionId', select: 'fileUrl previewUrl versionNumber' })
     .lean();
     
   const version = resume?.currentVersionId;
@@ -85,6 +87,7 @@ export const accessResumeViaLink = async (req, res) => {
 
   res.json({
     fileUrl: version.fileUrl,
+    previewUrl: version.previewUrl,
     versionNumber: version.versionNumber,
     user: {
       name: user.name,
@@ -105,7 +108,7 @@ export const accessDefaultResume = async (req, res) => {
   const resume = await Resume.findOne({ userId: user._id })
     .sort({ updatedAt: -1, createdAt: -1 })
     .select('currentVersionId slug')
-    .populate({ path: 'currentVersionId', select: 'fileUrl versionNumber' })
+    .populate({ path: 'currentVersionId', select: 'fileUrl previewUrl versionNumber' })
     .lean();
     
   if (!resume || !resume.currentVersionId) {
@@ -116,6 +119,7 @@ export const accessDefaultResume = async (req, res) => {
 
   res.json({
     fileUrl: version.fileUrl,
+    previewUrl: version.previewUrl,
     versionNumber: version.versionNumber,
     user: {
       name: user.name,
