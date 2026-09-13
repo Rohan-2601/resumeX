@@ -44,10 +44,10 @@ export default function Footer() {
               Home
             </a>
             <a
-              href="#premium-features"
+              href="#features"
               className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
-              Premium Features
+              Features
             </a>
             <a
               href="#faqs"
@@ -72,6 +72,30 @@ export default function Footer() {
               className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
             >
               Terms
+            </a>
+            <a
+              href="/blog"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
+            >
+              Blog
+            </a>
+            <a
+              href="/blog/how-to-create-a-resume-link"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
+            >
+              Create a Resume Link
+            </a>
+            <a
+              href="/blog/how-to-share-a-resume-online"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
+            >
+              Share a Resume Online
+            </a>
+            <a
+              href="/blog/how-to-send-a-resume-to-a-recruiter"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
+            >
+              Send Resume to Recruiter
             </a>
           </div>
 

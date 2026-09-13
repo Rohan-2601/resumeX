@@ -1,7 +1,7 @@
 import { blogArticles } from '../data/blogData';
 
 export default function sitemap() {
-  const baseUrl = "https://www.resumex.tech";
+  const baseUrl = 'https://www.resumex.tech';
 
   const blogRoutes = blogArticles.map((article) => ({
     url: `${baseUrl}/blog/${article.slug}`,
@@ -16,18 +16,6 @@ export default function sitemap() {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
     },
     {
       url: `${baseUrl}/blog`,

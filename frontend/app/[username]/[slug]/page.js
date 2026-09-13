@@ -72,6 +72,7 @@ export async function generateMetadata({ params }) {
     return {
       title: baseTitle,
       description: "Professional resume shared via resumeX",
+      robots: { index: false, follow: true },
     };
   }
 
@@ -81,6 +82,7 @@ export async function generateMetadata({ params }) {
     return {
       title: "Resume Not Found | resumeX",
       description: "The requested resume could not be found.",
+      robots: { index: false, follow: true },
     };
   }
 
@@ -93,6 +95,7 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    robots: { index: false, follow: true },
     alternates: {
       canonical: canonicalPath,
     },
