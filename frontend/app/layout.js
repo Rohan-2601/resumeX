@@ -19,7 +19,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://www.resumex.tech/og-image.webp",
+        url: "https://www.resumex.tech/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "resumeX",
@@ -30,7 +30,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "resumeX",
     description: "Create and share your resume online with resumeX.",
-    images: ["https://www.resumex.tech/og-image.webp"],
+    images: ["https://www.resumex.tech/og-image.jpg"],
   },
   alternates: {
     canonical: "https://www.resumex.tech",
