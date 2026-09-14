@@ -67,8 +67,8 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <link rel="icon" href="/favicon-tight.png" />
-        <link rel="apple-touch-icon" href="/favicon-tight.png" />
+        <link rel="icon" href="/favicon.webp" />
+        <link rel="apple-touch-icon" href="/favicon.webp" />
       </head>
       <body className={`${geistSans.variable} ${geistSans.className} antialiased`}>
         <ThemeProvider>
