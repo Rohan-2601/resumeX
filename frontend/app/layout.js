@@ -7,30 +7,30 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   metadataBase: new URL('https://www.resumex.tech'),
-  title: "Resume Link Generator | ResumeX",
-  description: "Create and share your resume online with the ultimate resume link generator. Stop sending outdated PDFs. Get a permanent resume URL and track your analytics.",
+  title: "Resume Link Generator | resumeX",
+  description: "Create and share your resume online with resumeX.",
   keywords: ["resume link generator", "resume URL generator", "create resume link", "share resume online", "online resume hosting", "resume tracker"],
   openGraph: {
-    title: "Resume Link Generator | ResumeX",
-    description: "Create and share your resume online with the ultimate resume link generator. Get a permanent resume URL and track your analytics.",
+    title: "Resume Link Generator | resumeX",
+    description: "Create and share your resume online with resumeX.",
     url: "https://www.resumex.tech",
-    siteName: "ResumeX",
+    siteName: "resumeX",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/og-image.webp",
+        url: "https://www.resumex.tech/og-image.webp",
         width: 1200,
         height: 630,
-        alt: "ResumeX Preview",
+        alt: "resumeX Preview",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resume Link Generator | ResumeX",
-    description: "Create and share your resume online with the ultimate resume link generator. Get a permanent resume URL and track your analytics.",
-    images: ["/og-image.webp"],
+    title: "Resume Link Generator | resumeX",
+    description: "Create and share your resume online with resumeX.",
+    images: ["https://www.resumex.tech/og-image.webp"],
   },
   alternates: {
     canonical: "https://www.resumex.tech",
