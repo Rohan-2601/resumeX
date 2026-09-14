@@ -7,11 +7,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   metadataBase: new URL('https://www.resumex.tech'),
-  title: "Resume Link Generator | resumeX",
+  title: "resumeX",
   description: "Create and share your resume online with resumeX.",
   keywords: ["resume link generator", "resume URL generator", "create resume link", "share resume online", "online resume hosting", "resume tracker"],
   openGraph: {
-    title: "Resume Link Generator | resumeX",
+    title: "resumeX",
     description: "Create and share your resume online with resumeX.",
     url: "https://www.resumex.tech",
     siteName: "resumeX",
@@ -22,13 +22,13 @@ export const metadata = {
         url: "https://www.resumex.tech/og-image.webp",
         width: 1200,
         height: 630,
-        alt: "resumeX Preview",
+        alt: "resumeX",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resume Link Generator | resumeX",
+    title: "resumeX",
     description: "Create and share your resume online with resumeX.",
     images: ["https://www.resumex.tech/og-image.webp"],
   },
