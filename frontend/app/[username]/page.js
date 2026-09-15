@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import ViewTracker from "../components/ViewTracker";
+import PdfViewerWrapper from "../components/pdf-viewer/PdfViewerWrapper";
 
 const FALLBACK_OG_IMAGE = "/hero.webp";
 
@@ -139,18 +140,9 @@ export default async function ResumePage({ params }) {
   }
 
   return (
-    <div style={{ margin: 0, padding: 0, overflow: "hidden", height: "100vh" }}>
+    <>
       <ViewTracker username={username} />
-      <iframe
-        src={resumeData.fileUrl}
-        style={{
-          width: "100%",
-          height: "100%",
-          border: "none",
-          display: "block",
-        }}
-        title={`${resumeData.user.name}'s Resume`}
-      />
-    </div>
+      <PdfViewerWrapper fileUrl={resumeData.fileUrl} />
+    </>
   );
 }

@@ -72,22 +72,22 @@ export default function PdfViewer({ fileUrl }) {
           </div>
         )}
 
-        <div className="w-full flex flex-col items-center" ref={containerRef}>
+        <div className="w-full overflow-x-auto flex justify-center" ref={containerRef}>
           <Document
             file={fileUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
             loading={null}
-            className="flex flex-col items-center w-full gap-4 sm:gap-8"
+            className="flex flex-col items-center w-max min-w-full gap-4 sm:gap-8"
           >
             {Array.from(new Array(numPages || 0), (el, index) => (
               <div
                 key={`page_${index + 1}`}
-                className="w-full bg-white overflow-hidden rounded shadow-sm border border-black/5"
+                className="bg-white overflow-hidden rounded shadow-sm border border-black/5"
               >
                 <Page
                   pageNumber={index + 1}
-                  width={containerWidth ? containerWidth : undefined}
+                  width={containerWidth ? Math.max(containerWidth, 800) : undefined}
                   devicePixelRatio={Math.max(
                     typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
                     2
