@@ -69,6 +69,17 @@ export default function RootLayout({ children }) {
         />
         <link rel="icon" href="/favicon.webp" />
         <link rel="apple-touch-icon" href="/favicon.webp" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SF49D5HSZD"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-SF49D5HSZD');
+            `,
+          }}
+        />
       </head>
       <body className={`${geistSans.variable} ${geistSans.className} antialiased`}>
         <ThemeProvider>
