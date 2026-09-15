@@ -87,7 +87,7 @@ export default function PdfViewer({ fileUrl }) {
               >
                 <Page
                   pageNumber={index + 1}
-                  width={containerWidth ? Math.max(containerWidth, 800) : undefined}
+                  width={containerWidth ? Math.min(containerWidth, 800) : undefined}
                   devicePixelRatio={Math.max(
                     typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
                     2
