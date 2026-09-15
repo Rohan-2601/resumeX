@@ -8,7 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { UploadIcon } from "../../components/icons/Icons";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
-import { CheckCircle2Icon, InfoIcon, RotateCwIcon, FileText, Plus, ArrowRight, Link as LinkIcon, Trash2 } from "lucide-react";
+import { CheckCircle2Icon, InfoIcon, RotateCwIcon, FileText, Plus, ArrowRight, Link as LinkIcon, Trash2, AlertTriangle } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,6 +17,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+
+const MIGRATION_CUTOFF_DATE = new Date('2026-09-13T00:00:00Z');
 
 function timeAgo(dateString) {
   if (!dateString) return "";
@@ -70,6 +72,12 @@ export default function ResumesPage() {
       }),
     [resumes],
   );
+
+  const showMigrationBanner = useMemo(() => {
+    const hasOldResumes = resumes.some(r => new Date(r.createdAt) < MIGRATION_CUTOFF_DATE);
+    const hasNewResumes = resumes.some(r => new Date(r.createdAt) >= MIGRATION_CUTOFF_DATE);
+    return hasOldResumes && !hasNewResumes;
+  }, [resumes]);
 
   const getToken = () => localStorage.getItem("token");
 
@@ -443,6 +451,37 @@ export default function ResumesPage() {
                 <span className="font-medium text-[15px]">{message}</span>
               </AlertDescription>
             </Alert>
+          )}
+
+          {showMigrationBanner && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-md p-5 sm:p-6 shadow-sm dark:shadow-none"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#0A2540]/20 to-transparent dark:from-white/20" />
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                <div className="flex gap-3">
+                  <div className="mt-0.5 shrink-0">
+                    <AlertTriangle className="h-5 w-5 text-[#0A2540]/80 dark:text-[#f8fafc]/80" />
+                  </div>
+                  <div>
+                    <h3 className="text-[15px] font-semibold text-[#0A2540] dark:text-[#f8fafc]">
+                      Important update: ResumeX has moved to resumex.tech
+                    </h3>
+                    <p className="mt-1 text-[14px] text-[#4B5E76] dark:text-[#a1a1aa] leading-relaxed max-w-3xl">
+                      Your previous resume link used our old domain and is no longer available. Please create a new resume link and update it wherever you've shared your resume.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={openNewResumeModal}
+                  className="shrink-0 inline-flex items-center justify-center rounded-xl bg-[#0A2540] dark:bg-[#f8fafc] px-4 py-2.5 text-[13px] font-medium text-white dark:text-[#0f0f14] transition-all hover:bg-[#0A2540]/90 dark:hover:bg-[#f8fafc]/90 active:scale-[0.98] w-full sm:w-auto shadow-sm"
+                >
+                  Create New Resume Link
+                </button>
+              </div>
+            </motion.div>
           )}
 
           <section className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
