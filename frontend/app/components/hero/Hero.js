@@ -118,7 +118,7 @@ export default function Hero() {
 
           {/* Subheading */}
           <p className="mt-4 md:mt-5 max-w-lg text-balance text-[15px] md:text-base leading-relaxed text-[#4F6C7D] font-medium">
-            Create a permanent resume URL that stays the same. The easiest way to share your resume online and track when it gets viewed.
+            Create one resume link, share it anywhere, and keep the same link when you update your resume.
           </p>
 
           {/* Primary CTA */}

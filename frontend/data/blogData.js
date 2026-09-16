@@ -5,9 +5,9 @@ export const blogArticles = [
     description: 'Learn how to create a resume link, share your resume online, keep the same URL when updating your resume, and make your resume easier for recruiters to access.',
     date: '2026-09-13',
     author: 'ResumeX Team',
-    keywords: ['resume link generator', 'create resume link', 'share resume online', 'PDF to link'],
+    keywords: ['resume link generator', 'how to create a resume link', 'how to make a resume link', 'create resume link', 'share resume link', 'share resume online', 'PDF to link'],
     content: `      <h2>How to Create a Resume Link</h2>
-      <p>When you apply for jobs, you probably have a resume PDF sitting somewhere on your laptop.</p>
+      <p>When you apply for jobs, you probably have a resume PDF sitting somewhere on your laptop. Many people wonder how to make a resume link instead to simplify sharing.</p>
       <p>Then you update it. You add a project. Fix a typo. Add a new skill. Change the layout.</p>
       <p>Suddenly you have:</p>
       <pre><code>resume.pdf
@@ -250,4 +250,42 @@ resumex.tech/rohan/fullstack</code></pre>
       <p>Your first message to a recruiter does not need to be complicated. Be clear, be relevant, and make your resume easy to access.</p>
       <p><strong><a href="/">Create your professional resume link with ResumeX &rarr;</a></strong></p>`,
   },
+  {
+    slug: 'how-to-add-a-resume-link-to-linkedin',
+    title: 'How to Add a Resume Link to LinkedIn | ResumeX',
+    description: 'Learn the exact steps to add a resume link to your LinkedIn profile, share your resume on LinkedIn naturally, and keep it updated.',
+    date: '2026-09-15',
+    author: 'ResumeX Team',
+    keywords: ['linkedin resume link', 'how to add resume link to linkedin', 'resume link on linkedin', 'share resume on linkedin'],
+    content: `      <h2>How to Share a Resume on LinkedIn</h2>
+      <p>LinkedIn is where recruiters search for talent. Making your resume easy to find and access is a great way to increase your chances of being contacted.</p>
+      <p>While you can upload a PDF directly to LinkedIn, this means you have to constantly re-upload a new file every time you update your resume. A better approach is to use a <strong>linkedin resume link</strong>.</p>
+      
+      <h2>How to Add a Resume Link to LinkedIn</h2>
+      <p>Adding a resume link to LinkedIn ensures recruiters always see your most up-to-date experience.</p>
+      
+      <h3>1. The Featured Section</h3>
+      <p>The Featured section sits right at the top of your profile. This is the best place to add your resume link.</p>
+      <ul>
+        <li>Go to your LinkedIn profile.</li>
+        <li>Click <strong>Add profile section</strong>, then <strong>Recommended</strong>, then <strong>Add Featured</strong>.</li>
+        <li>Click the <strong>+</strong> icon and select <strong>Add a link</strong>.</li>
+        <li>Paste your resume link (e.g., <code>resumex.tech/rohan/fullstack</code>) and click Add.</li>
+        <li>Give it a clear title like "My Resume" or "Full Stack Developer Resume".</li>
+      </ul>
+      
+      <h3>2. The About Section</h3>
+      <p>You can also include your resume link at the bottom of your About section.</p>
+      <blockquote style="border-left: 4px solid #0A2540; padding-left: 1rem; color: #4B5E76; font-style: italic;">
+        Feel free to review my full experience here: resumex.tech/rohan/fullstack
+      </blockquote>
+      
+      <h3>3. In Direct Messages</h3>
+      <p>When a recruiter reaches out, you can simply reply with your resume link. It is faster than finding the PDF on your computer and attaching it.</p>
+      
+      <h2>How ResumeX Helps</h2>
+      <p>With ResumeX, you can create a permanent resume link. Once you add it to your LinkedIn profile, you never have to update the link again. If you get a new job or learn a new skill, just update the resume behind the link, and everyone who clicks your LinkedIn featured link will see the new version.</p>
+      
+      <p><strong><a href="/">Create your resume link with ResumeX &rarr;</a></strong></p>`
+  }
 ];

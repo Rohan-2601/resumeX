@@ -7,14 +7,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   metadataBase: new URL('https://www.resumex.tech'),
-  title: "resumeX",
-  description: "Create and share your resume online with resumeX.",
-  keywords: ["resume link generator", "resume URL generator", "create resume link", "share resume online", "online resume hosting", "resume tracker"],
+  title: "resumeX | Create Your Resume Link",
+  description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link whenever you update your resume.",
+  keywords: ["resume link generator", "resume link", "free resume link generator", "online resume link generator", "create a resume link", "share resume online"],
   openGraph: {
-    title: "resumeX",
-    description: "Create and share your resume online with resumeX.",
+    title: "resumeX | Create Your Resume Link",
+    description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link whenever you update your resume.",
     url: "https://www.resumex.tech",
-    siteName: "resumeX",
+    siteName: "ResumeX",
     locale: "en_US",
     type: "website",
     images: [
@@ -22,14 +22,14 @@ export const metadata = {
         url: "https://www.resumex.tech/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "resumeX",
+        alt: "ResumeX - Resume Link Generator",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "resumeX",
-    description: "Create and share your resume online with resumeX.",
+    title: "resumeX | Create Your Resume Link",
+    description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link whenever you update your resume.",
     images: ["https://www.resumex.tech/og-image.jpg"],
   },
   alternates: {
@@ -39,17 +39,39 @@ export const metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "ResumeX",
-  "url": "https://www.resumex.tech",
-  "description": "The ultimate resume link generator. Create a permanent resume URL and share your resume online with real-time analytics.",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.resumex.tech/#organization",
+      "name": "ResumeX",
+      "url": "https://www.resumex.tech",
+      "logo": "https://www.resumex.tech/favicon.webp"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.resumex.tech/#website",
+      "url": "https://www.resumex.tech",
+      "name": "ResumeX",
+      "description": "Resume link generator to host and share your resume online.",
+      "publisher": {
+        "@id": "https://www.resumex.tech/#organization"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://www.resumex.tech/#software",
+      "name": "ResumeX",
+      "url": "https://www.resumex.tech",
+      "description": "The ultimate resume link generator. Create a permanent resume URL and share your resume online with real-time analytics.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  ]
 };
 
 import { Geist } from "next/font/google";
