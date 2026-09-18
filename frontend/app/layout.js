@@ -7,13 +7,13 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata = {
   metadataBase: new URL('https://www.resumex.tech'),
-  title: "resumeX | Create Your Resume Link",
-  description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link whenever you update your resume.",
-  keywords: ["resume link generator", "resume link", "free resume link generator", "online resume link generator", "create a resume link", "share resume online"],
+  title: "Create a Resume Link That Never Changes | ResumeX",
+  description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link when you update your resume.",
+  keywords: ["resume link generator", "resume link", "free resume link", "online resume link", "create a resume link", "share resume online", "resume URL"],
   openGraph: {
-    title: "resumeX | Create Your Resume Link",
-    description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link whenever you update your resume.",
-    url: "https://www.resumex.tech",
+    title: "Create a Resume Link That Never Changes | ResumeX",
+    description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link when you update your resume.",
+    url: "https://www.resumex.tech/",
     siteName: "ResumeX",
     locale: "en_US",
     type: "website",
@@ -22,18 +22,18 @@ export const metadata = {
         url: "https://www.resumex.tech/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "ResumeX - Resume Link Generator",
+        alt: "ResumeX - Create a Resume Link",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "resumeX | Create Your Resume Link",
-    description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link whenever you update your resume.",
+    title: "Create a Resume Link That Never Changes | ResumeX",
+    description: "Create a free resume link with ResumeX. Share your resume online with one URL and keep the same link when you update your resume.",
     images: ["https://www.resumex.tech/og-image.jpg"],
   },
   alternates: {
-    canonical: "https://www.resumex.tech",
+    canonical: "https://www.resumex.tech/",
   }
 };
 
@@ -44,15 +44,15 @@ const jsonLd = {
       "@type": "Organization",
       "@id": "https://www.resumex.tech/#organization",
       "name": "ResumeX",
-      "url": "https://www.resumex.tech",
+      "url": "https://www.resumex.tech/",
       "logo": "https://www.resumex.tech/favicon.webp"
     },
     {
       "@type": "WebSite",
       "@id": "https://www.resumex.tech/#website",
-      "url": "https://www.resumex.tech",
+      "url": "https://www.resumex.tech/",
       "name": "ResumeX",
-      "description": "Resume link generator to host and share your resume online.",
+      "description": "Create a free resume link with ResumeX. Share your resume online with one URL.",
       "publisher": {
         "@id": "https://www.resumex.tech/#organization"
       }
@@ -61,8 +61,8 @@ const jsonLd = {
       "@type": "SoftwareApplication",
       "@id": "https://www.resumex.tech/#software",
       "name": "ResumeX",
-      "url": "https://www.resumex.tech",
-      "description": "The ultimate resume link generator. Create a permanent resume URL and share your resume online with real-time analytics.",
+      "url": "https://www.resumex.tech/",
+      "description": "Create a permanent resume URL and share your resume online with a simple resume link.",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "All",
       "offers": {

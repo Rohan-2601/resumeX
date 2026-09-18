@@ -51,7 +51,7 @@ export default async function BlogPostPage({ params }) {
   const articleStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: article.title,
+    headline: article.h1 || article.title,
     description: article.description,
     datePublished: article.date,
     author: { '@type': 'Organization', name: article.author },
@@ -64,7 +64,7 @@ export default async function BlogPostPage({ params }) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.resumex.tech/' },
       { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.resumex.tech/blog' },
-      { '@type': 'ListItem', position: 3, name: article.title, item: url },
+      { '@type': 'ListItem', position: 3, name: article.h1 || article.title, item: url },
     ],
   };
 
@@ -82,14 +82,14 @@ export default async function BlogPostPage({ params }) {
             <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
             <li><Link href="/blog" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Blog</Link></li>
             <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
-            <li className="text-[#0A2540] dark:text-[#f8fafc] truncate max-w-[200px]" aria-current="page">{article.title}</li>
+            <li className="text-[#0A2540] dark:text-[#f8fafc] truncate max-w-[200px]" aria-current="page">{article.h1 || article.title}</li>
           </ol>
         </nav>
 
         {/* Article header */}
         <header className="mb-12 border-b border-[#0A2540]/10 dark:border-white/10 pb-10">
           <h1 className="text-3xl md:text-[2.6rem] font-bold tracking-tight text-[#0A2540] dark:text-[#f8fafc] leading-tight mb-5">
-            {article.title}
+            {article.h1 || article.title}
           </h1>
           <div className="flex items-center gap-3 text-sm font-medium text-[#6B7280] dark:text-[#a1a1aa]">
             <time dateTime={article.date}>

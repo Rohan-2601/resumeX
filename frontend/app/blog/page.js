@@ -36,13 +36,13 @@ export default function BlogIndex() {
           {blogArticles.map((article) => (
             <article key={article.slug} className="group relative flex flex-col items-start overflow-hidden rounded-2xl border border-[#0A2540]/[0.08] dark:border-white/10 bg-white dark:bg-white/5 p-8 transition-all hover:border-[#0A2540]/20 dark:hover:border-white/20 hover:bg-[#0A2540]/[0.01] dark:hover:bg-white/10">
               <Link href={`/blog/${article.slug}`} className="absolute inset-0 z-10">
-                <span className="sr-only">Read {article.title}</span>
+                <span className="sr-only">Read {article.h1 || article.title}</span>
               </Link>
               <div className="text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa] mb-3">
                 {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </div>
               <h2 className="text-2xl font-semibold tracking-tight text-[#0A2540] dark:text-[#f8fafc] mb-3 group-hover:text-[#0A2540]/70 dark:group-hover:text-white/70 transition-colors">
-                {article.title}
+                {article.h1 || article.title}
               </h2>
               <p className="text-[#4B5E76] dark:text-[#a1a1aa] leading-relaxed">
                 {article.description}

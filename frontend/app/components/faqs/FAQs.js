@@ -40,9 +40,9 @@ const FAQ_ITEMS = [
       "Yes. You can create clean URLs like /username/frontend-engineer or /username/product-resume, making your link easier to remember and more professional to share.",
   },
   {
-    question: "Is resumeX free to start?",
+    question: "Is this resume link generator free to use?",
     answer:
-      "Yes, you can start using resumeX right away. The current setup is focused on helping you publish and manage your resume links with minimal friction.",
+      "Yes, ResumeX is a free resume link generator you can use right away. It's focused on helping you share your resume online and manage your links with minimal friction.",
   },
 ];
 
