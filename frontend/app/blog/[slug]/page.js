@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { blogArticles } from '../../../data/blogData';
+import ThemeToggleBtn from '../../components/ThemeToggleBtn';
 
 export async function generateStaticParams() {
   return blogArticles.map((article) => ({
@@ -76,15 +77,18 @@ export default async function BlogPostPage({ params }) {
 
       <main className="max-w-3xl mx-auto px-6 py-12 md:py-20">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-10 text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa]">
-          <ol className="flex flex-wrap items-center gap-1">
-            <li><Link href="/" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Home</Link></li>
-            <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
-            <li><Link href="/blog" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Blog</Link></li>
-            <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
-            <li className="text-[#0A2540] dark:text-[#f8fafc] truncate max-w-[200px]" aria-current="page">{article.h1 || article.title}</li>
-          </ol>
-        </nav>
+        <div className="flex items-center justify-between mb-10">
+          <nav aria-label="Breadcrumb" className="text-sm font-medium text-[#4B5E76] dark:text-[#a1a1aa]">
+            <ol className="flex flex-wrap items-center gap-1">
+              <li><Link href="/" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Home</Link></li>
+              <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
+              <li><Link href="/blog" className="hover:text-[#0A2540]/70 dark:hover:text-white/70 transition-colors">Blog</Link></li>
+              <li><span className="text-[#4B5E76]/40 mx-1">/</span></li>
+              <li className="text-[#0A2540] dark:text-[#f8fafc] truncate max-w-[200px]" aria-current="page">{article.h1 || article.title}</li>
+            </ol>
+          </nav>
+          <ThemeToggleBtn />
+        </div>
 
         {/* Article header */}
         <header className="mb-12 border-b border-[#0A2540]/10 dark:border-white/10 pb-10">
@@ -102,7 +106,7 @@ export default async function BlogPostPage({ params }) {
 
         {/* Article body */}
         <article
-          className="article-body"
+          className="prose prose-slate prose-lg dark:prose-invert max-w-none prose-a:text-[#0A2540] dark:prose-a:text-[#f8fafc] prose-a:font-semibold prose-a:underline prose-a:decoration-[#0A2540]/30 dark:prose-a:decoration-white/30"
           dangerouslySetInnerHTML={{ __html: article.content }}
         />
 

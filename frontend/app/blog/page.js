@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { blogArticles } from '../../data/blogData';
+import ThemeToggleBtn from '../components/ThemeToggleBtn';
 
 export const metadata = {
   title: 'Blog | ResumeX - Resume Link Generator',
@@ -20,9 +21,12 @@ export default function BlogIndex() {
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#0f1115] text-[#0A2540] dark:text-[#f8fafc]">
       <div className="max-w-4xl mx-auto px-6 py-20">
         <header className="mb-16">
-          <div className="mb-4 text-sm font-medium uppercase tracking-widest text-[#6B7280] dark:text-[#a1a1aa] flex items-center gap-2">
-            <span className="h-px w-6 bg-[#0A2540]/10 dark:bg-white/10"></span>
-            ResumeX Blog
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm font-medium uppercase tracking-widest text-[#6B7280] dark:text-[#a1a1aa] flex items-center gap-2">
+              <span className="h-px w-6 bg-[#0A2540]/10 dark:bg-white/10"></span>
+              ResumeX Blog
+            </div>
+            <ThemeToggleBtn />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#0A2540] dark:text-[#f8fafc]">
             Career & Resume Tips

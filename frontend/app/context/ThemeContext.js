@@ -28,10 +28,10 @@ export function ThemeProvider({ children }) {
   };
 
   useEffect(() => {
-    // Only apply dark mode if we are on a dashboard route
-    const isDashboard = pathname?.startsWith("/dashboard");
+    // Apply dark mode on dashboard and blog routes
+    const isDarkModeEnabledPath = pathname?.startsWith("/dashboard") || pathname?.startsWith("/blog");
     
-    if (isDashboard && theme === "dark") {
+    if (isDarkModeEnabledPath && theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
