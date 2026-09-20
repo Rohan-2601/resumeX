@@ -45,7 +45,7 @@ const jsonLd = {
       "@id": "https://www.resumex.tech/#organization",
       "name": "ResumeX",
       "url": "https://www.resumex.tech/",
-      "logo": "https://www.resumex.tech/favicon.webp"
+      "logo": "https://www.resumex.tech/icon.png"
     },
     {
       "@type": "WebSite",
@@ -89,8 +89,6 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <link rel="icon" href="/favicon.webp" />
-        <link rel="apple-touch-icon" href="/favicon.webp" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-SF49D5HSZD"></script>
         <script
           dangerouslySetInnerHTML={{
