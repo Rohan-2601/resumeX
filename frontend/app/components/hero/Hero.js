@@ -47,7 +47,7 @@ export default function Hero() {
   return (
     <main
       id="home"
-      className={`${bodyFont.className} relative isolate min-h-[100dvh] overflow-hidden bg-[#0F2850] text-white`}
+      className={`${bodyFont.className} relative isolate min-h-[100dvh] overflow-hidden bg-transparent`}
     >
       {/* Base Image Layer */}
       <div className="absolute inset-0 -z-40 translate-y-[2%] scale-[1.05]">
