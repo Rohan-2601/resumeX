@@ -14,8 +14,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 
 
-
-
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
@@ -89,10 +87,12 @@ export default function ResumeWorkspacePage() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [uploadFile]);
 
-  const loadWorkspace = async () => {
+  const loadWorkspace = async (isBackgroundLoad = false) => {
     if (!resumeId || !user) return;
 
-    setLoading(true);
+    if (!isBackgroundLoad) {
+      setLoading(true);
+    }
 
     try {
       const token = getToken();
@@ -125,10 +125,22 @@ export default function ResumeWorkspacePage() {
       setActiveVersionId(nextActiveVersionId);
 
       if (fetchedVersions.length > 0) {
-        const activeVersion = fetchedVersions.find(
-          (version) => version._id === nextActiveVersionId,
-        );
-        setSelectedVersionId(activeVersion?._id || fetchedVersions[0]._id);
+        if (isBackgroundLoad && selectedVersionId) {
+          const stillExists = fetchedVersions.some(
+            (v) => v._id === selectedVersionId
+          );
+          if (!stillExists) {
+            const activeVersion = fetchedVersions.find(
+              (version) => version._id === nextActiveVersionId,
+            );
+            setSelectedVersionId(activeVersion?._id || fetchedVersions[0]._id);
+          }
+        } else {
+          const activeVersion = fetchedVersions.find(
+            (version) => version._id === nextActiveVersionId,
+          );
+          setSelectedVersionId(activeVersion?._id || fetchedVersions[0]._id);
+        }
       } else {
         setSelectedVersionId("");
       }
@@ -209,7 +221,7 @@ export default function ResumeWorkspacePage() {
       );
 
       setUploadState("success");
-      await loadWorkspace();
+      await loadWorkspace(true);
 
       setTimeout(() => {
         setUploadFile(null);
@@ -239,7 +251,7 @@ export default function ResumeWorkspacePage() {
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
-      await loadWorkspace();
+      await loadWorkspace(true);
       showAlert("Active version updated.");
     } catch (error) {
       console.error(error);
@@ -261,7 +273,7 @@ export default function ResumeWorkspacePage() {
         },
       );
 
-      await loadWorkspace();
+      await loadWorkspace(true);
       showAlert("Version deleted.");
     } catch (error) {
       console.error(error);

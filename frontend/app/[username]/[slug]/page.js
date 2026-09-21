@@ -3,6 +3,8 @@ import { headers } from "next/headers";
 import ViewTracker from "../../components/ViewTracker";
 import PdfViewerWrapper from "../../components/pdf-viewer/PdfViewerWrapper";
 
+export const dynamic = "force-dynamic";
+
 const FALLBACK_OG_IMAGE = "/hero.webp";
 
 function buildOgImageUrlFromPdf(fileUrl) {
@@ -42,7 +44,7 @@ async function getResumeData(username, slug) {
     const xForwardedFor = headersList.get("x-forwarded-for") || "";
 
     const response = await fetch(url, {
-      next: { revalidate: 60 },
+      cache: "no-store",
       headers: {
         "user-agent": userAgent,
         "x-forwarded-for": xForwardedFor,
