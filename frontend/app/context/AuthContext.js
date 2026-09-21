@@ -40,7 +40,10 @@ export const AuthProvider = ({ children }) => {
     const interceptor = axios.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error.response?.status === 401) {
+        const requestUrl = error.config?.url || "";
+        const isBackendRequest = requestUrl.startsWith(backendUrl) || requestUrl.startsWith("/");
+        
+        if (error.response?.status === 401 && isBackendRequest) {
           localStorage.removeItem(TOKEN_KEY);
           localStorage.removeItem(USER_KEY);
           setUser(null);
