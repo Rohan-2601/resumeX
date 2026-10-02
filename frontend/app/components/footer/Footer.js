@@ -79,9 +79,18 @@ export default function Footer() {
             >
               Blog
             </a>
-
-
-
+            <a
+              href="/about"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
+            >
+              About
+            </a>
+            <a
+              href="/contact"
+              className="block w-fit text-[#557083] transition-all duration-300 hover:translate-x-1.5 hover:text-[#123F5B]"
+            >
+              Contact
+            </a>
           </div>
 
           <div className="space-y-1 text-sm font-medium">
