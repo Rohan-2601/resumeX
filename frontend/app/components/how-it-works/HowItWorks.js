@@ -1,18 +1,8 @@
 "use client";
 
-import { Syne, Outfit } from "next/font/google";
+import { headingFont, bodyFont } from "../../fonts";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const bodyFont = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 function TiltCard({ children, className, isCenter = false }) {
   const cardRef = useRef(null);

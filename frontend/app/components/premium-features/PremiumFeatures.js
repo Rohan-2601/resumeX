@@ -1,15 +1,5 @@
 import Image from "next/image";
-import { Syne, Outfit } from "next/font/google";
-
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const bodyFont = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import { headingFont, bodyFont } from "../../fonts";
 
 export default function PremiumFeatures() {
   const cards = [

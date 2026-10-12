@@ -1,17 +1,7 @@
 "use client";
 
-import { Syne, Outfit } from "next/font/google";
+import { headingFont, bodyFont } from "../../fonts";
 import { useAuth } from "../../context/AuthContext";
-
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const bodyFont = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 export default function CTA() {
   const { login } = useAuth();

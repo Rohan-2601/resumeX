@@ -139,6 +139,21 @@ export default function Footer() {
               </button>
             </form>
             {notice && <p className="mt-2 text-xs text-[#557083]">{notice}</p>}
+            <div className="mt-4 flex md:justify-end">
+              <a
+                href="https://usefulshelf.co/?utm_source=resumex.tech&utm_medium=referral&utm_campaign=badge&utm_content=lime"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://usefulshelf.co/badge/usefulshelf.svg?theme=lime"
+                  alt="Featured on UsefulShelf"
+                  width={248}
+                  height={66}
+                  className="h-12 w-auto"
+                />
+              </a>
+            </div>
           </div>
         </div>
 

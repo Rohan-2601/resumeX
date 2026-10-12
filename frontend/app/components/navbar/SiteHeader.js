@@ -1,14 +1,9 @@
 "use client";
 
-import { Syne } from "next/font/google";
+import { headingFont } from "../../fonts";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import Link from "next/link";
-
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 export default function SiteHeader() {
   const router = useRouter();

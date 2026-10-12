@@ -1,17 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Syne, Outfit } from "next/font/google";
+import { headingFont, bodyFont } from "../../fonts";
 
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const bodyFont = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const FAQ_ITEMS = [
   {

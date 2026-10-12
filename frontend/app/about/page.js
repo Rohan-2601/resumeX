@@ -1,17 +1,7 @@
-import { Syne, Outfit } from "next/font/google";
+import { headingFont, bodyFont } from "../fonts";
 import SiteHeader from "../components/navbar/SiteHeader";
 import Footer from "../components/footer/Footer";
 import Link from "next/link";
-
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const bodyFont = Outfit({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
 
 export const metadata = {
   title: "About ResumeX",

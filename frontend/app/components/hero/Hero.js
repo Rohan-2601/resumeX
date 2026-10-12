@@ -1,20 +1,10 @@
 "use client";
 
-import { Syne, Outfit } from "next/font/google";
+import { headingFont, bodyFont } from "../../fonts";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { CornerButton } from "@/components/ui/corner-button";
-
-const headingFont = Syne({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const bodyFont = Outfit({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
 
 export default function Hero() {
   const router = useRouter();
