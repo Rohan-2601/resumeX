@@ -212,12 +212,23 @@ export default function DashboardLayout({ children }) {
                     </span>
                   </span>
                 </Link>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5">
                   <button
                     onClick={toggleTheme}
                     className="flex h-9 w-9 items-center justify-center rounded-full bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] border border-white/60 dark:border-white/5 shadow-sm dark:shadow-none"
+                    aria-label="Toggle Theme"
                   >
                     {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/50 dark:bg-white/5 text-[#4B5E76] dark:text-[#a1a1aa] hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 border border-white/60 dark:border-white/5 shadow-sm dark:shadow-none transition-colors active:scale-95"
+                    aria-label="Sign Out"
+                    title="Sign Out"
+                  >
+                    <span className="scale-90">
+                      <LogOutIcon />
+                    </span>
                   </button>
                   <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white dark:border-[#27272a] bg-white dark:bg-[#16171b] shadow-sm dark:shadow-none">
                     {user ? (
@@ -266,6 +277,13 @@ export default function DashboardLayout({ children }) {
                     </Link>
                   );
                 })}
+                <button
+                  onClick={logout}
+                  className="relative flex min-w-[95px] flex-none items-center justify-center gap-1.5 rounded-xl border border-rose-200/60 dark:border-rose-500/20 bg-rose-50/60 dark:bg-rose-500/10 px-3 py-2 text-[13px] font-medium text-rose-600 dark:text-rose-400 whitespace-nowrap transition-all hover:bg-rose-500/10 active:scale-95"
+                >
+                  <span className="relative z-10 flex scale-90"><LogOutIcon /></span>
+                  <span className="relative z-10">Sign Out</span>
+                </button>
               </div>
             </div>
           </motion.header>
