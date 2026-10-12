@@ -277,13 +277,6 @@ export default function DashboardLayout({ children }) {
                     </Link>
                   );
                 })}
-                <button
-                  onClick={logout}
-                  className="relative flex min-w-[95px] flex-none items-center justify-center gap-1.5 rounded-xl border border-rose-200/60 dark:border-rose-500/20 bg-rose-50/60 dark:bg-rose-500/10 px-3 py-2 text-[13px] font-medium text-rose-600 dark:text-rose-400 whitespace-nowrap transition-all hover:bg-rose-500/10 active:scale-95"
-                >
-                  <span className="relative z-10 flex scale-90"><LogOutIcon /></span>
-                  <span className="relative z-10">Sign Out</span>
-                </button>
               </div>
             </div>
           </motion.header>
