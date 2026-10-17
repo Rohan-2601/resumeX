@@ -139,7 +139,7 @@ export default function Footer() {
               </button>
             </form>
             {notice && <p className="mt-2 text-xs text-[#557083]">{notice}</p>}
-            <div className="mt-4 flex md:justify-end">
+            <div className="mt-4 flex flex-wrap items-center gap-3 md:justify-end">
               <a
                 href="https://usefulshelf.co/?utm_source=resumex.tech&utm_medium=referral&utm_campaign=badge&utm_content=lime"
                 target="_blank"
@@ -152,6 +152,9 @@ export default function Footer() {
                   height={66}
                   className="h-12 w-auto"
                 />
+              </a>
+              <a href="https://www.scrolllaunch.com/products/resumex?ref=badge" target="_blank" rel="noopener">
+                <img src="https://www.scrolllaunch.com/api/badge/resumex" alt="Featured on ScrollLaunch" width="220" height="48" loading="lazy" />
               </a>
             </div>
           </div>
