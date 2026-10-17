@@ -7,7 +7,8 @@ const errorMiddleware = (err, req, res, next) => {
   // 1. Zod Validation Errors
   if (err instanceof ZodError) {
     const formattedErrors = {};
-    err.errors.forEach((e) => {
+    const issues = err.issues || err.errors || [];
+    issues.forEach((e) => {
       // The path usually looks like ['body', 'username']
       const field = e.path.length > 1 ? e.path[e.path.length - 1] : e.path[0];
       formattedErrors[field] = e.message;

@@ -11,6 +11,22 @@ import errorMiddleware from "./middleware/errorMiddleware.js";
 
 const app = express();
 
+const trustProxyEnv = process.env.TRUST_PROXY;
+if (trustProxyEnv !== undefined) {
+  if (trustProxyEnv === "false" || trustProxyEnv === "0") {
+    app.set("trust proxy", false);
+  } else if (trustProxyEnv === "true") {
+    app.set("trust proxy", 1);
+  } else if (!isNaN(Number(trustProxyEnv))) {
+    app.set("trust proxy", Number(trustProxyEnv));
+  } else {
+    app.set("trust proxy", trustProxyEnv);
+  }
+} else {
+  // Default to 1 behind reverse proxy (Render, Cloudflare, etc.)
+  app.set("trust proxy", 1);
+}
+
 const rawOrigins = (
   process.env.FRONTEND_URL ||
   "http://localhost:3000,https://resume-x-frontend-kappa.vercel.app, http://localhost:3001"

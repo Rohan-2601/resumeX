@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 const backendUrl =
@@ -33,7 +32,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isInitializing, setIsInitializing] = useState(true);
   const [loading, setLoading] = useState(false); // For explicit actions
-  const router = useRouter();
 
   // Axios interceptor for global 401 handling
   useEffect(() => {
@@ -51,7 +49,7 @@ export const AuthProvider = ({ children }) => {
           if (typeof window !== "undefined") {
             const currentPath = window.location.pathname;
             if (!currentPath.includes('/login') && !currentPath.includes('/register') && !currentPath.includes('/auth/callback') && currentPath !== '/') {
-              router.replace("/login");
+              window.location.replace("/login");
             }
           }
         }
@@ -61,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     return () => {
       axios.interceptors.response.eject(interceptor);
     };
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -112,7 +110,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = () => {
-    router.push("/login");
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
   };
 
   const loginWithGithub = () => {
@@ -194,7 +194,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     setUser(null);
-    router.replace("/login");
+    if (typeof window !== "undefined") {
+      window.location.replace("/login");
+    }
   };
 
   return (

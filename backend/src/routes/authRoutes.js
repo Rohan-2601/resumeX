@@ -33,4 +33,5 @@ router.get("/github/callback", authLimiter, githubCallback);
 router.post("/exchange", authLimiter, validate(exchangeOAuthCodeSchema), exchangeOAuthCode);
 router.get("/me", protect, getMe);
 
+export { authLimiter };
 export default router;
